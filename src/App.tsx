@@ -11,43 +11,40 @@ import { CityPage } from './pages/CityPage'
 import { PlaceDetailPage } from './pages/PlaceDetailPage'
 import { PlannerPage } from './pages/PlannerPage'
 import { SavedPlacesPage } from './pages/SavedPlacesPage'
+import { AdminBoardPage } from './pages/AdminBoardPage'
+import { useAppData } from './lib/dataStore'
 import { Link } from './lib/router'
 
 const MainContent: React.FC = () => {
   const { path, params } = useRouter()
   const [toastMessage, setToastMessage] = useState<string | null>(null)
+  const { cities } = useAppData()
 
   const renderCurrentRoute = () => {
     if (path === '/') {
       return <HomePage onSaveToast={setToastMessage} />
     }
-    if (path === '/jaipur') {
-      return <CityPage cityId="jaipur" onSaveToast={setToastMessage} />
+
+    if (path === '/admin') {
+      return <AdminBoardPage onSaveToast={setToastMessage} />
     }
-    if (path === '/udaipur') {
-      return <CityPage cityId="udaipur" onSaveToast={setToastMessage} />
+
+    if (path === '/planner') {
+      return <PlannerPage onSaveToast={setToastMessage} />
     }
-    if (path === '/manali') {
-      return <CityPage cityId="manali" onSaveToast={setToastMessage} />
-    }
-    if (path === '/varanasi') {
-      return <CityPage cityId="varanasi" onSaveToast={setToastMessage} />
-    }
-    if (path === '/mussoorie') {
-      return <CityPage cityId="mussoorie" onSaveToast={setToastMessage} />
-    }
-    if (path === '/delhi') {
-      return <CityPage cityId="delhi" onSaveToast={setToastMessage} />
+
+    if (path === '/saved') {
+      return <SavedPlacesPage onSaveToast={setToastMessage} />
     }
 
     if (path === '/places/:slug' && params.slug) {
       return <PlaceDetailPage slug={params.slug} onSaveToast={setToastMessage} />
     }
-    if (path === '/planner') {
-      return <PlannerPage onSaveToast={setToastMessage} />
-    }
-    if (path === '/saved') {
-      return <SavedPlacesPage onSaveToast={setToastMessage} />
+
+    // Dynamic city route checking for all 5 pilot cities + admin created cities
+    const potentialCityId = path.replace('/', '').toLowerCase()
+    if (cities[potentialCityId]) {
+      return <CityPage cityId={potentialCityId} onSaveToast={setToastMessage} />
     }
 
     // 404 Fallback

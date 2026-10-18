@@ -3,32 +3,38 @@ import { Link } from '../lib/router'
 import { useRouter } from '../lib/routerContext'
 import { BRAND } from '../config/brand'
 import { useSavedPlaces } from '../lib/storage'
-import { Bookmark, Calendar, Menu, X, Heart } from 'lucide-react'
+import { useAppData } from '../lib/dataStore'
+import { Bookmark, Calendar, Menu, X, Heart, Shield, Compass } from 'lucide-react'
 
 export const Header: React.FC = () => {
   const { path } = useRouter()
   const { count } = useSavedPlaces()
+  const { cities } = useAppData()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-
+  const isAdmin = path === '/admin'
   const isPlanner = path === '/planner'
   const isSaved = path === '/saved'
   const isHome = path === '/'
 
-  const citiesList = [
-    { id: 'jaipur', name: 'Jaipur', state: 'Rajasthan', color: '#C85A32', highlight: 'Pink City' },
-    { id: 'udaipur', name: 'Udaipur', state: 'Rajasthan', color: '#1B4965', highlight: 'City of Lakes' },
-    { id: 'manali', name: 'Manali', state: 'Himachal', color: '#1E4620', highlight: 'Himalayan Pines' },
-    { id: 'varanasi', name: 'Varanasi', state: 'Uttar Pradesh', color: '#9B2226', highlight: 'Ganga Ghats' },
-    { id: 'mussoorie', name: 'Mussoorie', state: 'Uttarakhand', color: '#2E4057', highlight: 'Queen of Hills' },
-  ]
+  const cityList = Object.values(cities)
 
-  const activeCity = citiesList.find((c) => path === `/${c.id}`)
+  // Color mapping fallback
+  const cityColors: Record<string, string> = {
+    jaipur: '#C85A32',
+    udaipur: '#1B4965',
+    manali: '#1E4620',
+    varanasi: '#9B2226',
+    mussoorie: '#2E4057',
+    delhi: '#8C2D19',
+  }
+
+  const activeCity = cityList.find((c) => path === `/${c.id}`)
 
   return (
     <header className="sticky top-0 z-40 bg-[#FAF7F2]/95 backdrop-blur-md border-b border-[#E8DFD3] transition-colors">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        {/* Brand Wordmark & Tagline */}
+        {/* Brand Wordmark & Mode Tagline */}
         <div className="flex items-center gap-3">
           <Link
             to="/"
@@ -38,10 +44,25 @@ export const Header: React.FC = () => {
             <span className="font-editorial text-2xl sm:text-3xl font-bold tracking-tight text-[#201C1A] group-hover:text-[#8C2D19] transition-colors">
               {BRAND.name}
             </span>
-            <span className="hidden md:inline-block text-xs uppercase tracking-wider font-medium text-[#645C55] pl-2 border-l border-[#D5C9BC]">
+            <span className="hidden lg:inline-block text-xs uppercase tracking-wider font-medium text-[#645C55] pl-2 border-l border-[#D5C9BC]">
               {BRAND.tagline}
             </span>
           </Link>
+
+          {/* Board Badge / Mode Indicator */}
+          <div className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold border transition-colors bg-[#F5EFE6] border-[#E5DACB] text-[#8C2D19]">
+            {isAdmin ? (
+              <span className="flex items-center gap-1 text-[#8C2D19]">
+                <Shield className="w-3 h-3" />
+                <span>Admin Studio</span>
+              </span>
+            ) : (
+              <span className="flex items-center gap-1 text-[#554D45]">
+                <Compass className="w-3 h-3 text-[#8C2D19]" />
+                <span>User Board</span>
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Desktop Navigation */}
@@ -57,9 +78,10 @@ export const Header: React.FC = () => {
             Discover
           </Link>
 
-          {/* 5 City Pills directly in header */}
-          {citiesList.map((city) => {
+          {/* Dynamic City Pills directly in header */}
+          {cityList.slice(0, 5).map((city) => {
             const active = path === `/${city.id}`
+            const color = cityColors[city.id] || '#8C2D19'
             return (
               <Link
                 key={city.id}
@@ -69,11 +91,11 @@ export const Header: React.FC = () => {
                     ? 'text-white shadow-xs font-semibold'
                     : 'text-[#48423E] hover:text-[#201C1A] hover:bg-[#EFE8DD]'
                 }`}
-                style={{ backgroundColor: active ? city.color : undefined }}
+                style={{ backgroundColor: active ? color : undefined }}
               >
                 <span
                   className="w-1.5 h-1.5 rounded-full"
-                  style={{ backgroundColor: active ? '#FFFFFF' : city.color }}
+                  style={{ backgroundColor: active ? '#FFFFFF' : color }}
                 ></span>
                 <span>{city.name}</span>
               </Link>
@@ -91,7 +113,7 @@ export const Header: React.FC = () => {
             }`}
           >
             <Calendar className="w-3.5 h-3.5" />
-            <span>Planner</span>
+            <span>Plan Trip</span>
           </Link>
 
           <Link
@@ -115,6 +137,19 @@ export const Header: React.FC = () => {
               </span>
             )}
           </Link>
+
+          {/* ADMIN BOARD TOGGLE BUTTON */}
+          <Link
+            to={isAdmin ? '/' : '/admin'}
+            className={`ml-1 px-3 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 border ${
+              isAdmin
+                ? 'bg-[#8C2D19] text-white border-[#8C2D19] shadow-xs'
+                : 'bg-white border-[#D5C9BC] text-[#201C1A] hover:bg-[#201C1A] hover:text-white hover:border-[#201C1A]'
+            }`}
+          >
+            <Shield className="w-3.5 h-3.5" />
+            <span>{isAdmin ? 'Exit Admin' : 'Admin Board'}</span>
+          </Link>
         </nav>
 
         {/* Mobile Action Buttons */}
@@ -122,11 +157,21 @@ export const Header: React.FC = () => {
           {activeCity && (
             <span
               className="px-2.5 py-1 rounded-full text-[11px] font-bold text-white shadow-xs"
-              style={{ backgroundColor: activeCity.color }}
+              style={{ backgroundColor: cityColors[activeCity.id] || '#8C2D19' }}
             >
               {activeCity.name}
             </span>
           )}
+
+          <Link
+            to="/admin"
+            className={`p-2 rounded-lg text-xs font-bold flex items-center gap-1 border ${
+              isAdmin ? 'bg-[#8C2D19] text-white border-[#8C2D19]' : 'bg-white border-[#E5DACB] text-[#201C1A]'
+            }`}
+          >
+            <Shield className="w-3.5 h-3.5" />
+            <span>Admin</span>
+          </Link>
 
           <Link
             to="/saved"
@@ -155,6 +200,26 @@ export const Header: React.FC = () => {
       {/* Mobile Drawer Dropdown */}
       {mobileMenuOpen && (
         <div className="md:hidden border-t border-[#E8DFD3] bg-[#FAF7F2] px-4 pt-3 pb-5 space-y-2 shadow-lg animate-in fade-in">
+          <div className="flex items-center justify-between pb-2 border-b border-[#E8DFD3]">
+            <span className="text-xs font-bold text-[#8A8177]">SELECT EXPERIENCE MODE:</span>
+            <div className="flex items-center gap-2">
+              <Link
+                to="/"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`px-2.5 py-1 rounded-lg text-xs font-bold ${!isAdmin ? 'bg-[#201C1A] text-white' : 'bg-[#EFE8DC] text-[#554D45]'}`}
+              >
+                User Board
+              </Link>
+              <Link
+                to="/admin"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`px-2.5 py-1 rounded-lg text-xs font-bold ${isAdmin ? 'bg-[#8C2D19] text-white' : 'bg-[#EFE8DC] text-[#554D45]'}`}
+              >
+                Admin Board
+              </Link>
+            </div>
+          </div>
+
           <Link
             to="/"
             onClick={() => setMobileMenuOpen(false)}
@@ -166,12 +231,13 @@ export const Header: React.FC = () => {
           </Link>
 
           <div className="pt-2 pb-1 text-[11px] font-bold uppercase tracking-wider text-[#8A8177] px-3">
-            5 Pilot Cities
+            Destinations & Cities
           </div>
 
           <div className="space-y-1 pl-1">
-            {citiesList.map((c) => {
+            {cityList.map((c) => {
               const active = path === `/${c.id}`
+              const color = cityColors[c.id] || '#8C2D19'
               return (
                 <Link
                   key={c.id}
@@ -180,17 +246,17 @@ export const Header: React.FC = () => {
                   className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
                     active ? 'text-white' : 'text-[#201C1A] hover:bg-[#F2ECE1]'
                   }`}
-                  style={{ backgroundColor: active ? c.color : undefined }}
+                  style={{ backgroundColor: active ? color : undefined }}
                 >
                   <div className="flex items-center gap-2">
                     <span
                       className="w-2 h-2 rounded-full"
-                      style={{ backgroundColor: active ? '#FFFFFF' : c.color }}
+                      style={{ backgroundColor: active ? '#FFFFFF' : color }}
                     ></span>
                     <span>{c.name}</span>
                   </div>
                   <span className={`text-xs px-2 py-0.5 rounded-full ${active ? 'bg-white/20 text-white' : 'bg-[#EFE8DC] text-[#6E645A]'}`}>
-                    {c.highlight}
+                    {c.persona?.name || 'Local Guide'}
                   </span>
                 </Link>
               )
@@ -225,6 +291,15 @@ export const Header: React.FC = () => {
                   {count}
                 </span>
               )}
+            </Link>
+
+            <Link
+              to="/admin"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`flex items-center gap-2 px-3 py-2.5 rounded-xl text-base font-bold text-[#8C2D19] bg-[#F5EFE6]`}
+            >
+              <Shield className="w-4 h-4" />
+              <span>Admin Board & Studio</span>
             </Link>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { PLACES } from '../data/places'
+import { useAppData } from '../lib/dataStore'
 import { Link } from '../lib/router'
 import { useSavedPlaces } from '../lib/storage'
 import {
@@ -22,9 +22,10 @@ interface PlaceDetailPageProps {
 
 export const PlaceDetailPage: React.FC<PlaceDetailPageProps> = ({ slug, onSaveToast }) => {
   const { isSaved, toggleSave } = useSavedPlaces()
+  const { places } = useAppData()
   const [imageError, setImageError] = useState(false)
 
-  const place = PLACES.find((p) => p.slug === slug)
+  const place = places.find((p) => p.slug === slug)
 
   if (!place) {
     return (

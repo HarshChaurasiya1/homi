@@ -1,12 +1,12 @@
 /**
  * HOMI Deterministic Itinerary & Honest Budget Calculation Engine
- * Rule-based, testable, and transparent for all 5 selected pilot cities.
+ * Rule-based, testable, and transparent for all cities with authentic local companion personas.
  */
 
-import { PLACES } from '../data/places'
-import type { Place, CityId } from '../data/types'
+import { getPlaces, getCity } from './dataStore'
+import type { Place, CityId, CityPersona } from '../data/types'
 
-export type DestinationChoice = 'jaipur' | 'udaipur' | 'manali' | 'varanasi' | 'mussoorie' | 'delhi'
+export type DestinationChoice = 'jaipur' | 'udaipur' | 'manali' | 'varanasi' | 'mussoorie' | 'delhi' | string
 export type BudgetTier = 'budget' | 'moderate' | 'premium'
 export type TravelInterest = 
   | 'heritage'
@@ -81,6 +81,7 @@ export interface GeneratedItinerary {
   inputs: PlannerInputs
   days: DayPlan[]
   budget: BudgetBreakdown
+  persona: CityPersona
   generatedAt: string
 }
 
@@ -205,11 +206,18 @@ export function generateItinerary(inputs: PlannerInputs): GeneratedItinerary {
   const dayPlans: DayPlan[] = []
   const allScheduledPlaces: Place[] = []
 
-  // Helper to fetch place by slug
-  const getPlace = (slug: string): Place => {
-    const found = PLACES.find((p) => p.slug === slug)
-    if (!found) throw new Error(`Place slug not found: ${slug}`)
-    return found
+  const allPlaces = getPlaces()
+  const destCity = getCity(destination) || getCity('jaipur')
+
+  // Default / fallback persona if missing
+  const persona: CityPersona = destCity?.persona || {
+    name: `Aapka ${destCity?.name || 'Local'} Companion`,
+    title: `Local Friend & Culture Guide of ${destCity?.name || 'India'}`,
+    badge: 'Local Guide',
+    avatarImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80',
+    greeting: `Namaste! Main hoon aapka ${destCity?.name} companion.`,
+    dialectQuote: `Humari shaan aur culture ko dil se mehsoos kijiye. Maine aapke liye khas plan banaya hai!`,
+    localTip: `Local Tip: Subah jaldi niklein aur local street food ka anand lein.`,
   }
 
   // City-specific thematic clusters
@@ -223,7 +231,7 @@ export function generateItinerary(inputs: PlannerInputs): GeneratedItinerary {
   }>> = {
     jaipur: [
       {
-        themeTitle: 'The Heart of the Pink City',
+        themeTitle: 'The Heart of the Pink City (Aapke Bhaisaab Special)',
         geographicArea: 'Walled City (Badi Chaupar & Forts)',
         dayNotes: 'Arrive early at Hawa Mahal to catch soft sunrise light reflecting on the jharokhas.',
         morning: {
@@ -246,7 +254,7 @@ export function generateItinerary(inputs: PlannerInputs): GeneratedItinerary {
 
     udaipur: [
       {
-        themeTitle: 'Palaces, Lake Pichola & Evening Folk Lights',
+        themeTitle: 'Palaces, Lake Pichola & Evening Folk Lights (Banna Sa Plan)',
         geographicArea: 'Old City & Lakefront Ghats',
         dayNotes: 'Lake Pichola sunset boat ride is best booked for the 5:00 PM golden hour departure.',
         morning: {
@@ -269,7 +277,7 @@ export function generateItinerary(inputs: PlannerInputs): GeneratedItinerary {
 
     manali: [
       {
-        themeTitle: 'Sacred Deodars, Bohemian Trails & Waterfalls',
+        themeTitle: 'Sacred Deodars, Bohemian Trails & Waterfalls (Pahadi Bro Vibe)',
         geographicArea: 'Old Manali & Vashisht Ridges',
         dayNotes: 'Wear walking shoes for the pine needle trails of Dhungri forest and Old Manali.',
         morning: {
@@ -292,7 +300,7 @@ export function generateItinerary(inputs: PlannerInputs): GeneratedItinerary {
 
     varanasi: [
       {
-        themeTitle: 'The Sacred Crescent: Dawn to Grand Evening Aarti',
+        themeTitle: 'The Sacred Crescent: Dawn to Grand Evening Aarti (Banarasi Bhaiya Plan)',
         geographicArea: 'Ancient Ghats & Kashi Vishwanath Corridor',
         dayNotes: 'Wake early for the 5:30 AM dawn boat ride from Assi Ghat to witness morning prayers.',
         morning: {
@@ -315,7 +323,7 @@ export function generateItinerary(inputs: PlannerInputs): GeneratedItinerary {
 
     mussoorie: [
       {
-        themeTitle: 'Misty Landour Pines & Himalayan Sunsets',
+        themeTitle: 'Misty Landour Pines & Himalayan Sunsets (Hillside Storyteller)',
         geographicArea: 'Landour Cantt & George Everest Ridge',
         dayNotes: 'Landour is best explored on foot under giant deodar trees away from Mall Road traffic.',
         morning: {
@@ -335,64 +343,140 @@ export function generateItinerary(inputs: PlannerInputs): GeneratedItinerary {
         },
       },
     ],
+
+    delhi: [
+      {
+        themeTitle: 'Mughal Splendors & Sufi Trails (Dilli Dilwala Trail)',
+        geographicArea: 'Old Delhi & Nizamuddin',
+        dayNotes: 'Start early in Chandni Chowk before the market opens for peaceful heritage walks.',
+        morning: {
+          slug: 'humayuns-tomb',
+          timing: '8:00 AM – 10:30 AM',
+          mealNote: 'Breakfast: Hot Bedmi Puri and Nagori Halwa in Old Delhi.',
+        },
+        afternoon: {
+          slug: 'qutub-minar',
+          timing: '12:00 PM – 2:30 PM',
+          mealNote: 'Lunch: Sita Ram Diwan Chand Chole Bhature.',
+        },
+        evening: {
+          slug: 'chandni-chowk-and-dariba-kalan',
+          timing: '4:00 PM – 7:00 PM',
+          mealNote: 'Dinner: Karim’s Jama Masjid mutton seekh & roomali roti.',
+        },
+      },
+    ],
   }
 
-  // Fallback to jaipur if destination not found
-  const targetCityId = (cityClusters[destination] ? destination : 'jaipur') as CityId
-  const clusters = cityClusters[targetCityId] || cityClusters.jaipur
+  const targetCityId = (destination || 'jaipur').toLowerCase()
+  const clusters = cityClusters[targetCityId]
 
-  for (let i = 0; i < days; i++) {
-    const dayNumber = i + 1
-    const cluster = clusters[i % clusters.length]
-    const cityName = targetCityId.charAt(0).toUpperCase() + targetCityId.slice(1)
+  const getTicketRate = (p: Place): number => {
+    const fee = nationality === 'indian' ? p.ticketPrice.indian : p.ticketPrice.foreigner
+    return typeof fee === 'number' ? fee : 0
+  }
 
-    const morningPlace = getPlace(cluster.morning.slug)
-    const afternoonPlace = getPlace(cluster.afternoon.slug)
-    const eveningPlace = getPlace(cluster.evening.slug)
+  // If curated clusters exist for this city
+  if (clusters && clusters.length > 0) {
+    for (let i = 0; i < days; i++) {
+      const dayNumber = i + 1
+      const cluster = clusters[i % clusters.length]
+      const cityName = destCity?.name || (targetCityId.charAt(0).toUpperCase() + targetCityId.slice(1))
 
-    allScheduledPlaces.push(morningPlace, afternoonPlace, eveningPlace)
+      const morningPlace = allPlaces.find((p) => p.slug === cluster.morning.slug) || allPlaces[0]
+      const afternoonPlace = allPlaces.find((p) => p.slug === cluster.afternoon.slug) || allPlaces[1]
+      const eveningPlace = allPlaces.find((p) => p.slug === cluster.evening.slug) || allPlaces[2]
 
-    const getTicketRate = (p: Place): number => {
-      const fee = nationality === 'indian' ? p.ticketPrice.indian : p.ticketPrice.foreigner
-      return typeof fee === 'number' ? fee : 0
+      allScheduledPlaces.push(morningPlace, afternoonPlace, eveningPlace)
+
+      const stops: ItineraryStop[] = [
+        {
+          place: morningPlace,
+          slot: 'morning',
+          timingNote: cluster.morning.timing,
+          suggestedDurationMinutes: morningPlace.estimatedVisitMinutes,
+          curatorMealSuggestion: cluster.morning.mealNote,
+          ticketCostInr: getTicketRate(morningPlace),
+        },
+        {
+          place: afternoonPlace,
+          slot: 'afternoon',
+          timingNote: cluster.afternoon.timing,
+          suggestedDurationMinutes: afternoonPlace.estimatedVisitMinutes,
+          curatorMealSuggestion: cluster.afternoon.mealNote,
+          ticketCostInr: getTicketRate(afternoonPlace),
+        },
+        {
+          place: eveningPlace,
+          slot: 'evening',
+          timingNote: cluster.evening.timing,
+          suggestedDurationMinutes: eveningPlace.estimatedVisitMinutes,
+          curatorMealSuggestion: cluster.evening.mealNote,
+          ticketCostInr: getTicketRate(eveningPlace),
+        },
+      ]
+
+      dayPlans.push({
+        dayNumber,
+        cityId: targetCityId as CityId,
+        cityName,
+        themeTitle: cluster.themeTitle,
+        geographicArea: cluster.geographicArea,
+        stops,
+        dayNotes: cluster.dayNotes,
+      })
     }
+  } else {
+    // Dynamic city planner fallback for custom admin cities or other destinations
+    const cityPlaces = allPlaces.filter((p) => p.cityId.toLowerCase() === targetCityId)
+    const pool = cityPlaces.length >= 3 ? cityPlaces : allPlaces
+    const cityName = destCity?.name || targetCityId
 
-    const stops: ItineraryStop[] = [
-      {
-        place: morningPlace,
-        slot: 'morning',
-        timingNote: cluster.morning.timing,
-        suggestedDurationMinutes: morningPlace.estimatedVisitMinutes,
-        curatorMealSuggestion: cluster.morning.mealNote,
-        ticketCostInr: getTicketRate(morningPlace),
-      },
-      {
-        place: afternoonPlace,
-        slot: 'afternoon',
-        timingNote: cluster.afternoon.timing,
-        suggestedDurationMinutes: afternoonPlace.estimatedVisitMinutes,
-        curatorMealSuggestion: cluster.afternoon.mealNote,
-        ticketCostInr: getTicketRate(afternoonPlace),
-      },
-      {
-        place: eveningPlace,
-        slot: 'evening',
-        timingNote: cluster.evening.timing,
-        suggestedDurationMinutes: eveningPlace.estimatedVisitMinutes,
-        curatorMealSuggestion: cluster.evening.mealNote,
-        ticketCostInr: getTicketRate(eveningPlace),
-      },
-    ]
+    for (let i = 0; i < days; i++) {
+      const dayNumber = i + 1
+      const p1 = pool[(i * 3) % pool.length]
+      const p2 = pool[(i * 3 + 1) % pool.length]
+      const p3 = pool[(i * 3 + 2) % pool.length]
 
-    dayPlans.push({
-      dayNumber,
-      cityId: targetCityId,
-      cityName,
-      themeTitle: cluster.themeTitle,
-      geographicArea: cluster.geographicArea,
-      stops,
-      dayNotes: cluster.dayNotes,
-    })
+      allScheduledPlaces.push(p1, p2, p3)
+
+      const stops: ItineraryStop[] = [
+        {
+          place: p1,
+          slot: 'morning',
+          timingNote: '8:30 AM – 11:00 AM',
+          suggestedDurationMinutes: p1.estimatedVisitMinutes,
+          curatorMealSuggestion: `Morning special: Local authentic breakfast near ${p1.name}`,
+          ticketCostInr: getTicketRate(p1),
+        },
+        {
+          place: p2,
+          slot: 'afternoon',
+          timingNote: '12:30 PM – 3:30 PM',
+          suggestedDurationMinutes: p2.estimatedVisitMinutes,
+          curatorMealSuggestion: `Lunch: Regional authentic flavors recommended by ${persona.name}`,
+          ticketCostInr: getTicketRate(p2),
+        },
+        {
+          place: p3,
+          slot: 'evening',
+          timingNote: '4:30 PM – 7:00 PM',
+          suggestedDurationMinutes: p3.estimatedVisitMinutes,
+          curatorMealSuggestion: `Evening: Sunset tea and street snacks near ${p3.name}`,
+          ticketCostInr: getTicketRate(p3),
+        },
+      ]
+
+      dayPlans.push({
+        dayNumber,
+        cityId: targetCityId as CityId,
+        cityName,
+        themeTitle: `Day ${dayNumber}: Highlights & Hidden Corners with ${persona.name}`,
+        geographicArea: p1.address || cityName,
+        stops,
+        dayNotes: `${persona.name} suggests visiting early to enjoy the best local atmosphere.`,
+      })
+    }
   }
 
   const budget = calculateBudget(inputs, allScheduledPlaces)
@@ -401,6 +485,7 @@ export function generateItinerary(inputs: PlannerInputs): GeneratedItinerary {
     inputs,
     days: dayPlans,
     budget,
+    persona,
     generatedAt: new Date().toISOString(),
   }
 }

@@ -21,6 +21,23 @@ export const CITIES: Record<string, CityInfo> = {
     heroImage: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=80',
     heroImageAlt: 'Hawa Mahal Palace of Winds in Jaipur Pink City with intricate jharokha windows',
     themeClass: 'theme-jaipur',
+    galleryPhotos: [
+      'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80', // Hawa Mahal
+      'https://images.unsplash.com/photo-1603288967389-9e8c465a39dc?auto=format&fit=crop&w=800&q=80', // Amer Fort
+      'https://images.unsplash.com/photo-1617854818583-09e7f077a156?auto=format&fit=crop&w=800&q=80', // City Palace courtyard
+      'https://images.unsplash.com/photo-1598977123418-454555ac14c2?auto=format&fit=crop&w=800&q=80', // Nahargarh sunset
+      'https://images.unsplash.com/photo-1509233725247-49e657c54213?auto=format&fit=crop&w=800&q=80', // Stepwell Panna Meena
+      'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80', // Royal Kachori & Chai
+    ],
+    persona: {
+      name: 'Aapke Bhaisaab',
+      title: 'Pink City Elder Brother & Royal Companion',
+      badge: 'Jaipur Hukum',
+      avatarImage: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80',
+      greeting: 'Khamma Ghani Hukum! Main hoon aapka Jaipur wala Bhaisaab.',
+      dialectQuote: 'Arey hukum, Jaipur ko bhagte huye nahi, apnepan se dekhna hai! Maine khud Johari Bazaar aur Amer ke har kone ko dekha hai.',
+      localTip: 'Bhaisaab Tip: Badi Chaupar pe shopping se pehle Rawat ki pyaaz kachori khana mat bhoolna, aur kulhad chai hamesha Sahu ya Gulab Ji pe piyen!',
+    },
     tasteOfCity: {
       headline: 'Crisp Kachoris, Royal Ghewar & Kulhad Chai',
       flavors: ['Caramelized spiced onion', 'Desi ghee rabdi', 'Cardamom saffron'],
@@ -49,6 +66,23 @@ export const CITIES: Record<string, CityInfo> = {
     heroImage: 'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1200&q=80',
     heroImageAlt: 'Lake Pichola Udaipur with City Palace reflecting in the water at sunset',
     themeClass: 'theme-udaipur',
+    galleryPhotos: [
+      'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=800&q=80', // Lake Pichola
+      'https://images.unsplash.com/photo-1615836245337-f5b9b2303f10?auto=format&fit=crop&w=800&q=80', // City Palace Udaipur
+      'https://images.unsplash.com/photo-1566552881560-0be862a7c445?auto=format&fit=crop&w=800&q=80', // Jag Mandir island
+      'https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=800&q=80', // Gangaur Ghat steps
+      'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=800&q=80', // Bagore Ki Haveli
+      'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80', // Dal Baati Thal
+    ],
+    persona: {
+      name: 'Aapke Banna Sa',
+      title: 'Mewari Lakeside Companion & Royal Host',
+      badge: 'Mewar Shaan',
+      avatarImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80',
+      greeting: 'Khamma Ghani Sa! Main hoon aapka Udaipur companion Banna Sa.',
+      dialectQuote: 'Jheel Pichola ki leharon aur City Palace ke jharokhon ki asli kahaniyan mere saath dekhein. Yeh shahi itinerary aapke liye banayi hai.',
+      localTip: 'Banna Sa Tip: Shaam 5:30 baje Gangaur Ghat pe chupchap baithiye, aur Ambrai pe candle-light thali advance me book karke jaiye!',
+    },
     tasteOfCity: {
       headline: 'Desi Ghee Dal Baati, Mewari Ker Sangri & Hari Mirch Vada',
       flavors: ['Smoky woodfired baati', 'Panchmel lentils', 'Spicy green chilli bite'],
@@ -77,6 +111,23 @@ export const CITIES: Record<string, CityInfo> = {
     heroImage: 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1200&q=80',
     heroImageAlt: 'Snow capped Himalayan mountains in Manali with pine deodar trees',
     themeClass: 'theme-manali',
+    galleryPhotos: [
+      'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=800&q=80', // Manali valley
+      'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80', // Snowy peak
+      'https://images.unsplash.com/photo-1571115177098-24ec42ed204d?auto=format&fit=crop&w=800&q=80', // Hadimba wood pagoda
+      'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80', // Pine forest trail
+      'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=800&q=80', // Old Manali river
+      'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80', // Warm mountain siddu
+    ],
+    persona: {
+      name: 'Aapka Pahadi Dost (Bro)',
+      title: 'Himachali Mountain Brother & Local Trail Guide',
+      badge: 'Pahadi Vibe',
+      avatarImage: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80',
+      greeting: 'Julley Dost! Kaise ho? Main hoon aapka Manali ka Pahadi Dost (Bro).',
+      dialectQuote: 'Mall Road ki bheed-bhaad me time waste mat karna. Old Manali ki deodar galliyan, garam siddu desi ghee ke saath, aur Beas river ke kinare fresh trout fish ka plan enjoy karo!',
+      localTip: 'Pahadi Bro Tip: Hadimba jungle me phone silent rakho, siddu hamesha desi ghee me dooboke khao aur pahadi nadi me plastic bilkul mat phenkna!',
+    },
     tasteOfCity: {
       headline: 'Steaming Himachali Siddu, Mountain Trout & Wild Apple Jam',
       flavors: ['Fermented wheat bread & ghee', 'Herb-roasted trout', 'Seabuckthorn tea'],
@@ -105,6 +156,23 @@ export const CITIES: Record<string, CityInfo> = {
     heroImage: 'https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=1200&q=80',
     heroImageAlt: 'Ancient stone ghats of Varanasi on river Ganges with morning boats and temples',
     themeClass: 'theme-varanasi',
+    galleryPhotos: [
+      'https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=800&q=80', // Ghats morning
+      'https://images.unsplash.com/photo-1571536802807-30451e3955d8?auto=format&fit=crop&w=800&q=80', // Ganga Aarti brass lamps
+      'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=800&q=80', // Old Kashi alleys
+      'https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=800&q=80', // Assi Ghat boat
+      'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80', // Floating Diya
+      'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80', // Tamatar chaat kulhad
+    ],
+    persona: {
+      name: 'Aapke Banarasi Bhaiya (Guru)',
+      title: 'Kashi Foodie, Spiritual Guide & Banaras Guru',
+      badge: 'Banarasi Masti',
+      avatarImage: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
+      greeting: 'Har Har Mahadev Guru! Main hoon aapka Kashi ka Banarasi Bhaiya.',
+      dialectQuote: 'Banaras ko daud ke dekhne ki galti mat karna — Banaras ek ehsaas hai. Subah Assi Ghat ki aarti se lekar raat ki malaiyo aur meetha paan tak ka bejod plan hajir hai!',
+      localTip: 'Banarasi Bhaiya Tip: Subah 5:30 baje Assi Ghat pe boat zaroor lijiye, aur shaam ko Godowlia pe Tamatar Chaat ke baad Keshav Tambool ka meetha paan khana compulsory hai!',
+    },
     tasteOfCity: {
       headline: 'Frothy Malaiyo Cloud, Tangy Tamatar Chaat & Sweet Banarasi Paan',
       flavors: ['Dew-condensed saffron foam', 'Spicy hing tomato mash', 'Sweet gulkand paan'],
@@ -133,6 +201,23 @@ export const CITIES: Record<string, CityInfo> = {
     heroImage: 'https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?auto=format&fit=crop&w=1200&q=80',
     heroImageAlt: 'Misty green pine hills and valley view of Mussoorie and Landour',
     themeClass: 'theme-mussoorie',
+    galleryPhotos: [
+      'https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?auto=format&fit=crop&w=800&q=80', // Landour ridge
+      'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80', // Misty pine trees
+      'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80', // Garhwal peaks
+      'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=800&q=80', // George Everest ridge
+      'https://images.unsplash.com/photo-1571115177098-24ec42ed204d?auto=format&fit=crop&w=800&q=80', // Char Dukan church
+      'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80', // Fresh apple pie & coffee
+    ],
+    persona: {
+      name: 'Aapka Hillside Storyteller',
+      title: 'Landour Mountain Naturalist & Literary Storyteller',
+      badge: 'Landour Peace',
+      avatarImage: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=300&q=80',
+      greeting: 'Pahadon se adaab! Main hoon aapka Mussoorie & Landour Storyteller.',
+      dialectQuote: 'Hum bheed wali Mall Road se door chalenge — Landour ke 150 saal purane deodar pedon ke neeche, Lal Tibba ki thand aur Landour Bakehouse ki garam apple pie ke saath Winterline dhoondenge!',
+      localTip: 'Storyteller Tip: Char Dukan pe ginger lemon tea aur bun omelette lijiye, aur shaam ko George Everest peak pe clouds ke upar baithkar sunset dekhein!',
+    },
     tasteOfCity: {
       headline: 'Fresh Apple Pie, Char Dukan Butter Omelettes & Spicy Tingmo',
       flavors: ['Cinnamon & roasted walnuts', 'Amul butter crisp toast', 'Garlicky Tibetan momos'],
@@ -161,6 +246,23 @@ export const CITIES: Record<string, CityInfo> = {
     heroImage: 'https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=1200&q=80',
     heroImageAlt: 'Humayuns Tomb Delhi with lush Mughal gardens and sandstone dome',
     themeClass: 'theme-delhi',
+    galleryPhotos: [
+      'https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=800&q=80', // Humayuns tomb
+      'https://images.unsplash.com/photo-1585136917228-569b910b85ea?auto=format&fit=crop&w=800&q=80', // Qutub Minar
+      'https://images.unsplash.com/photo-1592635196078-9fe3d54f2377?auto=format&fit=crop&w=800&q=80', // Jama Masjid
+      'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80', // Chole Bhature
+      'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=800&q=80', // Old Delhi lane
+      'https://images.unsplash.com/photo-1509233725247-49e657c54213?auto=format&fit=crop&w=800&q=80', // Agrasen ki Baoli
+    ],
+    persona: {
+      name: 'Aapka Dilli Dilwala',
+      title: 'Purani Dilli Guide & Dilwalon Ka Dost',
+      badge: 'Dilli Vibe',
+      avatarImage: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=300&q=80',
+      greeting: 'Arrey Janab! Dilli me aapka swagat hai. Main hoon aapka Dilli Dilwala.',
+      dialectQuote: 'Dilli dilwalon ki hai! Metro pakdo, Purani Dilli ki tang galliyon me chole bhature aur nihari khao, aur shaam ko Lodhi Garden ki sukoon bhari hawa me baitho.',
+      localTip: 'Dilliwala Tip: Chandni Chowk hamesha metro se jao (Chawri Bazar / Chandni Chowk station). Subah 8 baje Sita Ram ke chole bhature try karna!',
+    },
     tasteOfCity: {
       headline: 'Dark Pindi Chole Bhature, Slow-cooked Nihari & Butter Chicken',
       flavors: ['Pomegranate dried anardana', 'Tandoori woodsmoke', 'Cardamom saunth'],

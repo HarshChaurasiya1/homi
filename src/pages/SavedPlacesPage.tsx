@@ -1,6 +1,5 @@
 import React from 'react'
-import { PLACES } from '../data/places'
-import { CITIES } from '../data/cities'
+import { useAppData } from '../lib/dataStore'
 import { useSavedPlaces } from '../lib/storage'
 import { PlaceCard } from '../components/PlaceCard'
 import { Link } from '../lib/router'
@@ -8,9 +7,10 @@ import { Bookmark, Heart, Calendar, ArrowRight } from 'lucide-react'
 
 export const SavedPlacesPage: React.FC<{ onSaveToast: (msg: string) => void }> = ({ onSaveToast }) => {
   const { savedIds, count } = useSavedPlaces()
+  const { places, cities } = useAppData()
 
-  const fiveCityIds = ['jaipur', 'udaipur', 'manali', 'varanasi', 'mussoorie'] as const
-  const savedPlaces = PLACES.filter((p) => savedIds.includes(p.id))
+  const cityList = Object.values(cities)
+  const savedPlaces = places.filter((p) => savedIds.includes(p.id))
 
   const cityColors: Record<string, string> = {
     jaipur: '#C85A32',
@@ -68,57 +68,47 @@ export const SavedPlacesPage: React.FC<{ onSaveToast: (msg: string) => void }> =
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-2 pt-4">
-              {fiveCityIds.map((cId) => {
-                const city = CITIES[cId]
-                if (!city) return null
-                return (
-                  <Link
-                    key={cId}
-                    to={`/${cId}`}
-                    className="px-4 py-2 rounded-xl text-white text-xs font-semibold shadow-xs transition-transform hover:scale-103"
-                    style={{ backgroundColor: cityColors[cId] || '#201C1A' }}
-                  >
-                    Explore {city.name}
-                  </Link>
-                )
-              })}
+              {cityList.slice(0, 5).map((city) => (
+                <Link
+                  key={city.id}
+                  to={`/${city.id}`}
+                  className="px-4 py-2 rounded-xl text-white text-xs font-semibold shadow-xs transition-transform hover:scale-103"
+                  style={{ backgroundColor: cityColors[city.id] || '#201C1A' }}
+                >
+                  Explore {city.name}
+                </Link>
+              ))}
             </div>
           </div>
         ) : (
           <div className="space-y-12">
-            {fiveCityIds.map((cId) => {
-              const citySaved = savedPlaces.filter((p) => p.cityId === cId)
+            {cityList.map((city) => {
+              const citySaved = savedPlaces.filter((p) => p.cityId.toLowerCase() === city.id.toLowerCase())
               if (citySaved.length === 0) return null
-              const city = CITIES[cId]
-              const color = cityColors[cId] || '#8C2D19'
+              const color = cityColors[city.id] || '#8C2D19'
 
               return (
-                <section key={cId}>
+                <section key={city.id}>
                   <div className="flex items-center justify-between mb-4 border-b border-[#EAE1D5] pb-2">
                     <div className="flex items-center gap-2">
                       <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: color }}></span>
                       <h2 className="font-editorial text-xl sm:text-2xl font-bold text-[#201C1A]">
-                        {city?.name || cId} Saved Places ({citySaved.length})
+                        {city.name} Saved Places ({citySaved.length})
                       </h2>
                     </div>
                     <Link
-                      to={`/${cId}`}
+                      to={`/${city.id}`}
                       className="text-xs font-semibold hover:underline flex items-center gap-1"
                       style={{ color }}
                     >
-                      <span>Browse all {city?.name}</span>
+                      <span>Browse all {city.name}</span>
                       <ArrowRight className="w-3 h-3" />
                     </Link>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {citySaved.map((place) => (
-                      <PlaceCard
-                        key={place.id}
-                        place={place}
-                        onSaveToast={onSaveToast}
-                        themeColor={color}
-                      />
+                      <PlaceCard key={place.id} place={place} onSaveToast={onSaveToast} />
                     ))}
                   </div>
                 </section>
