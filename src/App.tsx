@@ -12,6 +12,7 @@ import { PlaceDetailPage } from './pages/PlaceDetailPage'
 import { PlannerPage } from './pages/PlannerPage'
 import { SavedPlacesPage } from './pages/SavedPlacesPage'
 import { AdminBoardPage } from './pages/AdminBoardPage'
+import { ProfilePage } from './pages/ProfilePage'
 import { useAppData } from './lib/dataStore'
 import { Link } from './lib/router'
 
@@ -35,6 +36,10 @@ const MainContent: React.FC = () => {
 
     if (path === '/saved') {
       return <SavedPlacesPage onSaveToast={setToastMessage} />
+    }
+
+    if (path === '/profile') {
+      return <ProfilePage onSaveToast={setToastMessage} />
     }
 
     if (path === '/places/:slug' && params.slug) {

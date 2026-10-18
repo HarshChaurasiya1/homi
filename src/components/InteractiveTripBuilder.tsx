@@ -4,6 +4,8 @@ import { getRedditPicksForCity } from '../data/redditPicks'
 import { generateItinerary, formatInr } from '../lib/plannerEngine'
 import type { PlannerInputs, BudgetTier, GeneratedItinerary } from '../lib/plannerEngine'
 import { useSavedPlaces, getPlannerDraft, savePlannerDraft, useActiveCity } from '../lib/storage'
+import { useProfile } from '../lib/profileStore'
+import { ProfileModal } from './ProfileModal'
 import { Link } from '../lib/router'
 import {
   Sparkles,
@@ -21,6 +23,7 @@ import {
   Navigation,
   ShieldCheck,
   MessageSquare,
+  Save,
 } from 'lucide-react'
 
 interface InteractiveTripBuilderProps {
@@ -34,8 +37,12 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
 }) => {
   const { cities } = useAppData()
   const { isSaved, toggleSave } = useSavedPlaces()
+  const { hasProfile, isUnlocked, saveTrip } = useProfile()
   const [activeCityId, setActiveCityId] = useActiveCity()
   const cityList = Object.values(cities)
+
+  const [profileModalOpen, setProfileModalOpen] = useState(false)
+  const [tripSavedSuccess, setTripSavedSuccess] = useState(false)
 
   const effectiveCityId = initialCityId || activeCityId || null
 
@@ -101,6 +108,26 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
       setIsGenerating(false)
       setCurrentStep(5)
     }, 700)
+  }
+
+  // Save current trip board directly into local profile database
+  const handleSaveToProfile = () => {
+    if (!hasProfile) {
+      setProfileModalOpen(true)
+      return
+    }
+    saveTrip({
+      destination: currentCityKey,
+      cityName: currentCity.name,
+      days: selectedDays,
+      budgetTier: selectedBudget,
+      vibe: selectedVibe,
+      totalRupees: itinerary.budget.grandTotal,
+      title: `${currentCity.name} ${selectedDays}-Day Adventure Board`,
+    })
+    setTripSavedSuccess(true)
+    setTimeout(() => setTripSavedSuccess(false), 2500)
+    onSaveToast(`Saved ${currentCity.name} trip board to your local profile!`)
   }
 
   // City options with school-kid-simple fun subtitles and emojis
@@ -516,6 +543,15 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
             </div>
 
             <div className="flex items-center gap-2">
+              <button
+                onClick={handleSaveToProfile}
+                className="px-3.5 py-1.5 rounded-xl bg-[#8C2D19] text-white text-xs font-bold hover:bg-[#722312] transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
+                title="Save this trip to your private local profile"
+              >
+                {tripSavedSuccess ? <Check className="w-3.5 h-3.5 text-emerald-300" /> : <Save className="w-3.5 h-3.5" />}
+                <span>{tripSavedSuccess ? 'Saved to Local DB!' : 'Save Trip Progress'}</span>
+              </button>
+
               <button
                 onClick={() => {
                   setActiveCityId(null)
@@ -933,6 +969,46 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
               ))}
             </div>
           </div>
+
+          {/* 6. LOCAL DATABASE SAVE PROGRESS CALLOUT CARD */}
+          <div className="bg-[#FAF5ED] rounded-3xl p-6 sm:p-8 border-2 border-[#ECD7CE] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-[#8C2D19] text-white flex items-center justify-center flex-shrink-0 text-2xl shadow-xs">
+                🛡️
+              </div>
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <h3 className="font-editorial text-xl font-bold text-[#201C1A]">
+                    Save This Trip on Your Local Database
+                  </h3>
+                  <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">
+                    100% Offline
+                  </span>
+                </div>
+                <p className="text-xs text-[#554D45] max-w-xl leading-relaxed">
+                  {hasProfile
+                    ? `Save this ${currentCity?.name} itinerary under your local profile (${isUnlocked ? 'Active' : 'Password Protected'}). Retrieve, tweak, or export it anytime on this laptop.`
+                    : 'Set up your local profile with a password to save this trip board on your laptop. No cloud accounts, zero tracking.'}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 self-start md:self-auto">
+              <button
+                onClick={handleSaveToProfile}
+                className="px-6 py-3 rounded-2xl bg-[#8C2D19] text-white text-xs sm:text-sm font-bold hover:bg-[#722312] transition-all flex items-center gap-2 shadow-sm cursor-pointer hover:scale-102"
+              >
+                {tripSavedSuccess ? <Check className="w-4 h-4 text-emerald-300" /> : <Save className="w-4 h-4" />}
+                <span>
+                  {tripSavedSuccess
+                    ? 'Saved to Local DB!'
+                    : hasProfile
+                      ? 'Save Trip Progress'
+                      : 'Set Password & Save'}
+                </span>
+              </button>
+            </div>
+          </div>
         </div>
       )}
 
@@ -957,6 +1033,13 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
           </div>
         </div>
       )}
+
+      {/* Profile & Password Modal */}
+      <ProfileModal
+        isOpen={profileModalOpen}
+        onClose={() => setProfileModalOpen(false)}
+        onToast={onSaveToast}
+      />
     </div>
   )
 }

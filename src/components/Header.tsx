@@ -4,14 +4,30 @@ import { useRouter } from '../lib/routerContext'
 import { BRAND } from '../config/brand'
 import { useSavedPlaces, useActiveCity } from '../lib/storage'
 import { useAppData } from '../lib/dataStore'
-import { Bookmark, Calendar, Menu, X, Heart, Shield, Compass, RotateCcw } from 'lucide-react'
+import { useProfile } from '../lib/profileStore'
+import { ProfileModal } from './ProfileModal'
+import {
+  Bookmark,
+  Calendar,
+  Menu,
+  X,
+  Heart,
+  Shield,
+  Compass,
+  RotateCcw,
+  User,
+  Lock,
+} from 'lucide-react'
 
 export const Header: React.FC = () => {
   const { path, navigate } = useRouter()
   const { count } = useSavedPlaces()
   const { cities } = useAppData()
+  const { profile, hasProfile, isUnlocked } = useProfile()
   const [activeCityId, setActiveCityId] = useActiveCity()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [profileModalOpen, setProfileModalOpen] = useState(false)
+  const [toastMsg, setToastMsg] = useState<string | null>(null)
 
   const isAdmin = path === '/admin'
   const isPlanner = path === '/planner'
@@ -161,6 +177,43 @@ export const Header: React.FC = () => {
             )}
           </Link>
 
+          {/* LOCAL DATABASE PROFILE / SAVE PROGRESS BUTTON */}
+          <button
+            type="button"
+            onClick={() => setProfileModalOpen(true)}
+            className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 border cursor-pointer ${
+              hasProfile
+                ? isUnlocked
+                  ? 'bg-[#FAF5ED] text-[#8C2D19] border-[#ECD7CE] hover:bg-[#F2ECE1]'
+                  : 'bg-[#FAF7F2] text-[#7A7167] border-[#DDD3C5] hover:bg-[#EAE2D5]'
+                : 'bg-[#8C2D19] text-white border-[#8C2D19] hover:bg-[#722312] shadow-xs'
+            }`}
+            title={
+              hasProfile
+                ? isUnlocked
+                  ? `${profile?.name}'s Local Profile (Active)`
+                  : 'Profile Locked with Password'
+                : 'Save your progress in local database'
+            }
+          >
+            {hasProfile ? (
+              <>
+                <span>{profile?.avatarEmoji || '👤'}</span>
+                <span className="max-w-[80px] truncate">{profile?.name}</span>
+                {isUnlocked ? (
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                ) : (
+                  <Lock className="w-3 h-3 text-[#7A7167]" />
+                )}
+              </>
+            ) : (
+              <>
+                <User className="w-3.5 h-3.5" />
+                <span>Save Progress</span>
+              </>
+            )}
+          </button>
+
           {/* ADMIN BOARD TOGGLE BUTTON */}
           <Link
             to={isAdmin ? '/' : '/admin'}
@@ -194,6 +247,21 @@ export const Header: React.FC = () => {
               </button>
             </div>
           ) : null}
+
+          {/* Mobile Profile Trigger */}
+          <button
+            type="button"
+            onClick={() => setProfileModalOpen(true)}
+            className="p-1.5 rounded-lg text-xs font-bold border border-[#E5DACB] bg-white flex items-center justify-center text-[#201C1A] hover:bg-[#FAF7F2]"
+            aria-label="User Profile & Progress"
+            title="Profile & Progress"
+          >
+            {hasProfile ? (
+              <span className="text-sm">{profile?.avatarEmoji}</span>
+            ) : (
+              <User className="w-4 h-4 text-[#8C2D19]" />
+            )}
+          </button>
 
           <Link
             to="/admin"
@@ -251,6 +319,26 @@ export const Header: React.FC = () => {
           ) : null}
 
           <div className="space-y-1">
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false)
+                setProfileModalOpen(true)
+              }}
+              className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-semibold bg-[#FAF5ED] text-[#8C2D19] border border-[#ECD7CE]"
+            >
+              <div className="flex items-center gap-2">
+                <span>{profile?.avatarEmoji || '👤'}</span>
+                <span>
+                  {hasProfile
+                    ? isUnlocked
+                      ? `${profile?.name}'s Profile`
+                      : 'Unlock Profile'
+                    : 'Save Progress & Profile'}
+                </span>
+              </div>
+              {hasProfile && !isUnlocked && <Lock className="w-3.5 h-3.5" />}
+            </button>
+
             <Link
               to="/"
               onClick={() => setMobileMenuOpen(false)}
@@ -299,6 +387,23 @@ export const Header: React.FC = () => {
               <span>Admin Board & Studio</span>
             </Link>
           </div>
+        </div>
+      )}
+
+      {/* Local Database Profile & Password Modal */}
+      <ProfileModal
+        isOpen={profileModalOpen}
+        onClose={() => setProfileModalOpen(false)}
+        onToast={(msg) => {
+          setToastMsg(msg)
+          setTimeout(() => setToastMsg(null), 3000)
+        }}
+      />
+
+      {/* Header Toast Notification */}
+      {toastMsg && (
+        <div className="fixed bottom-6 right-4 z-50 bg-[#201C1A] text-white text-xs px-4 py-2.5 rounded-xl shadow-lg animate-in fade-in flex items-center gap-2">
+          <span>{toastMsg}</span>
         </div>
       )}
     </header>

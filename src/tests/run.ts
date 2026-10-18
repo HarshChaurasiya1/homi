@@ -1,16 +1,30 @@
 import { runPlannerTests } from './plannerEngine.test.ts'
+import { runProfileStoreTests } from './profileStore.test.ts'
 
+async function main() {
+  console.log('=== RUNNING HOMI AUTOMATED TESTS ===')
+  const plannerResults = runPlannerTests()
+  const profileResults = await runProfileStoreTests()
 
-console.log('=== RUNNING HOMI AUTOMATED TESTS ===')
-const results = runPlannerTests()
+  const totalPassed = plannerResults.passed + profileResults.passed
+  const totalFailed = plannerResults.failed + profileResults.failed
+  const allErrors = [...plannerResults.errors, ...profileResults.errors]
 
-console.log(`Passed: ${results.passed}`)
-console.log(`Failed: ${results.failed}`)
+  console.log(`\n=================================`)
+  console.log(`Total Passed: ${totalPassed}`)
+  console.log(`Total Failed: ${totalFailed}`)
+  console.log(`=================================`)
 
-if (results.failed > 0) {
-  console.error('Test failures:', results.errors)
-  process.exit(1)
-} else {
-  console.log('All tests passed successfully!')
-  process.exit(0)
+  if (totalFailed > 0) {
+    console.error('Test failures:', allErrors)
+    process.exit(1)
+  } else {
+    console.log('All tests passed successfully!')
+    process.exit(0)
+  }
 }
+
+main().catch((err) => {
+  console.error('Runner error:', err)
+  process.exit(1)
+})
