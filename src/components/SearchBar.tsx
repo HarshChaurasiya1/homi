@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useAppData } from '../lib/dataStore'
 import { useRouter } from '../lib/routerContext'
+import { setActiveCityId } from '../lib/storage'
 import { Search, MapPin, Utensils, X, ArrowRight } from 'lucide-react'
 
 export const SearchBar: React.FC<{ placeholder?: string; autoFocus?: boolean }> = ({
@@ -131,7 +132,10 @@ export const SearchBar: React.FC<{ placeholder?: string; autoFocus?: boolean }> 
                   {matchingCities.map((city) => (
                     <button
                       key={city.id}
-                      onClick={() => handleSelect(`/${city.id}`)}
+                      onClick={() => {
+                        setActiveCityId(city.id)
+                        handleSelect(`/${city.id}`)
+                      }}
                       className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#F9F6F0] flex items-center justify-between transition-colors group"
                     >
                       <div className="flex items-center gap-3">
@@ -160,7 +164,10 @@ export const SearchBar: React.FC<{ placeholder?: string; autoFocus?: boolean }> 
                   {matchingPlaces.map((place) => (
                     <button
                       key={place.id}
-                      onClick={() => handleSelect(`/places/${place.slug}`)}
+                      onClick={() => {
+                        setActiveCityId(place.cityId)
+                        handleSelect(`/places/${place.slug}`)
+                      }}
                       className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#F9F6F0] flex items-center justify-between transition-colors group"
                     >
                       <div className="flex items-center gap-3">
@@ -193,7 +200,10 @@ export const SearchBar: React.FC<{ placeholder?: string; autoFocus?: boolean }> 
                   {matchingFoods.map((dish) => (
                     <button
                       key={dish.id}
-                      onClick={() => handleSelect(`/${dish.cityId}`)}
+                      onClick={() => {
+                        setActiveCityId(dish.cityId)
+                        handleSelect(`/${dish.cityId}`)
+                      }}
                       className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#F9F6F0] flex items-center justify-between transition-colors group"
                     >
                       <div className="flex items-center gap-3">

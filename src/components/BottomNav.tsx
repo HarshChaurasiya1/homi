@@ -1,18 +1,21 @@
 import React, { useState } from 'react'
 import { Link } from '../lib/router'
 import { useRouter } from '../lib/routerContext'
-import { useSavedPlaces } from '../lib/storage'
+import { useSavedPlaces, useActiveCity } from '../lib/storage'
 import { useAppData } from '../lib/dataStore'
-import { Compass, MapPin, Calendar, Bookmark, X, Shield } from 'lucide-react'
+import { Compass, MapPin, Calendar, Bookmark, X, Shield, RotateCcw } from 'lucide-react'
 
 export const BottomNav: React.FC = () => {
-  const { path } = useRouter()
+  const { path, navigate } = useRouter()
   const { count } = useSavedPlaces()
   const { cities } = useAppData()
+  const [activeCityId, setActiveCityId] = useActiveCity()
   const [citiesModalOpen, setCitiesModalOpen] = useState(false)
 
   const cityList = Object.values(cities)
-  const isCityActive = cityList.some((c) => path === `/${c.id}`)
+  const routeCityId = path.startsWith('/') && path.length > 1 ? path.slice(1).toLowerCase() : null
+  const currentCityKey = (routeCityId && cities[routeCityId] ? routeCityId : activeCityId)?.toLowerCase() || null
+  const activeCity = currentCityKey ? cities[currentCityKey] : null
   const isAdmin = path === '/admin'
 
   const cityColors: Record<string, string> = {
@@ -22,6 +25,18 @@ export const BottomNav: React.FC = () => {
     varanasi: '#9B2226',
     mussoorie: '#2E4057',
     delhi: '#8C2D19',
+  }
+
+  const handleSelectCity = (id: string) => {
+    setActiveCityId(id)
+    setCitiesModalOpen(false)
+    navigate(`/${id}`)
+  }
+
+  const handleClearCity = () => {
+    setActiveCityId(null)
+    setCitiesModalOpen(false)
+    navigate('/')
   }
 
   return (
@@ -38,17 +53,20 @@ export const BottomNav: React.FC = () => {
             }`}
           >
             <Compass className={`w-5 h-5 ${path === '/' ? 'stroke-[2.5]' : 'stroke-[1.8]'}`} />
-            <span className="text-[10px] mt-1 tracking-tight">Explore</span>
+            <span className="text-[10px] mt-1 tracking-tight">Home</span>
           </Link>
 
+          {/* City Button: If a city is active, shows that specific city name! */}
           <button
             onClick={() => setCitiesModalOpen(true)}
             className={`flex flex-col items-center justify-center py-1 transition-colors min-h-[48px] ${
-              isCityActive ? 'text-[#8C2D19] font-semibold' : 'text-[#645C55] hover:text-[#201C1A]'
+              activeCity ? 'text-[#8C2D19] font-semibold' : 'text-[#645C55] hover:text-[#201C1A]'
             }`}
           >
-            <MapPin className={`w-5 h-5 ${isCityActive ? 'stroke-[2.5]' : 'stroke-[1.8]'}`} />
-            <span className="text-[10px] mt-1 tracking-tight">Cities</span>
+            <MapPin className={`w-5 h-5 ${activeCity ? 'stroke-[2.5]' : 'stroke-[1.8]'}`} />
+            <span className="text-[10px] mt-1 tracking-tight truncate max-w-[60px]">
+              {activeCity ? activeCity.name : 'Explore'}
+            </span>
           </button>
 
           <Link
@@ -90,7 +108,7 @@ export const BottomNav: React.FC = () => {
         </div>
       </nav>
 
-      {/* Quick Destination Sheet Modal on Mobile */}
+      {/* Destination Sheet Modal on Mobile */}
       {citiesModalOpen && (
         <div
           role="dialog"
@@ -105,10 +123,10 @@ export const BottomNav: React.FC = () => {
             <div className="flex items-center justify-between border-b border-[#E8DFD3] pb-3">
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-[#8C2D19] block">
-                  Select Destination
+                  {activeCity ? 'Current Destination' : 'Select Destination'}
                 </span>
                 <h3 className="font-editorial text-lg font-bold text-[#201C1A]">
-                  Curated Indian Cities
+                  {activeCity ? activeCity.name : 'Choose City'}
                 </h3>
               </div>
               <button
@@ -120,21 +138,43 @@ export const BottomNav: React.FC = () => {
               </button>
             </div>
 
-            <div className="space-y-2">
-              {cityList.map((c) => {
-                const active = path === `/${c.id}`
-                const color = cityColors[c.id] || '#8C2D19'
-                return (
-                  <Link
+            {/* If a city is active, show only that city and option to clear/switch */}
+            {activeCity ? (
+              <div className="space-y-3">
+                <div
+                  className="p-4 rounded-2xl text-white shadow-xs flex items-center justify-between"
+                  style={{ backgroundColor: cityColors[activeCity.id] || '#8C2D19' }}
+                >
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={activeCity.heroImage}
+                      alt={activeCity.name}
+                      className="w-12 h-12 rounded-xl object-cover"
+                    />
+                    <div>
+                      <h4 className="font-editorial text-lg font-bold">{activeCity.name}</h4>
+                      <p className="text-xs text-white/80">Host: {activeCity.persona?.name}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleClearCity}
+                  className="w-full py-3 rounded-2xl bg-white border border-[#E5DACB] text-xs font-bold text-[#8C2D19] hover:bg-[#F2ECE1] transition-all flex items-center justify-center gap-2"
+                >
+                  <RotateCcw className="w-4 h-4" />
+                  <span>Choose Another City</span>
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {cityList.map((c) => (
+                  <button
                     key={c.id}
-                    to={`/${c.id}`}
-                    onClick={() => setCitiesModalOpen(false)}
-                    className={`flex items-center justify-between p-3 rounded-2xl transition-all ${
-                      active
-                        ? 'text-white shadow-xs'
-                        : 'bg-white border border-[#E5DACB] text-[#201C1A] hover:bg-[#F2ECE1]'
-                    }`}
-                    style={{ backgroundColor: active ? color : undefined }}
+                    type="button"
+                    onClick={() => handleSelectCity(c.id)}
+                    className="w-full flex items-center justify-between p-3 rounded-2xl bg-white border border-[#E5DACB] text-[#201C1A] hover:bg-[#F2ECE1] transition-all text-left"
                   >
                     <div className="flex items-center gap-3">
                       <img
@@ -146,20 +186,18 @@ export const BottomNav: React.FC = () => {
                         <div className="flex items-center gap-1.5">
                           <span className="text-sm font-bold">{c.name}</span>
                           {c.hindiName && (
-                            <span className={`text-xs ${active ? 'text-white/80' : 'text-[#8A8177]'}`}>
-                              ({c.hindiName})
-                            </span>
+                            <span className="text-xs text-[#8A8177]">({c.hindiName})</span>
                           )}
                         </div>
-                        <span className={`text-[11px] block ${active ? 'text-white/80' : 'text-[#7D736A]'}`}>
-                          Guide: {c.persona?.name || 'Local Guide'}
+                        <span className="text-[11px] block text-[#7D736A]">
+                          Host: {c.persona?.name || 'Local Guide'}
                         </span>
                       </div>
                     </div>
-                  </Link>
-                )
-              })}
-            </div>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}

@@ -3,7 +3,7 @@ import { useAppData } from '../lib/dataStore'
 import { getRedditPicksForCity } from '../data/redditPicks'
 import { generateItinerary, formatInr } from '../lib/plannerEngine'
 import type { PlannerInputs, BudgetTier, GeneratedItinerary } from '../lib/plannerEngine'
-import { useSavedPlaces, getPlannerDraft, savePlannerDraft } from '../lib/storage'
+import { useSavedPlaces, getPlannerDraft, savePlannerDraft, useActiveCity } from '../lib/storage'
 import { Link } from '../lib/router'
 import {
   Sparkles,
@@ -34,15 +34,20 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
 }) => {
   const { cities } = useAppData()
   const { isSaved, toggleSave } = useSavedPlaces()
+  const [activeCityId, setActiveCityId] = useActiveCity()
   const cityList = Object.values(cities)
 
+  const effectiveCityId = initialCityId || activeCityId || null
+
   // Wizard Step: 1 (City), 2 (Days), 3 (Budget & Vibe), 4 (Generating), 5 (Board Generated)
-  const [currentStep, setCurrentStep] = useState<number>(1)
+  const [currentStep, setCurrentStep] = useState<number>(() => {
+    return effectiveCityId ? 2 : 1
+  })
   const [isGenerating, setIsGenerating] = useState(false)
 
   // User selections
   const [selectedCityId, setSelectedCityId] = useState<string>(() => {
-    return initialCityId || 'jaipur'
+    return effectiveCityId || 'jaipur'
   })
   const [selectedDays, setSelectedDays] = useState<number>(3)
   const [selectedBudget, setSelectedBudget] = useState<BudgetTier>('moderate')
@@ -52,11 +57,17 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
   const [activePhotoUrl, setActivePhotoUrl] = useState<string | null>(null)
   const [copiedLink, setCopiedLink] = useState(false)
 
+  // Selected city key derived directly
+  const currentCityKey = (initialCityId || activeCityId || selectedCityId || 'jaipur').toLowerCase()
+  const currentCity = cities[currentCityKey] || cities.jaipur || cityList[0]
+  const persona = currentCity?.persona
+  const redditSpots = getRedditPicksForCity(currentCityKey)
+
   // Itinerary state
   const [itinerary, setItinerary] = useState<GeneratedItinerary>(() => {
     const draft = getPlannerDraft<PlannerInputs>()
     return generateItinerary({
-      destination: draft?.destination || initialCityId || 'jaipur',
+      destination: draft?.destination || effectiveCityId || 'jaipur',
       days: draft?.days || 3,
       travellers: draft?.travellers || 2,
       budgetTier: draft?.budgetTier || 'moderate',
@@ -64,11 +75,6 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
       nationality: 'indian',
     })
   })
-
-  // Selected city object
-  const currentCity = cities[selectedCityId.toLowerCase()] || cities.jaipur || cityList[0]
-  const persona = currentCity?.persona
-  const redditSpots = getRedditPicksForCity(selectedCityId)
 
   // Filter reddit spots by type
   const sunsetSpots = redditSpots.filter((s) => s.type === 'sunset')
@@ -207,6 +213,7 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
                     type="button"
                     onClick={() => {
                       setSelectedCityId(city.id)
+                      setActiveCityId(city.id)
                       setCurrentStep(2)
                     }}
                     className={`group relative rounded-2xl overflow-hidden border-2 text-left transition-all photo-card-zoom cursor-pointer ${
@@ -248,6 +255,7 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
                     type="button"
                     onClick={() => {
                       setSelectedCityId(city.id)
+                      setActiveCityId(city.id)
                       setCurrentStep(2)
                     }}
                     className="group relative rounded-2xl overflow-hidden border-2 border-[#E5DACB] hover:border-[#8C2D19] text-left transition-all photo-card-zoom cursor-pointer"
@@ -343,7 +351,10 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
               <div className="flex justify-between items-center pt-2">
                 <button
                   type="button"
-                  onClick={() => setCurrentStep(1)}
+                  onClick={() => {
+                    setActiveCityId(null)
+                    setCurrentStep(1)
+                  }}
                   className="px-4 py-2 rounded-xl text-xs font-bold text-[#645C55] hover:text-[#201C1A] flex items-center gap-1.5"
                 >
                   <ArrowLeft className="w-4 h-4" />
@@ -457,7 +468,7 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
 
                 <button
                   type="button"
-                  onClick={() => handleBuildTrip(selectedCityId, selectedDays, selectedBudget)}
+                  onClick={() => handleBuildTrip(currentCityKey, selectedDays, selectedBudget)}
                   className="px-8 py-3.5 rounded-2xl bg-[#8C2D19] text-white text-sm font-bold hover:bg-[#722312] transition-all flex items-center gap-2 shadow-md hover:scale-102"
                 >
                   <Sparkles className="w-4 h-4 text-[#E67E22]" />
@@ -506,11 +517,14 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
 
             <div className="flex items-center gap-2">
               <button
-                onClick={() => setCurrentStep(1)}
+                onClick={() => {
+                  setActiveCityId(null)
+                  setCurrentStep(1)
+                }}
                 className="px-3.5 py-1.5 rounded-xl bg-[#FAF7F2] border border-[#E5DACB] text-xs font-semibold text-[#554D45] hover:bg-[#F2ECE1] transition-all flex items-center gap-1.5"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
-                <span>Plan Another Trip</span>
+                <span>Change Destination</span>
               </button>
 
               <button

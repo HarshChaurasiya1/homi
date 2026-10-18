@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAppData } from '../lib/dataStore'
 import { Link } from '../lib/router'
-import { useSavedPlaces } from '../lib/storage'
+import { useSavedPlaces, useActiveCity } from '../lib/storage'
 import {
   MapPin,
   Clock,
@@ -22,10 +22,17 @@ interface PlaceDetailPageProps {
 
 export const PlaceDetailPage: React.FC<PlaceDetailPageProps> = ({ slug, onSaveToast }) => {
   const { isSaved, toggleSave } = useSavedPlaces()
+  const [, setActiveCityId] = useActiveCity()
   const { places } = useAppData()
   const [imageError, setImageError] = useState(false)
 
   const place = places.find((p) => p.slug === slug)
+
+  useEffect(() => {
+    if (place) {
+      setActiveCityId(place.cityId)
+    }
+  }, [place, setActiveCityId])
 
   if (!place) {
     return (
@@ -44,8 +51,24 @@ export const PlaceDetailPage: React.FC<PlaceDetailPageProps> = ({ slug, onSaveTo
     )
   }
 
-  const isDelhi = place.cityId === 'delhi'
-  const primaryColor = isDelhi ? '#8C2D19' : '#C85A32'
+  const cityPalettes: Record<string, string> = {
+    jaipur: '#C85A32',
+    udaipur: '#1B4965',
+    manali: '#1E4620',
+    varanasi: '#9B2226',
+    mussoorie: '#2E4057',
+    delhi: '#8C2D19',
+  }
+  const cityBgClasses: Record<string, string> = {
+    jaipur: 'theme-jaipur bg-[#FCF7F4]',
+    udaipur: 'theme-udaipur bg-[#F4F8FA]',
+    manali: 'theme-manali bg-[#F4F7F4]',
+    varanasi: 'theme-varanasi bg-[#FBF6EE]',
+    mussoorie: 'theme-mussoorie bg-[#F6F7F9]',
+    delhi: 'theme-delhi bg-[#F9F6F0]',
+  }
+  const primaryColor = cityPalettes[place.cityId.toLowerCase()] || '#8C2D19'
+  const bgClass = cityBgClasses[place.cityId.toLowerCase()] || 'bg-[#FAF7F2]'
   const saved = isSaved(place.id)
 
 
@@ -91,7 +114,7 @@ export const PlaceDetailPage: React.FC<PlaceDetailPageProps> = ({ slug, onSaveTo
   }
 
   return (
-    <div className={`min-h-screen ${isDelhi ? 'theme-delhi bg-[#F9F6F0]' : 'theme-jaipur bg-[#FCF7F4]'} pb-20`}>
+    <div className={`min-h-screen ${bgClass} pb-20`}>
       {/* Top Breadcrumb & Actions Bar */}
       <div className="border-b border-[#E5DACB] bg-white/70 backdrop-blur-xs">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">

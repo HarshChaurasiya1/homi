@@ -2,14 +2,15 @@ import React, { useState } from 'react'
 import { Link } from '../lib/router'
 import { useRouter } from '../lib/routerContext'
 import { BRAND } from '../config/brand'
-import { useSavedPlaces } from '../lib/storage'
+import { useSavedPlaces, useActiveCity } from '../lib/storage'
 import { useAppData } from '../lib/dataStore'
-import { Bookmark, Calendar, Menu, X, Heart, Shield, Compass } from 'lucide-react'
+import { Bookmark, Calendar, Menu, X, Heart, Shield, Compass, RotateCcw } from 'lucide-react'
 
 export const Header: React.FC = () => {
-  const { path } = useRouter()
+  const { path, navigate } = useRouter()
   const { count } = useSavedPlaces()
   const { cities } = useAppData()
+  const [activeCityId, setActiveCityId] = useActiveCity()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const isAdmin = path === '/admin'
@@ -17,7 +18,10 @@ export const Header: React.FC = () => {
   const isSaved = path === '/saved'
   const isHome = path === '/'
 
-  const cityList = Object.values(cities)
+  // Determine effective active city from route or storage
+  const routeCityId = path.startsWith('/') && path.length > 1 ? path.slice(1).toLowerCase() : null
+  const currentCityKey = (routeCityId && cities[routeCityId] ? routeCityId : activeCityId)?.toLowerCase() || null
+  const activeCity = currentCityKey ? cities[currentCityKey] : null
 
   // Color mapping fallback
   const cityColors: Record<string, string> = {
@@ -29,7 +33,11 @@ export const Header: React.FC = () => {
     delhi: '#8C2D19',
   }
 
-  const activeCity = cityList.find((c) => path === `/${c.id}`)
+  const handleClearCity = () => {
+    setActiveCityId(null)
+    setMobileMenuOpen(false)
+    navigate('/')
+  }
 
   return (
     <header className="sticky top-0 z-40 bg-[#FAF7F2]/95 backdrop-blur-md border-b border-[#E8DFD3] transition-colors">
@@ -38,6 +46,11 @@ export const Header: React.FC = () => {
         <div className="flex items-center gap-3">
           <Link
             to="/"
+            onClick={() => {
+              if (activeCity) {
+                // Return to clean discovery
+              }
+            }}
             className="group flex items-baseline gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8C2D19] rounded-md px-1"
             aria-label={`${BRAND.name} Home - ${BRAND.tagline}`}
           >
@@ -59,7 +72,7 @@ export const Header: React.FC = () => {
             ) : (
               <span className="flex items-center gap-1 text-[#554D45]">
                 <Compass className="w-3 h-3 text-[#8C2D19]" />
-                <span>User Board</span>
+                <span>{activeCity ? `${activeCity.name} Board` : 'User Board'}</span>
               </span>
             )}
           </div>
@@ -70,37 +83,47 @@ export const Header: React.FC = () => {
           <Link
             to="/"
             className={`px-3 py-1.5 rounded-full text-xs lg:text-sm font-medium transition-colors ${
-              isHome
+              isHome && !activeCity
                 ? 'bg-[#201C1A] text-white shadow-xs'
                 : 'text-[#48423E] hover:text-[#201C1A] hover:bg-[#EFE8DD]'
             }`}
           >
-            Discover
+            Home
           </Link>
 
-          {/* Dynamic City Pills directly in header */}
-          {cityList.slice(0, 5).map((city) => {
-            const active = path === `/${city.id}`
-            const color = cityColors[city.id] || '#8C2D19'
-            return (
+          {/* =========================================================================
+              IF A CITY IS SELECTED: ONLY SHOW THAT CITY (NEVER SHOW OTHER CITIES)
+             ========================================================================= */}
+          {activeCity ? (
+            <div className="flex items-center gap-2 pl-1 pr-2 py-0.5 rounded-full bg-[#F5EFE6] border border-[#E5DACB]">
               <Link
-                key={city.id}
-                to={`/${city.id}`}
-                className={`px-2.5 lg:px-3 py-1.5 rounded-full text-xs lg:text-sm font-medium transition-all flex items-center gap-1.5 ${
-                  active
-                    ? 'text-white shadow-xs font-semibold'
-                    : 'text-[#48423E] hover:text-[#201C1A] hover:bg-[#EFE8DD]'
-                }`}
-                style={{ backgroundColor: active ? color : undefined }}
+                to={`/${activeCity.id}`}
+                className="px-3 py-1 rounded-full text-xs font-bold text-white shadow-xs flex items-center gap-1.5"
+                style={{ backgroundColor: cityColors[activeCity.id] || '#8C2D19' }}
               >
-                <span
-                  className="w-1.5 h-1.5 rounded-full"
-                  style={{ backgroundColor: active ? '#FFFFFF' : color }}
-                ></span>
-                <span>{city.name}</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-white"></span>
+                <span>{activeCity.name}</span>
+                <span className="text-[10px] text-white/80 font-normal">
+                  ({activeCity.persona?.name?.split(' ')[1] || 'Host'})
+                </span>
               </Link>
-            )
-          })}
+
+              <button
+                type="button"
+                onClick={handleClearCity}
+                className="text-[11px] font-semibold text-[#8C8276] hover:text-[#8C2D19] transition-colors flex items-center gap-1 pr-1"
+                title="Choose a different destination"
+              >
+                <RotateCcw className="w-3 h-3" />
+                <span>Change City</span>
+              </button>
+            </div>
+          ) : (
+            /* If no city selected yet, show clean minimal destination picker */
+            <span className="text-xs text-[#8A8177] px-2 italic">
+              Select destination below
+            </span>
+          )}
 
           <div className="h-4 w-px bg-[#D5C9BC] mx-1"></div>
 
@@ -113,7 +136,7 @@ export const Header: React.FC = () => {
             }`}
           >
             <Calendar className="w-3.5 h-3.5" />
-            <span>Plan Trip</span>
+            <span>Itinerary</span>
           </Link>
 
           <Link
@@ -148,29 +171,37 @@ export const Header: React.FC = () => {
             }`}
           >
             <Shield className="w-3.5 h-3.5" />
-            <span>{isAdmin ? 'Exit Admin' : 'Admin Board'}</span>
+            <span>{isAdmin ? 'Exit Admin' : 'Admin'}</span>
           </Link>
         </nav>
 
         {/* Mobile Action Buttons */}
         <div className="flex md:hidden items-center gap-2">
-          {activeCity && (
-            <span
-              className="px-2.5 py-1 rounded-full text-[11px] font-bold text-white shadow-xs"
-              style={{ backgroundColor: cityColors[activeCity.id] || '#8C2D19' }}
-            >
-              {activeCity.name}
-            </span>
-          )}
+          {activeCity ? (
+            <div className="flex items-center gap-1.5">
+              <span
+                className="px-2.5 py-1 rounded-full text-[11px] font-bold text-white shadow-xs"
+                style={{ backgroundColor: cityColors[activeCity.id] || '#8C2D19' }}
+              >
+                {activeCity.name}
+              </span>
+              <button
+                onClick={handleClearCity}
+                className="p-1 rounded-lg text-[#7A7167] hover:text-[#8C2D19]"
+                aria-label="Change city"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          ) : null}
 
           <Link
             to="/admin"
-            className={`p-2 rounded-lg text-xs font-bold flex items-center gap-1 border ${
+            className={`p-1.5 rounded-lg text-xs font-bold flex items-center gap-1 border ${
               isAdmin ? 'bg-[#8C2D19] text-white border-[#8C2D19]' : 'bg-white border-[#E5DACB] text-[#201C1A]'
             }`}
           >
             <Shield className="w-3.5 h-3.5" />
-            <span>Admin</span>
           </Link>
 
           <Link
@@ -199,86 +230,52 @@ export const Header: React.FC = () => {
 
       {/* Mobile Drawer Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-[#E8DFD3] bg-[#FAF7F2] px-4 pt-3 pb-5 space-y-2 shadow-lg animate-in fade-in">
-          <div className="flex items-center justify-between pb-2 border-b border-[#E8DFD3]">
-            <span className="text-xs font-bold text-[#8A8177]">SELECT EXPERIENCE MODE:</span>
-            <div className="flex items-center gap-2">
-              <Link
-                to="/"
-                onClick={() => setMobileMenuOpen(false)}
-                className={`px-2.5 py-1 rounded-lg text-xs font-bold ${!isAdmin ? 'bg-[#201C1A] text-white' : 'bg-[#EFE8DC] text-[#554D45]'}`}
+        <div className="md:hidden border-t border-[#E8DFD3] bg-[#FAF7F2] px-4 pt-3 pb-5 space-y-3 shadow-lg animate-in fade-in">
+          {activeCity ? (
+            <div className="p-3 rounded-2xl bg-white border border-[#E5DACB] flex items-center justify-between">
+              <div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-[#8C2D19] block">
+                  Active Destination:
+                </span>
+                <span className="text-sm font-bold text-[#201C1A]">{activeCity.name}</span>
+                <span className="text-xs text-[#7A7167] block">Host: {activeCity.persona?.name}</span>
+              </div>
+              <button
+                onClick={handleClearCity}
+                className="px-3 py-1.5 rounded-xl bg-[#FAF7F2] border border-[#E5DACB] text-xs font-semibold text-[#8C2D19] flex items-center gap-1"
               >
-                User Board
-              </Link>
-              <Link
-                to="/admin"
-                onClick={() => setMobileMenuOpen(false)}
-                className={`px-2.5 py-1 rounded-lg text-xs font-bold ${isAdmin ? 'bg-[#8C2D19] text-white' : 'bg-[#EFE8DC] text-[#554D45]'}`}
-              >
-                Admin Board
-              </Link>
+                <RotateCcw className="w-3 h-3" />
+                <span>Switch City</span>
+              </button>
             </div>
-          </div>
+          ) : null}
 
-          <Link
-            to="/"
-            onClick={() => setMobileMenuOpen(false)}
-            className={`block px-3 py-2.5 rounded-xl text-base font-medium ${
-              isHome ? 'bg-[#201C1A] text-white' : 'text-[#48423E] hover:bg-[#EFE8DD]'
-            }`}
-          >
-            Discover All Destinations
-          </Link>
+          <div className="space-y-1">
+            <Link
+              to="/"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`block px-3 py-2 rounded-xl text-sm font-medium ${
+                isHome ? 'bg-[#201C1A] text-white' : 'text-[#48423E] hover:bg-[#EFE8DD]'
+              }`}
+            >
+              Home & Discover
+            </Link>
 
-          <div className="pt-2 pb-1 text-[11px] font-bold uppercase tracking-wider text-[#8A8177] px-3">
-            Destinations & Cities
-          </div>
-
-          <div className="space-y-1 pl-1">
-            {cityList.map((c) => {
-              const active = path === `/${c.id}`
-              const color = cityColors[c.id] || '#8C2D19'
-              return (
-                <Link
-                  key={c.id}
-                  to={`/${c.id}`}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
-                    active ? 'text-white' : 'text-[#201C1A] hover:bg-[#F2ECE1]'
-                  }`}
-                  style={{ backgroundColor: active ? color : undefined }}
-                >
-                  <div className="flex items-center gap-2">
-                    <span
-                      className="w-2 h-2 rounded-full"
-                      style={{ backgroundColor: active ? '#FFFFFF' : color }}
-                    ></span>
-                    <span>{c.name}</span>
-                  </div>
-                  <span className={`text-xs px-2 py-0.5 rounded-full ${active ? 'bg-white/20 text-white' : 'bg-[#EFE8DC] text-[#6E645A]'}`}>
-                    {c.persona?.name || 'Local Guide'}
-                  </span>
-                </Link>
-              )
-            })}
-          </div>
-
-          <div className="pt-2 border-t border-[#E8DFD3] space-y-1">
             <Link
               to="/planner"
               onClick={() => setMobileMenuOpen(false)}
-              className={`flex items-center gap-2 px-3 py-2.5 rounded-xl text-base font-medium ${
+              className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium ${
                 isPlanner ? 'bg-[#201C1A] text-white' : 'text-[#48423E] hover:bg-[#EFE8DD]'
               }`}
             >
               <Calendar className="w-4 h-4" />
-              <span>Itinerary & Budget Planner</span>
+              <span>Trip Itinerary</span>
             </Link>
 
             <Link
               to="/saved"
               onClick={() => setMobileMenuOpen(false)}
-              className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-base font-medium ${
+              className={`flex items-center justify-between px-3 py-2 rounded-xl text-sm font-medium ${
                 isSaved ? 'bg-[#8C2D19] text-white' : 'text-[#48423E] hover:bg-[#EFE8DD]'
               }`}
             >
@@ -296,7 +293,7 @@ export const Header: React.FC = () => {
             <Link
               to="/admin"
               onClick={() => setMobileMenuOpen(false)}
-              className={`flex items-center gap-2 px-3 py-2.5 rounded-xl text-base font-bold text-[#8C2D19] bg-[#F5EFE6]`}
+              className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-bold text-[#8C2D19] bg-[#F5EFE6]`}
             >
               <Shield className="w-4 h-4" />
               <span>Admin Board & Studio</span>

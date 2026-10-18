@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import type { CityId, PlaceCategory } from '../data/types'
 import { useAppData } from '../lib/dataStore'
 import { getRedditPicksForCity } from '../data/redditPicks'
 import { PlaceCard } from '../components/PlaceCard'
 import { Link } from '../lib/router'
+import { useActiveCity } from '../lib/storage'
 import { ThemeMotif, type MotifVariant } from '../components/ThemeMotif'
 import {
   Calendar,
@@ -24,9 +25,14 @@ interface CityPageProps {
 
 export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
   const { cities, places, dishes } = useAppData()
+  const [, setActiveCityId] = useActiveCity()
   const [selectedCategory, setSelectedCategory] = useState<PlaceCategory | 'all'>('all')
   const [activePhotoUrl, setActivePhotoUrl] = useState<string | null>(null)
   const redditSpots = getRedditPicksForCity(cityId)
+
+  useEffect(() => {
+    setActiveCityId(cityId)
+  }, [cityId, setActiveCityId])
 
   const city = cities[cityId.toLowerCase()]
   if (!city) {
