@@ -4,15 +4,14 @@ import { useAppData } from '../lib/dataStore'
 import { SearchBar } from '../components/SearchBar'
 import { PlaceCard } from '../components/PlaceCard'
 import { ThemeMotif, type MotifVariant } from '../components/ThemeMotif'
+import { InteractiveTripBuilder } from '../components/InteractiveTripBuilder'
 import { Link } from '../lib/router'
 import {
   ArrowRight,
   ShieldCheck,
   Sparkles,
   Utensils,
-  Calendar,
   Camera,
-  Shield,
 } from 'lucide-react'
 
 export const HomePage: React.FC<{ onSaveToast: (msg: string) => void }> = ({ onSaveToast }) => {
@@ -51,7 +50,7 @@ export const HomePage: React.FC<{ onSaveToast: (msg: string) => void }> = ({ onS
   return (
     <div className="space-y-16 sm:space-y-24 pb-12">
       {/* Hero Section */}
-      <section className="relative pt-10 sm:pt-16 pb-8 px-4 sm:px-6 max-w-6xl mx-auto text-center">
+      <section className="relative pt-10 sm:pt-14 pb-4 px-4 sm:px-6 max-w-6xl mx-auto text-center">
         {/* Subtle decorative architectural background accents */}
         <div className="absolute top-4 left-6 hidden lg:block opacity-25 pointer-events-none animate-float">
           <ThemeMotif type="jharokha-scallop" width={72} height={72} />
@@ -60,77 +59,30 @@ export const HomePage: React.FC<{ onSaveToast: (msg: string) => void }> = ({ onS
           <ThemeMotif type="mewar-arch-lake" width={72} height={72} />
         </div>
 
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EFE8DC] border border-[#DDD3C5] text-xs font-semibold uppercase tracking-wider text-[#732919] mb-6 shadow-2xs">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EFE8DC] border border-[#DDD3C5] text-xs font-semibold uppercase tracking-wider text-[#732919] mb-4 shadow-2xs">
           <Sparkles className="w-3.5 h-3.5 text-[#8C2D19]" />
-          <span>User Board • Curated Local Companions</span>
+          <span>User Board • Instant Interactive Companion</span>
         </div>
 
         <h1 className="font-editorial text-4xl sm:text-5xl md:text-6xl font-bold text-[#201C1A] tracking-tight max-w-3xl mx-auto leading-[1.12]">
           {BRAND.tagline}
         </h1>
 
-        <p className="mt-4 sm:mt-5 text-base sm:text-lg text-[#5D554C] max-w-2xl mx-auto leading-relaxed">
+        <p className="mt-3 sm:mt-4 text-base sm:text-lg text-[#5D554C] max-w-2xl mx-auto leading-relaxed">
           {BRAND.subtagline}
         </p>
 
         {/* Prominent Search Bar */}
-        <div className="mt-8 sm:mt-10 max-w-2xl mx-auto">
+        <div className="mt-6 sm:mt-8 max-w-2xl mx-auto">
           <SearchBar />
-          {/* Quick Filter City Pills */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mt-4 text-xs">
-            <span className="text-[#8C8276] font-medium mr-1">Direct explore:</span>
-            {cityCards.slice(0, 6).map((c) => (
-              <Link
-                key={c.id}
-                to={`/${c.id}`}
-                className="px-3 py-1 rounded-full bg-white border border-[#E5DACB] text-[#48423E] hover:text-[#201C1A] hover:border-[#8C2D19] transition-all hover:scale-103 shadow-2xs"
-              >
-                <span className="font-semibold">{c.name}</span>
-                <span className="text-[10px] text-[#8C8276] ml-1.5 hidden sm:inline">
-                  • {c.tasteOfCity?.signatureDish?.split(' ')[0]}
-                </span>
-              </Link>
-            ))}
-          </div>
         </div>
       </section>
 
       {/* =========================================================================
-          2-STEP USER BOARD QUICK PLANNER BANNER
+          INTERACTIVE 1-BY-1 QUESTION TRIP BUILDER (FRONT & CENTER ON OPEN)
          ========================================================================= */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="bg-gradient-to-r from-[#201C1A] to-[#38312D] text-white rounded-3xl p-6 sm:p-10 shadow-lg relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="space-y-3 max-w-xl">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-xs font-bold uppercase tracking-wider text-[#E5DACB]">
-              <Calendar className="w-3.5 h-3.5 text-[#E67E22]" />
-              <span>User Board • Instant Itinerary Engine</span>
-            </div>
-            <h2 className="font-editorial text-2xl sm:text-3xl md:text-4xl font-bold leading-tight">
-              Tell us 2 things & your budget. Your city friend plans the rest.
-            </h2>
-            <p className="text-xs sm:text-sm text-[#D5C9BC] leading-relaxed">
-              No endless research. Pick your city, days, and budget to get an authentic day-by-day itinerary curated with local slang and itemized expenses.
-            </p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
-            <Link
-              to="/planner"
-              className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-[#C85A32] text-white text-sm font-bold hover:bg-[#B34B25] transition-all flex items-center justify-center gap-2 shadow-sm text-center whitespace-nowrap"
-            >
-              <span>Try 2-Step Trip Planner</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-
-            <Link
-              to="/admin"
-              className="w-full sm:w-auto px-5 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all flex items-center justify-center gap-1.5 text-center whitespace-nowrap"
-            >
-              <Shield className="w-3.5 h-3.5" />
-              <span>Admin Studio</span>
-            </Link>
-          </div>
-        </div>
+        <InteractiveTripBuilder onSaveToast={onSaveToast} />
       </section>
 
       {/* Destinations & Cities Showcase */}
@@ -141,7 +93,7 @@ export const HomePage: React.FC<{ onSaveToast: (msg: string) => void }> = ({ onS
               Curated Destinations & Local Companions
             </span>
             <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-[#201C1A] mt-1">
-              Every City Has Its Own Soul & Authentic Host
+              Five Indian Souls, Each Guided by a Local Friend
             </h2>
           </div>
           <p className="text-xs sm:text-sm text-[#6E645A] max-w-md">

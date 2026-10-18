@@ -87,6 +87,19 @@ export interface CityPersona {
   localTip: string
 }
 
+export interface RedditFavoriteSpot {
+  id: string
+  cityId: CityId
+  type: 'sunset' | 'cafe' | 'food' | 'secret_gem'
+  title: string
+  neighborhood: string
+  photo: string
+  bestTimeOrOrder: string
+  redditQuote: string
+  priceOrEntry: string
+  tag: string
+}
+
 export interface CityInfo {
   id: CityId
   name: string
@@ -105,6 +118,7 @@ export interface CityInfo {
   themeClass: string
   galleryPhotos: string[]
   persona: CityPersona
+  redditPicks?: RedditFavoriteSpot[]
   tasteOfCity: {
     headline: string
     flavors: string[]

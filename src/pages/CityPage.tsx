@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import type { CityId, PlaceCategory } from '../data/types'
 import { useAppData } from '../lib/dataStore'
+import { getRedditPicksForCity } from '../data/redditPicks'
 import { PlaceCard } from '../components/PlaceCard'
 import { Link } from '../lib/router'
 import { ThemeMotif, type MotifVariant } from '../components/ThemeMotif'
@@ -11,6 +12,9 @@ import {
   Camera,
   ShieldCheck,
   Quote,
+  Sun,
+  Coffee,
+  MessageSquare,
 } from 'lucide-react'
 
 interface CityPageProps {
@@ -22,6 +26,7 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
   const { cities, places, dishes } = useAppData()
   const [selectedCategory, setSelectedCategory] = useState<PlaceCategory | 'all'>('all')
   const [activePhotoUrl, setActivePhotoUrl] = useState<string | null>(null)
+  const redditSpots = getRedditPicksForCity(cityId)
 
   const city = cities[cityId.toLowerCase()]
   if (!city) {
@@ -277,6 +282,59 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
               </div>
             </div>
           </div>
+        )}
+
+        {/* =========================================================================
+            REDDIT & DISCORD COMMUNITY TRAVELER PICKS FOR THIS CITY
+           ========================================================================= */}
+        {redditSpots.length > 0 && (
+          <section className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E5DACB] shadow-xs space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-[#F2ECE1] pb-4">
+              <div>
+                <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#D97706] mb-1">
+                  <MessageSquare className="w-3.5 h-3.5" />
+                  <span>Real Traveler Voted • Reddit & Discord Consensus</span>
+                </div>
+                <h2 className="font-editorial text-2xl font-bold text-[#201C1A]">
+                  Best Cafes, Sunsets & Hangouts in {city.name}
+                </h2>
+              </div>
+              <span className="text-xs text-[#7A7167]">
+                Community verified by r/{city.id} travelers
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {redditSpots.map((spot) => (
+                <div
+                  key={spot.id}
+                  className="rounded-2xl overflow-hidden border border-[#EFE7DC] bg-[#FAF7F2] flex flex-col justify-between photo-card-zoom"
+                >
+                  <div className="relative h-36 overflow-hidden">
+                    <img src={spot.photo} alt={spot.title} className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                    <span className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-black/60 text-white text-[10px] font-bold flex items-center gap-1 backdrop-blur-xs">
+                      {spot.type === 'sunset' ? <Sun className="w-3 h-3 text-amber-400" /> : <Coffee className="w-3 h-3 text-sky-300" />}
+                      <span>{spot.tag}</span>
+                    </span>
+                    <div className="absolute bottom-2 left-3 right-3 text-white">
+                      <span className="text-[10px] text-white/80 block">{spot.neighborhood}</span>
+                      <h4 className="font-editorial text-sm font-bold leading-tight">{spot.title}</h4>
+                    </div>
+                  </div>
+
+                  <div className="p-3.5 space-y-2 flex-grow flex flex-col justify-between text-xs">
+                    <p className="text-[11px] text-[#554D45] italic leading-relaxed">
+                      {spot.redditQuote}
+                    </p>
+                    <div className="pt-2 border-t border-[#EFE7DC] text-[11px] font-semibold text-[#8C2D19]">
+                      {spot.bestTimeOrOrder}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
         )}
 
         {/* =========================================================================
