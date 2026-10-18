@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, Suspense, lazy } from 'react'
 import { RouterProvider } from './lib/router'
 import { useRouter } from './lib/routerContext'
 
@@ -6,15 +6,16 @@ import { Header } from './components/Header'
 import { Footer } from './components/Footer'
 import { BottomNav } from './components/BottomNav'
 import { Toast } from './components/Toast'
-import { HomePage } from './pages/HomePage'
-import { CityPage } from './pages/CityPage'
-import { PlaceDetailPage } from './pages/PlaceDetailPage'
-import { PlannerPage } from './pages/PlannerPage'
-import { SavedPlacesPage } from './pages/SavedPlacesPage'
-import { AdminBoardPage } from './pages/AdminBoardPage'
-import { ProfilePage } from './pages/ProfilePage'
 import { useAppData } from './lib/dataStore'
 import { Link } from './lib/router'
+
+const HomePage = lazy(() => import('./pages/HomePage').then((m) => ({ default: m.HomePage })))
+const CityPage = lazy(() => import('./pages/CityPage').then((m) => ({ default: m.CityPage })))
+const PlaceDetailPage = lazy(() => import('./pages/PlaceDetailPage').then((m) => ({ default: m.PlaceDetailPage })))
+const PlannerPage = lazy(() => import('./pages/PlannerPage').then((m) => ({ default: m.PlannerPage })))
+const SavedPlacesPage = lazy(() => import('./pages/SavedPlacesPage').then((m) => ({ default: m.SavedPlacesPage })))
+const AdminBoardPage = lazy(() => import('./pages/AdminBoardPage').then((m) => ({ default: m.AdminBoardPage })))
+const ProfilePage = lazy(() => import('./pages/ProfilePage').then((m) => ({ default: m.ProfilePage })))
 
 const MainContent: React.FC = () => {
   const { path, params } = useRouter()
@@ -75,7 +76,11 @@ const MainContent: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#201C1A] selection:bg-[#8C2D19] selection:text-white">
       <Header />
-      <main className="flex-grow">{renderCurrentRoute()}</main>
+      <main className="flex-grow">
+        <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center text-xs text-stone-500 font-medium">Loading experience...</div>}>
+          {renderCurrentRoute()}
+        </Suspense>
+      </main>
       <Footer />
       <BottomNav />
       <Toast message={toastMessage} onClose={() => setToastMessage(null)} />

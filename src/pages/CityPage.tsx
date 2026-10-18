@@ -21,6 +21,7 @@ import {
   ChevronDown,
   ChevronUp,
 } from 'lucide-react'
+import { RealWorldTravelIntelligence } from '../components/RealWorldTravelIntelligence'
 
 interface CityPageProps {
   cityId: CityId
@@ -520,6 +521,15 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
             </div>
           </div>
         </section>
+
+        {/* =========================================================================
+            REAL-WORLD TRAVEL INTELLIGENCE ENGINE (EXECUTION-LEVEL TIMING & LOGISTICS)
+           ========================================================================= */}
+        {cityId.toLowerCase() === 'varanasi' && (
+          <section className="space-y-6">
+            <RealWorldTravelIntelligence />
+          </section>
+        )}
 
         {/* =========================================================================
             CURATED PLACES GRID WITH CATEGORY FILTERS
