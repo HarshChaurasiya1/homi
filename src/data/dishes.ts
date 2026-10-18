@@ -126,7 +126,7 @@ export const LOCAL_DISHES: LocalDish[] = [
     iconicSpotName: 'Kashi Chaat Bhandar',
     spotNeighborhood: 'Dashashwamedh Ghat Road, Varanasi',
     approxPriceInr: 60,
-    image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80',
+    image: '/assets/cities/varanasi/food-and-sweets/tamatar-chaat-desi-ghee-spiced.webp',
   },
   {
     id: 'varanasi-malaiyo',
@@ -141,7 +141,7 @@ export const LOCAL_DISHES: LocalDish[] = [
     iconicSpotName: 'Shreeji Sweets & Markandey Malaiyo',
     spotNeighborhood: 'Thatheri Bazaar, Chowk, Varanasi',
     approxPriceInr: 50,
-    image: 'https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?auto=format&fit=crop&w=800&q=80',
+    image: '/assets/cities/varanasi/food-and-sweets/varanasi-malaiyo-earthen-kullhad.webp',
   },
   {
     id: 'varanasi-banarasi-paan',
@@ -156,7 +156,37 @@ export const LOCAL_DISHES: LocalDish[] = [
     iconicSpotName: 'Keshav Tambool Bhandar',
     spotNeighborhood: 'Near Lanka Gate, Banaras Hindu University',
     approxPriceInr: 35,
-    image: 'https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?auto=format&fit=crop&w=800&q=80',
+    image: '/assets/cities/varanasi/food-and-sweets/banarasi-meetha-paan-gulkand.webp',
+  },
+  {
+    id: 'varanasi-kachori-jalebi',
+    cityId: 'varanasi',
+    name: 'Ram Bhandar Urad Dal Kachori & Crisp Jalebi',
+    hindiName: 'कचौड़ी-जलेबी',
+    type: 'snack',
+    description:
+      'Crispy, hollow urad dal kachoris crushed over fiery hing potato curry, accompanied by piping hot golden syrup jalebis.',
+    originStory:
+      'The sacred dawn breakfast ritual of Varanasi residents since the early 19th century.',
+    iconicSpotName: 'Ram Bhandar',
+    spotNeighborhood: 'Thatheri Bazaar, Chowk',
+    approxPriceInr: 70,
+    image: '/assets/cities/varanasi/food-and-sweets/rambhandar-kachori-sabzi-jalebi.webp',
+  },
+  {
+    id: 'varanasi-blue-lassi',
+    cityId: 'varanasi',
+    name: 'Hand-Churned Creamy Rabri & Fruit Lassi',
+    hindiName: 'बनारसी लस्सी',
+    type: 'sweet',
+    description:
+      'Thick, velvety hand-churned yogurt topped with thick malai cream, rabri, roasted pistachios, and fresh pomegranate.',
+    originStory:
+      'Hand-churned with traditional wooden mathani in tiny earthen cups for over 90 years.',
+    iconicSpotName: 'Blue Lassi Shop',
+    spotNeighborhood: 'Bangali Tola (near Manikarnika Ghat)',
+    approxPriceInr: 80,
+    image: '/assets/cities/varanasi/food-and-sweets/blue-lassi-pomegranate-rabri.webp',
   },
 
   // ==================== MUSSOORIE ====================

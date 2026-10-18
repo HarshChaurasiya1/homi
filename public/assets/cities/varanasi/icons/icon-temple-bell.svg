@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <!-- Hanging loop -->
+  <circle cx="24" cy="8" r="4" fill="none" stroke="#D97706" stroke-width="2.5" />
+  <!-- Bell Body -->
+  <path d="M19,12 L29,12 C30,22 37,26 37,34 L11,34 C11,26 18,22 19,12 Z" fill="#F59E0B" stroke="#B45309" stroke-width="1.5" />
+  <!-- Rim -->
+  <rect x="8" y="34" width="32" height="4" rx="2" fill="#D97706" />
+  <!-- Clapper -->
+  <circle cx="24" cy="41" r="3" fill="#78350F" />
+</svg>

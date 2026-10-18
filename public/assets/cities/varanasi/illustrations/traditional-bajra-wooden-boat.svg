@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="hullWood" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#854D0E" />
+      <stop offset="60%" stop-color="#713F12" />
+      <stop offset="100%" stop-color="#3F2208" />
+    </linearGradient>
+    <linearGradient id="riverWater" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0F766E" />
+      <stop offset="50%" stop-color="#14B8A6" />
+      <stop offset="100%" stop-color="#0F766E" />
+    </linearGradient>
+    <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FEF08A" stop-opacity="0.9" />
+      <stop offset="60%" stop-color="#F59E0B" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#F59E0B" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <!-- Morning Sun -->
+  <circle cx="380" cy="90" r="55" fill="url(#sunGlow)" />
+  <circle cx="380" cy="90" r="32" fill="#FDE047" />
+
+  <!-- River water base -->
+  <path d="M0,210 Q120,200 250,215 T500,210 L500,300 L0,300 Z" fill="url(#riverWater)" opacity="0.9" />
+  <path d="M0,230 Q140,220 280,235 T500,230 L500,300 L0,300 Z" fill="#0D5E57" />
+
+  <!-- Boat hull (Banarasi Bajra curved silhouette) -->
+  <path d="M70,165 C140,215 340,215 420,165 C380,210 130,210 70,165 Z" fill="url(#hullWood)" />
+  <!-- Boat planks / ribs -->
+  <path d="M90,173 Q250,212 400,173" stroke="#A16207" stroke-width="2" fill="none" />
+  <path d="M110,183 Q250,216 380,183" stroke="#542C07" stroke-width="1.8" fill="none" />
+
+  <!-- Wooden mast and canvas canopy canopy -->
+  <line x1="240" y1="180" x2="240" y2="85" stroke="#451A03" stroke-width="4.5" />
+  <!-- Bamboo cross poles -->
+  <line x1="170" y1="110" x2="310" y2="110" stroke="#78350F" stroke-width="3" />
+  <!-- Cloth awning -->
+  <path d="M165,112 Q240,102 315,112 L305,135 Q240,128 175,135 Z" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1" />
+  <path d="M185,110 L185,133 M215,108 L215,131 M245,107 L245,130 M275,108 L275,131 M295,110 L295,133" stroke="#EF4444" stroke-width="2.5" />
+
+  <!-- Steering Oar (Chappu) dipping into the Ganga -->
+  <line x1="120" y1="160" x2="50" y2="240" stroke="#713F12" stroke-width="4" stroke-linecap="round" />
+  <!-- Oar paddle -->
+  <ellipse cx="45" cy="245" rx="14" ry="7" transform="rotate(-40 45 245)" fill="#542C07" />
+  <!-- Water ripples around oar -->
+  <ellipse cx="45" cy="250" rx="22" ry="4" fill="none" stroke="#99F6E4" stroke-width="1.5" />
+
+  <!-- Marigold garland on bow -->
+  <path d="M380,172 Q405,180 415,170" stroke="#EA580C" stroke-width="3" stroke-dasharray="2,3" fill="none" />
+</svg>

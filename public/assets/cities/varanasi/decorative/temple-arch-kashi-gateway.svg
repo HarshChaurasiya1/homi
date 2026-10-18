@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" width="100%" height="100%">
+  <defs>
+    <linearGradient id="stoneArch" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#9A3412" />
+      <stop offset="50%" stop-color="#C2410C" />
+      <stop offset="100%" stop-color="#78350F" />
+    </linearGradient>
+  </defs>
+  <!-- Gateway Pillars -->
+  <rect x="20" y="100" width="24" height="130" fill="url(#stoneArch)" rx="2" />
+  <rect x="156" y="100" width="24" height="130" fill="url(#stoneArch)" rx="2" />
+  <!-- Pillar bases -->
+  <rect x="14" y="220" width="36" height="14" fill="#451A03" rx="2" />
+  <rect x="150" y="220" width="36" height="14" fill="#451A03" rx="2" />
+  <!-- Cusped trefoil arch -->
+  <path d="M44,100 C44,60 70,50 100,20 C130,50 156,60 156,100" fill="none" stroke="url(#stoneArch)" stroke-width="16" stroke-linecap="round" />
+  <!-- Inner scalloped border -->
+  <path d="M54,105 C54,72 76,62 100,38 C124,62 146,72 146,105" fill="none" stroke="#FDE68A" stroke-width="2.5" stroke-dasharray="3,3" />
+  <!-- Shikhara kalash pinnacle above arch -->
+  <circle cx="100" cy="14" r="5" fill="#F59E0B" />
+  <path d="M96,14 L100,4 L104,14 Z" fill="#D97706" />
+</svg>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120" width="100%" height="100%">
+  <style>
+    @keyframes bellRing {
+      0%, 100% { transform: rotate(0deg); }
+      15% { transform: rotate(14deg); }
+      30% { transform: rotate(-12deg); }
+      45% { transform: rotate(8deg); }
+      60% { transform: rotate(-6deg); }
+      75% { transform: rotate(2deg); }
+    }
+    @keyframes soundWave {
+      0% { opacity: 0; transform: scale(0.6); }
+      50% { opacity: 0.8; }
+      100% { opacity: 0; transform: scale(1.4); }
+    }
+    .bell-group { animation: bellRing 4s ease-in-out infinite; transform-origin: 50px 15px; cursor: pointer; }
+    .sound-pulse { animation: soundWave 4s ease-out infinite; transform-origin: 50px 80px; }
+  </style>
+
+  <!-- Hanging Chain -->
+  <line x1="50" y1="0" x2="50" y2="15" stroke="#B45309" stroke-width="3" />
+
+  <!-- Acoustic Ring Pulses -->
+  <circle cx="50" cy="80" r="30" fill="none" stroke="#F59E0B" stroke-width="1.5" class="sound-pulse" opacity="0" />
+
+  <!-- Swinging Bell Assembly -->
+  <g class="bell-group">
+    <!-- Top loop -->
+    <circle cx="50" cy="18" r="5" fill="none" stroke="#D97706" stroke-width="2.5" />
+    <!-- Bell dome -->
+    <path d="M42,24 L58,24 C60,42 72,50 72,66 L28,66 C28,50 40,42 42,24 Z" fill="#F59E0B" stroke="#B45309" stroke-width="2" />
+    <!-- Flared lip -->
+    <rect x="24" y="66" width="52" height="6" rx="3" fill="#D97706" stroke="#92400E" stroke-width="1.5" />
+    <!-- Clapper ball -->
+    <circle cx="50" cy="76" r="5" fill="#78350F" />
+  </g>
+</svg>

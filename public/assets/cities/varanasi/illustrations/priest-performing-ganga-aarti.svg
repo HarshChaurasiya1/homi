@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 450" width="100%" height="100%">
+  <defs>
+    <radialGradient id="flameGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FEF08A" stop-opacity="1" />
+      <stop offset="35%" stop-color="#F59E0B" stop-opacity="0.8" />
+      <stop offset="70%" stop-color="#EA580C" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#991B1B" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="brassLamp" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D97706" />
+      <stop offset="50%" stop-color="#FDE047" />
+      <stop offset="100%" stop-color="#92400E" />
+    </linearGradient>
+  </defs>
+
+  <!-- Big fire aura -->
+  <circle cx="200" cy="150" r="130" fill="url(#flameGlow)" />
+
+  <!-- Multi-tiered heavy brass Aarti Lamp (Deepam) -->
+  <!-- Topmost tier flame -->
+  <path d="M200,60 Q206,80 200,95 Q194,80 200,60 Z" fill="#FEF08A" />
+  <ellipse cx="200" cy="95" rx="12" ry="4" fill="url(#brassLamp)" />
+  <!-- Second tier flames (3 flames) -->
+  <path d="M185,90 Q190,105 185,115 Q180,105 185,90 Z" fill="#FDE047" />
+  <path d="M200,85 Q205,102 200,115 Q195,102 200,85 Z" fill="#FEF08A" />
+  <path d="M215,90 Q220,105 215,115 Q210,105 215,90 Z" fill="#FDE047" />
+  <ellipse cx="200" cy="118" rx="26" ry="6" fill="url(#brassLamp)" />
+  <!-- Third tier flames (5 flames) -->
+  <ellipse cx="200" cy="144" rx="42" ry="8" fill="url(#brassLamp)" />
+  <!-- Fourth tier flames (7 flames) -->
+  <ellipse cx="200" cy="172" rx="58" ry="10" fill="url(#brassLamp)" />
+  <!-- Bottom tier flames (9 flames) -->
+  <ellipse cx="200" cy="204" rx="72" ry="12" fill="url(#brassLamp)" />
+
+  <!-- Multi-tiered brass lamp stand -->
+  <path d="M192,204 L190,265 L175,275 L225,275 L210,265 L208,204 Z" fill="url(#brassLamp)" />
+  <!-- Snake hood handle (Sheshnaag brass motif) -->
+  <path d="M175,260 C140,240 135,190 155,160 C165,145 180,140 185,145" fill="none" stroke="url(#brassLamp)" stroke-width="7" stroke-linecap="round" />
+
+  <!-- Priest Silhouette in Devotion (Saffron Kurta & Dhoti) -->
+  <!-- Hands holding lamp base -->
+  <path d="M170,270 L195,272 L210,285 L180,288 Z" fill="#9A3412" />
+  <path d="M215,270 L235,272 L245,285 L220,288 Z" fill="#9A3412" />
+  <!-- Arms & shoulders -->
+  <path d="M130,350 L170,275 L185,285 L155,365 Z" fill="#EA580C" />
+  <path d="M270,350 L230,275 L215,285 L245,365 Z" fill="#EA580C" />
+  <!-- Torso clad in saffron -->
+  <path d="M150,330 L250,330 L260,430 L140,430 Z" fill="#C2410C" />
+  <path d="M175,330 L200,370 L225,330 Z" fill="#FEF3C7" opacity="0.6" />
+  <!-- Devotional head profile / tilak -->
+  <ellipse cx="200" cy="300" rx="20" ry="24" fill="#9A3412" />
+  <path d="M198,285 L202,285 L200,305 Z" fill="#DC2626" /> <!-- Chandan Tilak -->
+
+  <!-- Incense smoke swirls -->
+  <path d="M160,130 C130,90 150,50 130,20" fill="none" stroke="#FDE68A" stroke-width="2" opacity="0.4" stroke-dasharray="4,4" />
+  <path d="M240,130 C270,90 250,50 270,20" fill="none" stroke="#FDE68A" stroke-width="2" opacity="0.4" stroke-dasharray="4,4" />
+</svg>

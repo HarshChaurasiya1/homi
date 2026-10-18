@@ -16,6 +16,10 @@ import {
   Sun,
   Coffee,
   MessageSquare,
+  Film,
+  CheckCircle2,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react'
 
 interface CityPageProps {
@@ -28,6 +32,7 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
   const [, setActiveCityId] = useActiveCity()
   const [selectedCategory, setSelectedCategory] = useState<PlaceCategory | 'all'>('all')
   const [activePhotoUrl, setActivePhotoUrl] = useState<string | null>(null)
+  const [showCredits, setShowCredits] = useState(false)
   const redditSpots = getRedditPicksForCity(cityId)
 
   useEffect(() => {
@@ -555,6 +560,128 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
             ))}
           </div>
         </section>
+
+        {/* =========================================================================
+            VARANASI VISUAL ASSET SHOWCASE & EDITORIAL ACCREDITATION
+           ========================================================================= */}
+        {cityId.toLowerCase() === 'varanasi' && (
+          <section className="space-y-6">
+            <div className="bg-gradient-to-br from-[#FFFBEB] via-[#FDF6E2] to-[#FEF3C7] rounded-3xl p-6 sm:p-8 border border-[#FDE68A] shadow-xs space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#FDE68A] pb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-2xl bg-[#EA580C]/10 border border-[#EA580C]/20 flex items-center justify-center text-[#EA580C]">
+                    <Film className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#EA580C]">
+                      Visual Asset Library • 91 Verified Assets
+                    </span>
+                    <h2 className="font-editorial text-2xl font-bold text-[#201C1A]">
+                      Atmospheric Motion & Riverfront Vistas
+                    </h2>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="px-3 py-1 rounded-full bg-white/80 border border-[#FDE68A] text-[11px] font-semibold text-[#9A3412]">
+                    100% Offline-Ready WebP & SVG
+                  </span>
+                </div>
+              </div>
+
+              {/* Video & Animated SVG Row */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                <div className="space-y-2">
+                  <div className="relative rounded-2xl overflow-hidden aspect-video border border-[#FDE68A] shadow-md bg-stone-900">
+                    <video
+                      poster="/assets/cities/varanasi/posters/video-poster-sunrise-boat.webp"
+                      className="w-full h-full object-cover"
+                      controls
+                      playsInline
+                      preload="none"
+                    >
+                      <source src="/assets/cities/varanasi/video/subah-e-banaras-sunrise-loop.mp4" type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                  <div className="flex items-center justify-between text-xs text-[#78350F] px-1">
+                    <span className="font-medium">Subah-e-Banaras Morning Dawn Loop</span>
+                    <span className="text-[11px] text-[#B45309]">Optimized MP4 (770 KB)</span>
+                  </div>
+                </div>
+
+                <div className="bg-white/80 backdrop-blur-xs rounded-2xl p-5 border border-[#FDE68A] space-y-4">
+                  <div className="flex items-start gap-3">
+                    <img
+                      src="/assets/cities/varanasi/animated/animated-floating-diya.svg"
+                      alt="Animated Sacred Diya"
+                      className="w-20 h-16 object-contain shrink-0"
+                    />
+                    <div>
+                      <h4 className="font-editorial text-base font-bold text-[#201C1A]">
+                        Sacred Ganga Diya Motion
+                      </h4>
+                      <p className="text-xs text-[#78350F] mt-1 leading-relaxed">
+                        Pure vector keyframe physics simulation of a devout earthen lamp floating down the sacred Ganga with flickering flame and water ripple physics.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="pt-3 border-t border-[#FEF3C7] grid grid-cols-3 gap-2 text-center text-xs">
+                    <div className="p-2 rounded-xl bg-[#FFFBEB]">
+                      <div className="font-bold text-[#9A3412]">64</div>
+                      <div className="text-[10px] text-[#78350F]">WebP Photos</div>
+                    </div>
+                    <div className="p-2 rounded-xl bg-[#FFFBEB]">
+                      <div className="font-bold text-[#0F766E]">23</div>
+                      <div className="text-[10px] text-[#0F766E]">Bespoke SVGs</div>
+                    </div>
+                    <div className="p-2 rounded-xl bg-[#FFFBEB]">
+                      <div className="font-bold text-[#EA580C]">20</div>
+                      <div className="text-[10px] text-[#EA580C]">Categories</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Collapsible Photo & Cultural Credits Drawer */}
+              <div className="pt-2 border-t border-[#FDE68A]/60">
+                <button
+                  onClick={() => setShowCredits(!showCredits)}
+                  className="w-full flex items-center justify-between py-2 text-xs font-bold text-[#9A3412] hover:text-[#EA580C] transition-colors"
+                >
+                  <span className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                    <span>View Photographic Accreditation & Creative Commons Register</span>
+                  </span>
+                  {showCredits ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                </button>
+
+                {showCredits && (
+                  <div className="mt-3 p-4 rounded-2xl bg-white border border-[#E5DACB] space-y-3 text-xs text-[#554D45] animate-in fade-in duration-200">
+                    <div className="flex items-center justify-between pb-2 border-b border-[#F2ECE1]">
+                      <span className="font-bold text-[#201C1A]">Curated Photographers & Archivists</span>
+                      <span className="text-[10px] text-stone-500">Documented in ASSET_REGISTER.csv</span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] leading-relaxed">
+                      <div>
+                        <strong>Ghats & Riverfront:</strong> Joshua Newton, Shalender Kumar, Nomadic Julien, Sylvain Mauroux (Unsplash Free Editorial License).
+                      </div>
+                      <div>
+                        <strong>Heritage Monuments:</strong> Gerd Eichmann, Jean-Pierre Dalbéra, Nitin Vyas (Wikimedia Commons CC BY-SA 4.0 / CC BY 2.0).
+                      </div>
+                      <div>
+                        <strong>Food & Crafts:</strong> Prabal Goyal, Shakti Rajpurohit, Apoorv Srivastav, Annie Spratt (Unsplash Free License).
+                      </div>
+                      <div>
+                        <strong>Ethical Protocol:</strong> Manikarnika & Harishchandra burning ghats photographed exclusively from reverent distant river perspective.
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+        )}
       </div>
 
       {/* Lightbox Preview Modal */}

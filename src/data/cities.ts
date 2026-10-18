@@ -153,16 +153,18 @@ export const CITIES: Record<string, CityInfo> = {
       'Photography is strictly prohibited at Manikarnika and Harishchandra burning ghats out of respect for bereaved families.',
     transportTip:
       'The ancient riverside is completely pedestrian. Wear sturdy slip-on walking shoes. Electric e-rickshaws operate on outer boulevard arteries.',
-    heroImage: 'https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=1200&q=80',
-    heroImageAlt: 'Ancient stone ghats of Varanasi on river Ganges with morning boats and temples',
+    heroImage: '/assets/cities/varanasi/hero/varanasi-hero-sunrise-panoramic.webp',
+    heroImageAlt: 'Subah-e-Banaras Golden Sunrise over the Ganges Crescent',
     themeClass: 'theme-varanasi',
     galleryPhotos: [
-      'https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=800&q=80', // Ghats morning
-      'https://images.unsplash.com/photo-1571536802807-30451e3955d8?auto=format&fit=crop&w=800&q=80', // Ganga Aarti brass lamps
-      'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=800&q=80', // Old Kashi alleys
-      'https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=800&q=80', // Assi Ghat boat
-      'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80', // Floating Diya
-      'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80', // Tamatar chaat kulhad
+      '/assets/cities/varanasi/hero/varanasi-hero-sunrise-panoramic.webp',
+      '/assets/cities/varanasi/hero/varanasi-hero-evening-aarti.webp',
+      '/assets/cities/varanasi/old-city-lanes/kachori-gali-winding-alley.webp',
+      '/assets/cities/varanasi/ganga-and-boats/morning-wooden-bajra-boat.webp',
+      '/assets/cities/varanasi/ganga-and-boats/floating-marigold-earthen-diya.webp',
+      '/assets/cities/varanasi/food-and-sweets/tamatar-chaat-desi-ghee-spiced.webp',
+      '/assets/cities/varanasi/ghats/chet-singh-ghat-fortress.webp',
+      '/assets/cities/varanasi/markets-and-crafts/banarasi-silk-weaver-handloom.webp',
     ],
     persona: {
       name: 'Aapke Banarasi Bhaiya (Guru)',

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <!-- Rim -->
+  <ellipse cx="24" cy="12" rx="14" ry="4" fill="#C2410C" />
+  <!-- Clay cup body -->
+  <path d="M10,12 L14,38 Q24,42 34,38 L38,12 Z" fill="#9A3412" />
+  <!-- Ridge markings -->
+  <path d="M12,22 Q24,25 36,22" stroke="#7C2D12" stroke-width="1.5" fill="none" />
+  <path d="M13,30 Q24,33 35,30" stroke="#7C2D12" stroke-width="1.5" fill="none" />
+</svg>

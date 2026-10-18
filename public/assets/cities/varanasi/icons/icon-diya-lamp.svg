@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <path d="M8,30 C12,38 36,38 40,30 C36,34 12,34 8,30 Z" fill="#9A3412" />
+  <ellipse cx="24" cy="30" rx="16" ry="4" fill="#C2410C" />
+  <!-- Flame -->
+  <path d="M24,10 C27,16 29,22 24,28 C19,22 21,16 24,10 Z" fill="#F59E0B" />
+  <path d="M24,15 C26,19 27,23 24,27 C21,23 22,19 24,15 Z" fill="#FEF08A" />
+</svg>

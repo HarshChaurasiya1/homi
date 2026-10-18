@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="clayKulhad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#9A3412" />
+      <stop offset="40%" stop-color="#C2410C" />
+      <stop offset="100%" stop-color="#7C2D12" />
+    </linearGradient>
+    <linearGradient id="teaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#D97706" />
+      <stop offset="100%" stop-color="#B45309" />
+    </linearGradient>
+    <linearGradient id="tomatoChaat" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#DC2626" />
+      <stop offset="60%" stop-color="#B91C1C" />
+      <stop offset="100%" stop-color="#991B1B" />
+    </linearGradient>
+  </defs>
+
+  <!-- Left: Terracotta Kulhad Chai -->
+  <!-- Steam swirls -->
+  <path d="M120,90 Q110,60 130,35 Q145,15 125,5" fill="none" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round" opacity="0.6" />
+  <path d="M140,85 Q150,55 135,30 Q120,10 145,2" fill="none" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round" opacity="0.6" />
+  <!-- Kulhad rim & tea surface -->
+  <ellipse cx="130" cy="110" rx="38" ry="12" fill="url(#teaGradient)" />
+  <ellipse cx="130" cy="110" rx="42" ry="14" fill="none" stroke="#7C2D12" stroke-width="3" />
+  <!-- Kulhad clay body (tapering downwards) -->
+  <path d="M88,110 L104,220 Q130,230 156,220 L172,110 Z" fill="url(#clayKulhad)" />
+  <!-- Clay grooves / potter wheel marks -->
+  <path d="M96,145 Q130,155 164,145" stroke="#7C2D12" stroke-width="2" fill="none" />
+  <path d="M100,180 Q130,190 160,180" stroke="#7C2D12" stroke-width="2" fill="none" />
+
+  <!-- Right: Shallow Clay Shikora / Dona containing Tamatar Chaat -->
+  <ellipse cx="270" cy="180" rx="75" ry="32" fill="url(#clayKulhad)" />
+  <!-- Fiery tomato chaat mixture -->
+  <ellipse cx="270" cy="176" rx="68" ry="26" fill="url(#tomatoChaat)" />
+  <!-- Desi Ghee glistening pool -->
+  <ellipse cx="260" cy="172" rx="28" ry="10" fill="#FBBF24" opacity="0.75" />
+  <!-- Sev / crunchy gram flour crisps on top -->
+  <line x1="240" y1="170" x2="255" y2="168" stroke="#FEF08A" stroke-width="2" />
+  <line x1="260" y1="165" x2="275" y2="167" stroke="#FEF08A" stroke-width="2" />
+  <line x1="280" y1="172" x2="295" y2="169" stroke="#FEF08A" stroke-width="2" />
+  <line x1="250" y1="175" x2="265" y2="173" stroke="#FEF08A" stroke-width="2" />
+  <!-- Fresh coriander green flakes -->
+  <circle cx="245" cy="172" r="2.5" fill="#16A34A" />
+  <circle cx="275" cy="170" r="2.5" fill="#16A34A" />
+  <circle cx="290" cy="175" r="2" fill="#16A34A" />
+  <!-- Wooden chaat spoon / chamach -->
+  <path d="M320,130 L275,175 Q270,180 278,182 L330,138 Z" fill="#FDE68A" stroke="#B45309" stroke-width="1" />
+</svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 80" width="100%" height="80">
+  <defs>
+    <linearGradient id="marigoldPetal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FBBF24" />
+      <stop offset="50%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#EA580C" />
+    </linearGradient>
+    <g id="flower">
+      <circle cx="0" cy="0" r="14" fill="#D97706" opacity="0.3" />
+      <circle cx="0" cy="0" r="11" fill="url(#marigoldPetal)" />
+      <!-- Petal scallops -->
+      <circle cx="-6" cy="-6" r="5" fill="#FBBF24" />
+      <circle cx="6" cy="-6" r="5" fill="#F59E0B" />
+      <circle cx="-6" cy="6" r="5" fill="#EA580C" />
+      <circle cx="6" cy="6" r="5" fill="#F59E0B" />
+      <circle cx="0" cy="0" r="4" fill="#B45309" />
+    </g>
+  </defs>
+  <!-- Garland string curve -->
+  <path d="M0,20 Q150,75 300,40 T600,30" fill="none" stroke="#65A30D" stroke-width="2.5" />
+  <!-- Strung marigold blossoms -->
+  <use href="#flower" x="40" y="28" />
+  <use href="#flower" x="90" y="44" />
+  <use href="#flower" x="145" y="56" />
+  <use href="#flower" x="205" y="58" />
+  <use href="#flower" x="265" y="48" />
+  <use href="#flower" x="325" y="38" />
+  <use href="#flower" x="385" y="32" />
+  <use href="#flower" x="445" y="30" />
+  <use href="#flower" x="505" y="32" />
+  <use href="#flower" x="560" y="34" />
+</svg>

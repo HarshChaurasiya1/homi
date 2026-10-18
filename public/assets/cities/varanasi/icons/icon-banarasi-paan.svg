@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <!-- Folded Betel Leaf (Triangle envelope) -->
+  <polygon points="24,8 40,36 8,36" fill="#15803D" stroke="#166534" stroke-width="2" />
+  <!-- Inner fold line -->
+  <line x1="24" y1="8" x2="24" y2="36" stroke="#22C55E" stroke-width="1.5" />
+  <!-- Silver Vark (Chandi Ka Vark) accent -->
+  <polygon points="20,20 28,18 25,26" fill="#E2E8F0" opacity="0.9" />
+  <!-- Clove pin (Laung) -->
+  <circle cx="24" cy="22" r="2.5" fill="#451A03" />
+</svg>

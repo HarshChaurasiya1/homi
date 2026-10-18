@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <circle cx="24" cy="24" r="18" fill="#78350F" stroke="#9A3412" stroke-width="2" />
+  <!-- 5 Mukhi Deep Ridges -->
+  <line x1="24" y1="6" x2="24" y2="42" stroke="#451A03" stroke-width="2" />
+  <line x1="8" y1="18" x2="40" y2="30" stroke="#451A03" stroke-width="2" />
+  <line x1="8" y1="30" x2="40" y2="18" stroke="#451A03" stroke-width="2" />
+  <!-- Textural stipples -->
+  <circle cx="18" cy="18" r="1.5" fill="#B45309" />
+  <circle cx="30" cy="18" r="1.5" fill="#B45309" />
+  <circle cx="18" cy="30" r="1.5" fill="#B45309" />
+  <circle cx="30" cy="30" r="1.5" fill="#B45309" />
+</svg>

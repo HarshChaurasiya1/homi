@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" preserveAspectRatio="none" width="100%" height="100%">
+  <defs>
+    <linearGradient id="gangaGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0F766E" stop-opacity="0.8" />
+      <stop offset="35%" stop-color="#14B8A6" stop-opacity="0.9" />
+      <stop offset="70%" stop-color="#0284C7" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#0F766E" stop-opacity="0.95" />
+    </linearGradient>
+    <linearGradient id="morningLight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FEF3C7" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#F59E0B" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+  <!-- Background gentle ripple -->
+  <path d="M0,32 C240,64 480,10 720,45 C960,80 1200,20 1440,50 L1440,120 L0,120 Z" fill="url(#gangaGradient)" opacity="0.25" />
+  <!-- Secondary deep ripple -->
+  <path d="M0,60 C320,10 640,90 960,40 C1200,5 1320,55 1440,40 L1440,120 L0,120 Z" fill="url(#gangaGradient)" opacity="0.5" />
+  <!-- Foreground crisp wave -->
+  <path d="M0,80 C280,30 560,95 840,55 C1120,15 1300,75 1440,65 L1440,120 L0,120 Z" fill="url(#gangaGradient)" />
+  <!-- Golden morning crest highlights -->
+  <path d="M0,80 C280,30 560,95 840,55 C1120,15 1300,75 1440,65" fill="none" stroke="#FDE68A" stroke-width="2.5" opacity="0.7" />
+</svg>
