@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { BRAND } from '../config/brand'
 import { Link } from '../lib/router'
 import { ShieldCheck } from 'lucide-react'
+import { HomiBrandLogo } from './HomiBrandLogo'
 
 
 export const Footer: React.FC = () => {
@@ -42,13 +43,8 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-[#DCD0C0]">
           {/* Brand Column */}
           <div className="md:col-span-2 space-y-3">
-            <div className="flex items-baseline gap-2">
-              <span className="font-editorial text-2xl font-bold text-[#201C1A]">
-                {BRAND.name}
-              </span>
-              <span className="text-xs font-medium text-[#7D736A] uppercase tracking-wider">
-                {BRAND.tagline}
-              </span>
+            <div className="flex items-center gap-2">
+              <HomiBrandLogo size="md" />
             </div>
             <p className="text-sm text-[#645C55] max-w-md leading-relaxed">
               {BRAND.description}

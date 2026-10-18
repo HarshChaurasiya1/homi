@@ -6,6 +6,8 @@ import { useSavedPlaces, useActiveCity } from '../lib/storage'
 import { useAppData } from '../lib/dataStore'
 import { useProfile } from '../lib/profileStore'
 import { ProfileModal } from './ProfileModal'
+import { HomiBrandLogo } from './HomiBrandLogo'
+import { ThemeMotif, type MotifVariant } from './ThemeMotif'
 import {
   Bookmark,
   Calendar,
@@ -58,7 +60,7 @@ export const Header: React.FC = () => {
   return (
     <header className="sticky top-0 z-40 bg-[#FAF7F2]/95 backdrop-blur-md border-b border-[#E8DFD3] transition-colors">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        {/* Brand Wordmark & Mode Tagline */}
+        {/* Brand Logo & Mode Tagline */}
         <div className="flex items-center gap-3">
           <Link
             to="/"
@@ -67,27 +69,43 @@ export const Header: React.FC = () => {
                 // Return to clean discovery
               }
             }}
-            className="group flex items-baseline gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8C2D19] rounded-md px-1"
+            className="group flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8C2D19] rounded-md px-1"
             aria-label={`${BRAND.name} Home - ${BRAND.tagline}`}
           >
-            <span className="font-editorial text-2xl sm:text-3xl font-bold tracking-tight text-[#201C1A] group-hover:text-[#8C2D19] transition-colors">
-              {BRAND.name}
-            </span>
-            <span className="hidden lg:inline-block text-xs uppercase tracking-wider font-medium text-[#645C55] pl-2 border-l border-[#D5C9BC]">
-              {BRAND.tagline}
-            </span>
+            <HomiBrandLogo size="md" />
           </Link>
 
           {/* Board Badge / Mode Indicator */}
-          <div className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold border transition-colors bg-[#F5EFE6] border-[#E5DACB] text-[#8C2D19]">
+          <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold border transition-colors bg-[#F5EFE6] border-[#E5DACB] text-[#8C2D19]">
             {isAdmin ? (
-              <span className="flex items-center gap-1 text-[#8C2D19]">
-                <Shield className="w-3 h-3" />
+              <span className="flex items-center gap-1.5 text-[#8C2D19]">
+                <Shield className="w-3.5 h-3.5" />
                 <span>Admin Studio</span>
               </span>
             ) : (
-              <span className="flex items-center gap-1 text-[#554D45]">
-                <Compass className="w-3 h-3 text-[#8C2D19]" />
+              <span className="flex items-center gap-1.5 text-[#554D45]">
+                {activeCity ? (
+                  <ThemeMotif
+                    type={
+                      (activeCity.id.toLowerCase() === 'varanasi'
+                        ? 'ganga-diya-ghat'
+                        : activeCity.id.toLowerCase() === 'jaipur'
+                        ? 'jharokha-scallop'
+                        : activeCity.id.toLowerCase() === 'udaipur'
+                        ? 'mewar-arch-lake'
+                        : activeCity.id.toLowerCase() === 'manali'
+                        ? 'himalayan-pine'
+                        : activeCity.id.toLowerCase() === 'mussoorie'
+                        ? 'misty-pine-ridge'
+                        : 'mughal-arch') as MotifVariant
+                    }
+                    width={15}
+                    height={15}
+                    className="text-[#8C2D19]"
+                  />
+                ) : (
+                  <Compass className="w-3.5 h-3.5 text-[#8C2D19]" />
+                )}
                 <span>{activeCity ? `${activeCity.name} Board` : 'User Board'}</span>
               </span>
             )}

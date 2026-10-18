@@ -1,6 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <rect width="64" height="64" rx="16" fill="#8C2D19" />
-  <path d="M16 52 V30 C16 18 24 12 32 6 C40 12 48 18 48 30 V52" stroke="#FAF7F2" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="32" cy="6" r="3" fill="#FAF7F2" />
-  <circle cx="32" cy="30" r="4" fill="#D97706" />
+  <rect width="64" height="64" rx="18" fill="#8C2D19" />
+  <circle cx="32" cy="28" r="16" fill="#E67E22" fill-opacity="0.3" />
+  <!-- Heritage Jharokha Scalloped Arch Gateway -->
+  <path d="M12 52V34C12 24 18 18 24 20C27 14 37 14 40 20C46 18 52 24 52 34V52" stroke="#FAF7F2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Inner Mehrab Cut -->
+  <path d="M18 52V36C18 29 23 24 27 25C29 21 35 21 37 25C41 24 46 29 46 36V52" stroke="#F7D08A" stroke-width="2" stroke-linecap="round"/>
+  <!-- Radiant Dawn Sun -->
+  <circle cx="32" cy="34" r="6" fill="#F7D08A" />
+  <!-- Sun Rays -->
+  <line x1="32" y1="22" x2="32" y2="25" stroke="#F7D08A" stroke-width="2" stroke-linecap="round" />
+  <line x1="23" y1="26" x2="25.5" y2="28.5" stroke="#F7D08A" stroke-width="2" stroke-linecap="round" />
+  <line x1="41" y1="26" x2="38.5" y2="28.5" stroke="#F7D08A" stroke-width="2" stroke-linecap="round" />
+  <!-- Stepped Stone Ghat Threshold -->
+  <path d="M10 52H54" stroke="#FAF7F2" stroke-width="3" stroke-linecap="round" />
+  <path d="M16 56H48" stroke="#E67E22" stroke-width="2.5" stroke-linecap="round" />
 </svg>

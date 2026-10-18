@@ -7,6 +7,9 @@ import { useSavedPlaces, getPlannerDraft, savePlannerDraft, useActiveCity } from
 import { useProfile } from '../lib/profileStore'
 import { ProfileModal } from './ProfileModal'
 import { Link } from '../lib/router'
+import { TravelEmblem } from './TravelEmblem'
+import { ThemeMotif, type MotifVariant } from './ThemeMotif'
+import { HomiBrandLogo } from './HomiBrandLogo'
 import {
   Sparkles,
   ArrowRight,
@@ -24,6 +27,10 @@ import {
   ShieldCheck,
   MessageSquare,
   Save,
+  Building,
+  Car,
+  Ticket,
+  Info,
 } from 'lucide-react'
 
 interface InteractiveTripBuilderProps {
@@ -130,15 +137,24 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
     onSaveToast(`Saved ${currentCity.name} trip board to your local profile!`)
   }
 
-  // City options with school-kid-simple fun subtitles and emojis
-  const funCityOptions = [
+  // City options with authentic architectural motifs and verified local companions
+  const funCityOptions: Array<{
+    id: string
+    name: string
+    hindi: string
+    motif: MotifVariant
+    badge: string
+    vibeTag: string
+    companion: string
+    photo: string
+  }> = [
     {
       id: 'jaipur',
       name: 'Jaipur',
       hindi: 'जयपुर',
-      emoji: '🏰',
-      badge: 'Pink Forts & Sweets',
-      vibeTag: 'Royal & Colorful',
+      motif: 'jharokha-scallop',
+      badge: 'Pink Forts & Royal Sweets',
+      vibeTag: 'Heritage & Havelis',
       companion: 'Aapke Bhaisaab',
       photo: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=80',
     },
@@ -146,9 +162,9 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
       id: 'udaipur',
       name: 'Udaipur',
       hindi: 'उदयपुर',
-      emoji: '🚤',
+      motif: 'mewar-arch-lake',
       badge: 'Lakes, Boats & Palaces',
-      vibeTag: 'Romantic & Calm',
+      vibeTag: 'Mewari Serenity',
       companion: 'Aapke Banna Sa',
       photo: 'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=600&q=80',
     },
@@ -156,9 +172,9 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
       id: 'manali',
       name: 'Manali',
       hindi: 'मनाली',
-      emoji: '🏔️',
+      motif: 'himalayan-pine',
       badge: 'Snow Peaks & River Cafes',
-      vibeTag: 'Chill Mountain Vibe',
+      vibeTag: 'Himalayan Ridge',
       companion: 'Aapka Pahadi Dost',
       photo: 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=600&q=80',
     },
@@ -166,19 +182,19 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
       id: 'varanasi',
       name: 'Varanasi',
       hindi: 'वाराणसी',
-      emoji: '🪔',
+      motif: 'ganga-diya-ghat',
       badge: 'Holy Ghats & Magic Evening Aarti',
-      vibeTag: 'Spiritual & Food Legend',
+      vibeTag: 'Ancient Crescent Riverfront',
       companion: 'Banarasi Bhaiya',
-      photo: 'https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=600&q=80',
+      photo: '/assets/cities/varanasi/ghats/dashashwamedh-evening-aarti-wide.webp',
     },
     {
       id: 'mussoorie',
       name: 'Mussoorie',
       hindi: 'मसूरी',
-      emoji: '🌲',
-      badge: 'Misty Pines & Hot Apple Pies',
-      vibeTag: 'Peaceful Hilltop Clouds',
+      motif: 'misty-pine-ridge',
+      badge: 'Misty Pines & Mountain Ridge',
+      vibeTag: 'Colonial Hilltop Clouds',
       companion: 'Hillside Storyteller',
       photo: 'https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?auto=format&fit=crop&w=600&q=80',
     },
@@ -255,8 +271,10 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
                         alt={city.name}
                         className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-400"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent"></div>
-                      <span className="absolute top-2 left-2 text-xl">{city.emoji}</span>
+                      <div className="absolute top-2 left-2 px-2 py-1 rounded-xl bg-black/50 backdrop-blur-md text-white border border-white/20 flex items-center gap-1.5 shadow-xs">
+                        <ThemeMotif type={city.motif} width={16} height={16} className="text-amber-300" />
+                        <span className="text-[10px] font-bold uppercase tracking-wider">{city.name}</span>
+                      </div>
                       <span className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-white/90 text-[10px] font-bold text-[#201C1A]">
                         {city.vibeTag}
                       </span>
@@ -328,25 +346,29 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
                 {[
                   {
                     days: 1,
-                    icon: '⚡',
+                    emblem: 'express-1day' as const,
+                    badge: 'Dawn to Dusk',
                     title: '1 Day • Express Blitz',
                     sub: 'See the absolute best signature highlight, enjoy hot morning chai, and catch the sunset.',
                   },
                   {
                     days: 2,
-                    icon: '🎈',
+                    emblem: 'weekend-2day' as const,
+                    badge: 'Weekend Immersion',
                     title: '2 Days • Weekend Getaway',
                     sub: 'Most popular! Top forts, iconic cafes, sunset viewpoints, and famous food alleys.',
                   },
                   {
                     days: 3,
-                    icon: '🌟',
+                    emblem: 'classic-3day' as const,
+                    badge: 'Recommended',
                     title: '3 Days • Perfect Classic Trip',
                     sub: 'Recommended! Heritage, peaceful dawn boat/treks, hidden stepwells, and relaxed shopping.',
                   },
                   {
                     days: 4,
-                    icon: '🗺️',
+                    emblem: 'explorer-4day' as const,
+                    badge: 'Deep Explorer',
                     title: '4+ Days • Slow Explorer',
                     sub: 'Deep dive into local culture, photography, surrounding hilltops, and offbeat trails.',
                   },
@@ -358,17 +380,22 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
                       setSelectedDays(opt.days)
                       setCurrentStep(3)
                     }}
-                    className={`p-5 rounded-2xl text-left border-2 transition-all cursor-pointer flex items-start gap-4 ${
+                    className={`group p-5 rounded-2xl text-left border-2 transition-all cursor-pointer flex items-start gap-4 ${
                       selectedDays === opt.days
-                        ? 'border-[#8C2D19] bg-[#FCF8F5] shadow-xs'
+                        ? 'border-[#8C2D19] bg-[#FCF8F5] ring-2 ring-[#8C2D19]/20 shadow-md'
                         : 'border-[#E5DACB] hover:border-[#8C2D19] bg-[#FAF7F2]'
                     }`}
                   >
-                    <span className="text-3xl flex-shrink-0 mt-0.5">{opt.icon}</span>
-                    <div className="space-y-1">
-                      <span className="font-editorial text-lg font-bold text-[#201C1A] block">
-                        {opt.title}
-                      </span>
+                    <TravelEmblem type={opt.emblem} size="lg" className="mt-0.5" />
+                    <div className="space-y-1 flex-1">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-editorial text-lg font-bold text-[#201C1A] block">
+                          {opt.title}
+                        </span>
+                        <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#F5EFE6] text-[#8C2D19]">
+                          {opt.badge}
+                        </span>
+                      </div>
                       <p className="text-xs text-[#5D554C] leading-relaxed">{opt.sub}</p>
                     </div>
                   </button>
@@ -410,21 +437,21 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
                 {[
                   {
                     id: 'budget',
-                    emoji: '🪙',
+                    emblem: 'budget-tier' as const,
                     title: 'Pocket-Friendly',
                     desc: 'Clean hostels, street chaat dhabas, shared e-rickshaws',
                     rate: '~₹1.4k / room',
                   },
                   {
                     id: 'moderate',
-                    emoji: '☕',
+                    emblem: 'moderate-tier' as const,
                     title: 'Cozy & Comfortable',
                     desc: 'Heritage havelis, rooftop cafes, comfortable app cabs',
                     rate: '~₹3.8k / room',
                   },
                   {
                     id: 'premium',
-                    emoji: '👑',
+                    emblem: 'premium-tier' as const,
                     title: 'Royal Luxury',
                     desc: 'Shahi palaces, private AC chauffeur, 5-star fine dining',
                     rate: '~₹9.8k / room',
@@ -436,18 +463,18 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
                     onClick={() => setSelectedBudget(tier.id as BudgetTier)}
                     className={`p-5 rounded-2xl text-left border-2 transition-all cursor-pointer flex flex-col justify-between space-y-3 ${
                       selectedBudget === tier.id
-                        ? 'border-[#8C2D19] bg-[#FCF8F5] shadow-xs'
+                        ? 'border-[#8C2D19] bg-[#FCF8F5] ring-2 ring-[#8C2D19]/20 shadow-xs'
                         : 'border-[#E5DACB] hover:border-[#8C2D19] bg-[#FAF7F2]'
                     }`}
                   >
-                    <div className="space-y-1">
-                      <span className="text-2xl block">{tier.emoji}</span>
+                    <div className="space-y-2">
+                      <TravelEmblem type={tier.emblem} size="md" />
                       <span className="font-editorial text-lg font-bold text-[#201C1A] block">
                         {tier.title}
                       </span>
                       <p className="text-xs text-[#5D554C] leading-relaxed">{tier.desc}</p>
                     </div>
-                    <span className="text-[11px] font-bold text-[#8C2D19] px-2 py-0.5 rounded-full bg-[#F5EFE6] self-start">
+                    <span className="text-[11px] font-bold text-[#8C2D19] px-2.5 py-0.5 rounded-full bg-[#F5EFE6] self-start">
                       {tier.rate}
                     </span>
                   </button>
@@ -459,24 +486,24 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
                 <label className="text-xs font-bold uppercase tracking-wider text-[#7D736A] block text-center">
                   Who is coming along?
                 </label>
-                <div className="flex flex-wrap justify-center gap-2">
+                <div className="flex flex-wrap justify-center gap-2.5">
                   {[
-                    { id: 'solo', label: '🎒 Solo Explorer' },
-                    { id: 'friends', label: '🎉 Friends Gang' },
-                    { id: 'family', label: '👨‍👩‍👧‍👦 Family & Kids' },
-                    { id: 'couple', label: '💖 Couples Romance' },
+                    { id: 'solo', emblem: 'solo-wanderer' as const },
+                    { id: 'friends', emblem: 'friends-gang' as const },
+                    { id: 'family', emblem: 'family-kids' as const },
+                    { id: 'couple', emblem: 'couple-romance' as const },
                   ].map((v) => (
                     <button
                       key={v.id}
                       type="button"
                       onClick={() => setSelectedVibe(v.id)}
-                      className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${
+                      className={`px-4 py-2 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                         selectedVibe === v.id
-                          ? 'bg-[#201C1A] text-white'
+                          ? 'bg-[#201C1A] text-white shadow-xs'
                           : 'bg-[#FAF7F2] border border-[#E5DACB] text-[#554D45] hover:bg-[#F2ECE1]'
                       }`}
                     >
-                      {v.label}
+                      <TravelEmblem type={v.emblem} />
                     </button>
                   ))}
                 </div>
@@ -513,8 +540,8 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
          ========================================================================= */}
       {isGenerating && (
         <div className="bg-white rounded-3xl p-12 text-center max-w-lg mx-auto border border-[#E5DACB] shadow-lg space-y-6 animate-pulse">
-          <div className="w-20 h-20 rounded-2xl bg-[#F5EFE6] text-[#8C2D19] flex items-center justify-center mx-auto text-3xl animate-bounce">
-            🏰
+          <div className="w-20 h-20 rounded-2xl bg-[#F5EFE6] text-[#8C2D19] flex items-center justify-center mx-auto border border-[#E5DACB] shadow-xs">
+            <HomiBrandLogo size="lg" markOnly />
           </div>
           <div className="space-y-2">
             <h3 className="font-editorial text-2xl font-bold text-[#201C1A]">
@@ -793,8 +820,9 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
                     </span>
                   </div>
 
-                  <p className="text-xs text-[#6E645A] italic bg-[#FAF7F2] p-3 rounded-xl border border-[#EFE7DC]">
-                    💡 <strong>{persona?.name}'s Tip:</strong> {day.dayNotes}
+                  <p className="text-xs text-[#6E645A] italic bg-[#FAF7F2] p-3 rounded-xl border border-[#EFE7DC] flex items-start gap-2">
+                    <Info className="w-4 h-4 text-[#8C2D19] flex-shrink-0 mt-0.5" />
+                    <span><strong className="text-[#201C1A] not-italic">{persona?.name}'s Tip:</strong> {day.dayNotes}</span>
                   </p>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -903,32 +931,44 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
               <div className="p-3.5 rounded-2xl bg-[#FAF7F2] border border-[#EFE7DC]">
-                <span className="text-[#8A8177] block text-[11px]">🏨 Stay ({itinerary.budget.nights} Nights)</span>
-                <span className="font-bold text-base text-[#201C1A] block mt-0.5">
+                <span className="text-[#8A8177] flex items-center gap-1.5 text-[11px] font-semibold">
+                  <Building className="w-3.5 h-3.5 text-[#8C2D19]" />
+                  <span>Stay ({itinerary.budget.nights} Nights)</span>
+                </span>
+                <span className="font-bold text-base text-[#201C1A] block mt-1">
                   {formatInr(itinerary.budget.accommodationTotal)}
                 </span>
                 <span className="text-[10px] text-[#7A7167]">{itinerary.budget.accommodationDescription}</span>
               </div>
 
               <div className="p-3.5 rounded-2xl bg-[#FAF7F2] border border-[#EFE7DC]">
-                <span className="text-[#8A8177] block text-[11px]">🍛 Food & Chaats</span>
-                <span className="font-bold text-base text-[#201C1A] block mt-0.5">
+                <span className="text-[#8A8177] flex items-center gap-1.5 text-[11px] font-semibold">
+                  <Utensils className="w-3.5 h-3.5 text-[#8C2D19]" />
+                  <span>Food & Dining</span>
+                </span>
+                <span className="font-bold text-base text-[#201C1A] block mt-1">
                   {formatInr(itinerary.budget.foodTotal)}
                 </span>
                 <span className="text-[10px] text-[#7A7167]">{itinerary.budget.foodDescription}</span>
               </div>
 
               <div className="p-3.5 rounded-2xl bg-[#FAF7F2] border border-[#EFE7DC]">
-                <span className="text-[#8A8177] block text-[11px]">🚕 City Cabs / Autos</span>
-                <span className="font-bold text-base text-[#201C1A] block mt-0.5">
+                <span className="text-[#8A8177] flex items-center gap-1.5 text-[11px] font-semibold">
+                  <Car className="w-3.5 h-3.5 text-[#8C2D19]" />
+                  <span>City Cabs & Autos</span>
+                </span>
+                <span className="font-bold text-base text-[#201C1A] block mt-1">
                   {formatInr(itinerary.budget.transportTotal)}
                 </span>
                 <span className="text-[10px] text-[#7A7167]">{itinerary.budget.transportDescription}</span>
               </div>
 
               <div className="p-3.5 rounded-2xl bg-[#FAF7F2] border border-[#EFE7DC]">
-                <span className="text-[#8A8177] block text-[11px]">🎟️ Monument Tariffs</span>
-                <span className="font-bold text-base text-[#201C1A] block mt-0.5">
+                <span className="text-[#8A8177] flex items-center gap-1.5 text-[11px] font-semibold">
+                  <Ticket className="w-3.5 h-3.5 text-[#8C2D19]" />
+                  <span>Monument Tariffs</span>
+                </span>
+                <span className="font-bold text-base text-[#201C1A] block mt-1">
                   {formatInr(itinerary.budget.ticketsTotal)}
                 </span>
                 <span className="text-[10px] text-[#7A7167]">Official ASI verified tariffs</span>
@@ -973,8 +1013,8 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
           {/* 6. LOCAL DATABASE SAVE PROGRESS CALLOUT CARD */}
           <div className="bg-[#FAF5ED] rounded-3xl p-6 sm:p-8 border-2 border-[#ECD7CE] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-[#8C2D19] text-white flex items-center justify-center flex-shrink-0 text-2xl shadow-xs">
-                🛡️
+              <div className="w-12 h-12 rounded-2xl bg-[#8C2D19] text-white flex items-center justify-center flex-shrink-0 shadow-xs">
+                <ShieldCheck className="w-6 h-6 text-white" />
               </div>
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
