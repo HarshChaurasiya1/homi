@@ -16,6 +16,7 @@ export interface RouteLeg {
   durationMinutes: number
   isPedestrianOnly: boolean
   directionsUrl: string
+  osmDirectionsUrl?: string
   calculationStatus: 'LIVE_TRAFFIC_ROUTE' | 'SOURCE_BASED_ESTIMATE' | 'CALIBRATED_FALLBACK'
 }
 
@@ -29,6 +30,9 @@ export interface DoorToDoorRoute {
   vehicleLeg: RouteLeg | null
   walkingLeg: RouteLeg | null
   directDirectionsUrl: string
+  osmDirectionsUrl?: string
+  osmMapUrl?: string
+  osm3DUrl?: string
   trafficNote: string
 }
 
@@ -54,6 +58,36 @@ export function buildGoogleMapsDirectionsUrl(
   travelMode: 'driving' | 'walking' | 'transit' = 'driving'
 ): string {
   return `https://www.google.com/maps/dir/?api=1&origin=${originLat},${originLng}&destination=${destLat},${destLng}&travelmode=${travelMode}`
+}
+
+export function buildOsmMapUrl(lat: number, lng: number, zoom: number = 17): string {
+  return `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=${zoom}/${lat}/${lng}`
+}
+
+export function buildOsmDirectionsUrl(
+  originLat: number,
+  originLng: number,
+  destLat: number,
+  destLng: number,
+  travelMode: 'driving' | 'walking' | 'cycling' = 'walking'
+): string {
+  const engine =
+    travelMode === 'driving'
+      ? 'fossgis_osrm_car'
+      : travelMode === 'cycling'
+      ? 'fossgis_osrm_bike'
+      : 'fossgis_osrm_foot'
+  return `https://www.openstreetmap.org/directions?engine=${engine}&route=${originLat}%2C${originLng}%3B${destLat}%2C${destLng}`
+}
+
+export function buildOsm3DUrl(
+  lat: number,
+  lng: number,
+  zoom: number = 17,
+  theta: number = 55,
+  phi: number = -30
+): string {
+  return `https://demo.f4map.com/#lat=${lat}&lon=${lng}&zoom=${zoom}&camera.theta=${theta}&camera.phi=${phi}`
 }
 
 export function estimateTravelTime(
@@ -108,6 +142,10 @@ export function computeDoorToDoorRoute(
     const walkMin = estimateTravelTime(roadDistKm, 'walk', departureHour)
     const directUrl = buildGoogleMapsDirectionsUrl(originLat, originLng, destLat, destLng, 'walking')
 
+    const directOsmDirectionsUrl = buildOsmDirectionsUrl(originLat, originLng, destLat, destLng, 'walking')
+    const destOsmMapUrl = buildOsmMapUrl(destLat, destLng)
+    const destOsm3DUrl = buildOsm3DUrl(destLat, destLng)
+
     return {
       originName,
       destinationName: destName,
@@ -126,9 +164,13 @@ export function computeDoorToDoorRoute(
         durationMinutes: walkMin,
         isPedestrianOnly: pedApproach.isVehicleRestrictedZone,
         directionsUrl: directUrl,
+        osmDirectionsUrl: directOsmDirectionsUrl,
         calculationStatus: 'SOURCE_BASED_ESTIMATE',
       },
       directDirectionsUrl: directUrl,
+      osmDirectionsUrl: directOsmDirectionsUrl,
+      osmMapUrl: destOsmMapUrl,
+      osm3DUrl: destOsm3DUrl,
       trafficNote: 'Direct pedestrian route through local streets and lanes.',
     }
   }
@@ -141,6 +183,10 @@ export function computeDoorToDoorRoute(
 
     const vehicleUrl = buildGoogleMapsDirectionsUrl(originLat, originLng, pedApproach.dropOffLatitude, pedApproach.dropOffLongitude, 'driving')
     const finalWalkUrl = buildGoogleMapsDirectionsUrl(pedApproach.dropOffLatitude, pedApproach.dropOffLongitude, destLat, destLng, 'walking')
+    const vehicleOsmDirectionsUrl = buildOsmDirectionsUrl(originLat, originLng, pedApproach.dropOffLatitude, pedApproach.dropOffLongitude, 'driving')
+    const finalWalkOsmDirectionsUrl = buildOsmDirectionsUrl(pedApproach.dropOffLatitude, pedApproach.dropOffLongitude, destLat, destLng, 'walking')
+    const destOsmMapUrl = buildOsmMapUrl(destLat, destLng)
+    const destOsm3DUrl = buildOsm3DUrl(destLat, destLng)
 
     const vehicleLeg: RouteLeg = {
       mode: preferredMode,
@@ -152,6 +198,7 @@ export function computeDoorToDoorRoute(
       durationMinutes: vehicleMinutes,
       isPedestrianOnly: false,
       directionsUrl: vehicleUrl,
+      osmDirectionsUrl: vehicleOsmDirectionsUrl,
       calculationStatus: 'SOURCE_BASED_ESTIMATE',
     }
 
@@ -165,6 +212,7 @@ export function computeDoorToDoorRoute(
       durationMinutes: pedApproach.finalWalkMinutes,
       isPedestrianOnly: true,
       directionsUrl: finalWalkUrl,
+      osmDirectionsUrl: finalWalkOsmDirectionsUrl,
       calculationStatus: 'SOURCE_BASED_ESTIMATE',
     }
 
@@ -178,6 +226,9 @@ export function computeDoorToDoorRoute(
       vehicleLeg,
       walkingLeg,
       directDirectionsUrl: vehicleUrl,
+      osmDirectionsUrl: finalWalkOsmDirectionsUrl,
+      osmMapUrl: destOsmMapUrl,
+      osm3DUrl: destOsm3DUrl,
       trafficNote: `Vehicles stop at ${pedApproach.dropOffGatewayName}. The final ${pedApproach.finalWalkDistanceMeters}m (${pedApproach.finalWalkMinutes} mins) is completed on foot through pedestrian lanes.`,
     }
   }
@@ -186,6 +237,9 @@ export function computeDoorToDoorRoute(
   const roadDistKm = Math.round(straightLineKm * 1.35 * 10) / 10
   const vehicleMinutes = estimateTravelTime(roadDistKm, preferredMode, departureHour)
   const directUrl = buildGoogleMapsDirectionsUrl(originLat, originLng, destLat, destLng, 'driving')
+  const directOsmDirectionsUrl = buildOsmDirectionsUrl(originLat, originLng, destLat, destLng, 'driving')
+  const destOsmMapUrl = buildOsmMapUrl(destLat, destLng)
+  const destOsm3DUrl = buildOsm3DUrl(destLat, destLng)
 
   return {
     originName,
@@ -204,10 +258,14 @@ export function computeDoorToDoorRoute(
       durationMinutes: vehicleMinutes,
       isPedestrianOnly: false,
       directionsUrl: directUrl,
+      osmDirectionsUrl: directOsmDirectionsUrl,
       calculationStatus: 'SOURCE_BASED_ESTIMATE',
     },
     walkingLeg: null,
     directDirectionsUrl: directUrl,
+    osmDirectionsUrl: directOsmDirectionsUrl,
+    osmMapUrl: destOsmMapUrl,
+    osm3DUrl: destOsm3DUrl,
     trafficNote: 'Direct vehicular access to venue parking area.',
   }
 }

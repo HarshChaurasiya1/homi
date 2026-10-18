@@ -33,8 +33,8 @@ export const PlaceCard: React.FC<PlaceCardProps> = ({
     }
   }
 
-  // Construct verified Google Maps directions URL
-  const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${place.latitude},${place.longitude}&destination_place_id=&travelmode=transit`
+  // OpenStreetMap direct coordinate map URL
+  const osmMapUrl = `https://www.openstreetmap.org/?mlat=${place.latitude}&mlon=${place.longitude}#map=17/${place.latitude}/${place.longitude}`
 
   const formatPrice = () => {
     if (place.ticketPrice.indian === 'Free') return 'Free Entry'
@@ -134,15 +134,15 @@ export const PlaceCard: React.FC<PlaceCardProps> = ({
             {/* Quick Actions */}
             <div className="flex items-center gap-2">
               <a
-                href={directionsUrl}
+                href={osmMapUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
                 className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#8C2D19] hover:underline"
-                aria-label={`Get directions to ${place.name} on Google Maps`}
+                aria-label={`View ${place.name} on OpenStreetMap`}
               >
                 <Navigation className="w-3 h-3" />
-                <span>Maps</span>
+                <span>OSM</span>
               </a>
 
               <Link

@@ -434,31 +434,43 @@ export const RealWorldTravelIntelligence: React.FC<RealWorldTravelIntelligencePr
                       </ul>
                     )}
 
-                    {/* Google Maps Route Action Link */}
+                    {/* OpenStreetMap & Route Action Links */}
                     {step.routeDetails && (
                       <div className="pt-1 flex flex-wrap items-center gap-3">
+                        {step.routeDetails.osmDirectionsUrl && (
+                          <a
+                            href={step.routeDetails.osmDirectionsUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#15803D] hover:text-[#166534] transition-colors"
+                          >
+                            <Navigation className="w-3.5 h-3.5" />
+                            <span>Route in OpenStreetMap (OSM)</span>
+                            <ExternalLink className="w-3 h-3 text-stone-400" />
+                          </a>
+                        )}
+
+                        {step.routeDetails.osm3DUrl && (
+                          <a
+                            href={step.routeDetails.osm3DUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-xs font-bold text-[#8C2D19] hover:underline"
+                          >
+                            <Eye className="w-3.5 h-3.5" />
+                            <span>View OSM 3D Perspective</span>
+                          </a>
+                        )}
+
                         <a
                           href={step.routeDetails.directDirectionsUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-xs font-bold text-[#9A3412] hover:text-[#EA580C] transition-colors"
+                          className="inline-flex items-center gap-1.5 text-xs font-medium text-stone-500 hover:text-stone-800 transition-colors"
                         >
-                          <Navigation className="w-3.5 h-3.5" />
-                          <span>Turn-by-Turn Route in Google Maps</span>
+                          <span>Directions</span>
                           <ExternalLink className="w-3 h-3 text-stone-400" />
                         </a>
-
-                        {step.routeDetails.pedestrianApproach && (
-                          <a
-                            href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=25.307583,83.00975&heading=120&pitch=5&fov=90"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-xs font-bold text-[#1D4ED8] hover:underline"
-                          >
-                            <Eye className="w-3.5 h-3.5" />
-                            <span>View 360° Street View & Visual Landmarks</span>
-                          </a>
-                        )}
                       </div>
                     )}
                   </div>

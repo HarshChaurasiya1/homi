@@ -81,7 +81,8 @@ export const PlaceDetailPage: React.FC<PlaceDetailPageProps> = ({ slug, onSaveTo
     )
   }
 
-  // Google Maps verified direct directions link
+  // OpenStreetMap verified direct map link
+  const osmMapUrl = `https://www.openstreetmap.org/?mlat=${place.latitude}&mlon=${place.longitude}#map=17/${place.latitude}/${place.longitude}`
   const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${place.latitude},${place.longitude}&destination_place_id=&travelmode=transit`
 
   const formatTicket = () => {
@@ -144,14 +145,15 @@ export const PlaceDetailPage: React.FC<PlaceDetailPageProps> = ({ slug, onSaveTo
             </button>
 
             <a
-              href={directionsUrl}
+              href={osmMapUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#201C1A] text-white hover:bg-black transition-colors flex items-center gap-1.5 shadow-xs"
+              title="Open location on OpenStreetMap"
             >
               <Navigation className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Get Directions</span>
-              <span className="sm:hidden">Maps</span>
+              <span className="hidden sm:inline">Open in OpenStreetMap</span>
+              <span className="sm:hidden">OSM Map</span>
             </a>
           </div>
         </div>

@@ -1,7 +1,10 @@
 /**
- * Verified Real-World Street View Routes with Landmark Overlays
+ * Verified Real-World OpenStreetMap (OSM) & 3D Routes with Landmark Overlays
+ * Powered by OpenStreetMap (OSM) and OSM 3D Perspective.
  * Captures how locals actually navigate Indian cities:
  * "Yahan gaadi rukegi, samne ye building dikhegi, wahan se left/right mudna hai"
+ * 
+ * 100% Open-Source, Free, and Independent of Google Studio API.
  */
 
 import type { VisualStreetRoute } from '../services/geminiTravelBrain'
@@ -17,6 +20,10 @@ export const STREET_VIEW_ROUTES: Record<string, VisualStreetRoute> = {
     latitude: 25.3075,
     longitude: 83.0097,
     panoramaImageUrl: '/assets/cities/varanasi/ghats/dashashwamedh-evening-aarti-wide.webp',
+    osmMapUrl: 'https://www.openstreetmap.org/?mlat=25.3075&mlon=83.0097#map=17/25.3075/83.0097',
+    osm3DUrl: 'https://demo.f4map.com/#lat=25.3075&lon=83.0097&zoom=17&camera.theta=55&camera.phi=-30',
+    osmDirectionsUrl: 'https://www.openstreetmap.org/directions?engine=fossgis_osrm_foot&route=25.3090%2C83.0060%3B25.3075%2C83.0097',
+    osmEmbedUrl: 'https://www.openstreetmap.org/export/embed.html?bbox=83.0030%2C25.3030%2C83.0160%2C25.3120&layer=mapnik&marker=25.3075%2C83.0097',
     googleStreetViewPanoramaUrl: 'https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=25.307583,83.00975&heading=120&pitch=5&fov=90',
     steps: [
       {
@@ -80,6 +87,10 @@ export const STREET_VIEW_ROUTES: Record<string, VisualStreetRoute> = {
     latitude: 25.2884,
     longitude: 83.0062,
     panoramaImageUrl: '/assets/cities/varanasi/ghats/assi-ghat-morning-boats.webp',
+    osmMapUrl: 'https://www.openstreetmap.org/?mlat=25.2884&mlon=83.0062#map=17/25.2884/83.0062',
+    osm3DUrl: 'https://demo.f4map.com/#lat=25.2884&lon=83.0062&zoom=17&camera.theta=55&camera.phi=-30',
+    osmDirectionsUrl: 'https://www.openstreetmap.org/directions?engine=fossgis_osrm_foot&route=25.2890%2C83.0048%3B25.2884%2C83.0062',
+    osmEmbedUrl: 'https://www.openstreetmap.org/export/embed.html?bbox=83.0000%2C25.2830%2C83.0120%2C25.2930&layer=mapnik&marker=25.2884%2C83.0062',
     googleStreetViewPanoramaUrl: 'https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=25.2884,83.0062&heading=80&pitch=0&fov=90',
     steps: [
       {
@@ -131,6 +142,10 @@ export const STREET_VIEW_ROUTES: Record<string, VisualStreetRoute> = {
     latitude: 25.3109,
     longitude: 83.0107,
     panoramaImageUrl: '/assets/cities/varanasi/temples-and-heritage/kashi-vishwanath-golden-spire.webp',
+    osmMapUrl: 'https://www.openstreetmap.org/?mlat=25.3109&mlon=83.0107#map=17/25.3109/83.0107',
+    osm3DUrl: 'https://demo.f4map.com/#lat=25.3109&lon=83.0107&zoom=17&camera.theta=55&camera.phi=-30',
+    osmDirectionsUrl: 'https://www.openstreetmap.org/directions?engine=fossgis_osrm_foot&route=25.3140%2C83.0120%3B25.3109%2C83.0107',
+    osmEmbedUrl: 'https://www.openstreetmap.org/export/embed.html?bbox=83.0040%2C25.3060%2C83.0170%2C25.3160&layer=mapnik&marker=25.3109%2C83.0107',
     googleStreetViewPanoramaUrl: 'https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=25.3109,83.0107&heading=190&pitch=10&fov=90',
     steps: [
       {
@@ -168,6 +183,61 @@ export const STREET_VIEW_ROUTES: Record<string, VisualStreetRoute> = {
         streetViewPitch: 8,
         overlayXPercent: 80,
         overlayYPercent: 42,
+      },
+    ],
+  },
+
+  manikarnika_ghat: {
+    destinationId: 'manikarnika_ghat',
+    destinationName: 'Manikarnika Ghat & Heritage Kund Overlook',
+    cityId: 'varanasi',
+    vehicularDropOffName: 'Chowk Thana Pedestrian Gate',
+    totalWalkingMeters: 420,
+    approxWalkMinutes: 6,
+    latitude: 25.3108,
+    longitude: 83.0142,
+    panoramaImageUrl: '/assets/cities/varanasi/ghats/panchganga-ghat-river-view.webp',
+    osmMapUrl: 'https://www.openstreetmap.org/?mlat=25.3108&mlon=83.0142#map=17/25.3108/83.0142',
+    osm3DUrl: 'https://demo.f4map.com/#lat=25.3108&lon=83.0142&zoom=17&camera.theta=55&camera.phi=-30',
+    osmDirectionsUrl: 'https://www.openstreetmap.org/directions?engine=fossgis_osrm_foot&route=25.3125%2C83.0105%3B25.3108%2C83.0142',
+    osmEmbedUrl: 'https://www.openstreetmap.org/export/embed.html?bbox=83.0070%2C25.3060%2C83.0200%2C25.3160&layer=mapnik&marker=25.3108%2C83.0142',
+    googleStreetViewPanoramaUrl: 'https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=25.3108,83.0142&heading=110&pitch=0&fov=90',
+    steps: [
+      {
+        stepNumber: 1,
+        instructionHinglish: 'Chowk Thana ke samne auto se utro. Yahan se Thatheri Bazaar wali gali andar jaati hai.',
+        instructionEnglish: 'Drop off at Chowk Police Station. The ancient Thatheri Bazaar lane starts here.',
+        visualLandmark: 'Chowk Thana Heritage Arch & Silk Saree Signs',
+        action: 'dropoff',
+        distanceMeters: 0,
+        streetViewHeading: 110,
+        streetViewPitch: 0,
+        overlayXPercent: 22,
+        overlayYPercent: 58,
+      },
+      {
+        stepNumber: 2,
+        instructionHinglish: 'Narrow gali mein dhalan (slope) ki taraf utarte jao. Samne Blue Lassi Shop ki mashhur dukan aayegi.',
+        instructionEnglish: 'Descend along the sloped heritage alley. You will spot the famous Blue Lassi Shop.',
+        visualLandmark: 'Blue Lassi Shop & Hand-Painted Wooden Benches',
+        action: 'straight',
+        distanceMeters: 220,
+        streetViewHeading: 105,
+        streetViewPitch: -5,
+        overlayXPercent: 50,
+        overlayYPercent: 48,
+      },
+      {
+        stepNumber: 3,
+        instructionHinglish: 'Chakrata gali paar karke samne Manikarnika Kund ka sacred jal-kund aur shant ghat platform dikhega.',
+        instructionEnglish: 'Emerge through the lane arch to reach the ancient sacred Manikarnika Kund reservoir and riverfront.',
+        visualLandmark: 'Manikarnika Kund Stone Shrines & Ancient Ghat Steps',
+        action: 'arrival',
+        distanceMeters: 200,
+        streetViewHeading: 115,
+        streetViewPitch: -8,
+        overlayXPercent: 78,
+        overlayYPercent: 56,
       },
     ],
   },

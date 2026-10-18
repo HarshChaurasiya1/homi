@@ -904,13 +904,14 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
                             <div className="pt-2 border-t border-[#EFE7DC] flex items-center justify-between text-[11px] text-[#8C8276]">
                               <span className="truncate max-w-[150px]">{place.nearestTransit.stationOrStop}</span>
                               <a
-                                href={`https://www.google.com/maps/dir/?api=1&destination=${place.latitude},${place.longitude}`}
+                                href={`https://www.openstreetmap.org/?mlat=${place.latitude}&mlon=${place.longitude}#map=17/${place.latitude}/${place.longitude}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-[#8C2D19] font-bold hover:underline flex items-center gap-1"
+                                title="View on OpenStreetMap"
                               >
                                 <Navigation className="w-3 h-3" />
-                                <span>Map</span>
+                                <span>OSM Map</span>
                               </a>
                             </div>
                           </div>

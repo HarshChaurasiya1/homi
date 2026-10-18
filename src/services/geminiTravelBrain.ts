@@ -37,7 +37,11 @@ export interface VisualStreetRoute {
   totalWalkingMeters: number
   approxWalkMinutes: number
   panoramaImageUrl: string
-  googleStreetViewPanoramaUrl: string
+  osmMapUrl: string
+  osm3DUrl: string
+  osmDirectionsUrl: string
+  osmEmbedUrl: string
+  googleStreetViewPanoramaUrl?: string
   latitude: number
   longitude: number
   steps: LandmarkNavigationStep[]
