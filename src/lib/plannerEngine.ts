@@ -1,13 +1,12 @@
 /**
  * HOMI Deterministic Itinerary & Honest Budget Calculation Engine
- * Rule-based, testable, and transparent.
+ * Rule-based, testable, and transparent for all 5 selected pilot cities.
  */
 
 import { PLACES } from '../data/places'
-import type { Place } from '../data/types'
+import type { Place, CityId } from '../data/types'
 
-
-export type DestinationChoice = 'delhi' | 'jaipur' | 'both'
+export type DestinationChoice = 'jaipur' | 'udaipur' | 'manali' | 'varanasi' | 'mussoorie' | 'delhi'
 export type BudgetTier = 'budget' | 'moderate' | 'premium'
 export type TravelInterest = 
   | 'heritage'
@@ -37,7 +36,7 @@ export interface ItineraryStop {
 
 export interface DayPlan {
   dayNumber: number
-  cityId: 'delhi' | 'jaipur'
+  cityId: CityId
   cityName: string
   themeTitle: string
   geographicArea: string
@@ -87,19 +86,19 @@ export interface GeneratedItinerary {
 
 export const BUDGET_RATES = {
   accommodationPerRoomPerNight: {
-    budget: 1200, // Clean guesthouse / backpacker private room
-    moderate: 3500, // Charming heritage haveli / boutique hotel
-    premium: 9500, // Luxury palace or 5-star heritage property
+    budget: 1400, // Clean guesthouse / backpacker mountain hostel
+    moderate: 3800, // Charming heritage haveli / mountain valley resort
+    premium: 9800, // Luxury palace, boutique lakefront, or 5-star mountain chalet
   },
   foodPerPersonPerDay: {
-    budget: 450, // Street food icons, paranthas, kachoris, dhabas
-    moderate: 1100, // Cafe Lota, rooftop haveli dinners, thalis
-    premium: 2400, // Fine dining, royal multicourse thalis, heritage dining
+    budget: 450, // Street food icons, chaat, siddu, kachori, local dhabas
+    moderate: 1100, // Lakeside haveli dining, Landour bakehouses, rooftop cafes
+    premium: 2400, // Royal Mewari thalis, fine-dining havelis, craft cuisine
   },
   transportPerGroupPerDay: {
-    budget: 250, // Per person Metro + e-rickshaws
-    moderate: 850, // Dedicated city autos and app cabs (Ola/Uber)
-    premium: 2200, // Private AC sedan with dedicated chauffeur
+    budget: 300, // Public e-rickshaws, shared autos, walking trails
+    moderate: 950, // Dedicated city autos, app-cabs, mountain taxis
+    premium: 2400, // Private dedicated AC chauffeur-driven sedan / hill SUV
   },
 }
 
@@ -129,21 +128,21 @@ export function calculateBudget(
   const foodTotal = travellers * days * foodRate
   const foodDescription = `${travellers} traveller(s) × ${days} day(s) @ ${formatInr(foodRate)}/day`
 
-  // Transport (Calculated realistically based on group size & tier)
+  // Transport
   let transportTotal = 0
   let transportDescription = ''
   if (budgetTier === 'budget') {
     transportTotal = travellers * days * BUDGET_RATES.transportPerGroupPerDay.budget
-    transportDescription = `Metro Smart Cards + shared battery rickshaws for ${travellers} person(s)`
+    transportDescription = `Local e-rickshaws, shared mountain autos & walking routes for ${travellers} person(s)`
   } else if (budgetTier === 'moderate') {
     transportTotal = days * BUDGET_RATES.transportPerGroupPerDay.moderate
-    transportDescription = `App-cabs (Ola/Uber) & dedicated auto-rickshaws for group`
+    transportDescription = `App-cabs, dedicated autos & local hill taxis for group`
   } else {
     transportTotal = days * BUDGET_RATES.transportPerGroupPerDay.premium
-    transportDescription = `Private dedicated air-conditioned chauffeur-driven sedan for all days`
+    transportDescription = `Dedicated private chauffeur-driven vehicle for all days`
   }
 
-  // Attraction Tickets (Actual sum of curated monuments)
+  // Attraction Tickets & Boat rides (Actual sum of curated monuments)
   let ticketsTotal = 0
   let ticketsVerifiedCount = 0
   itineraryPlaces.forEach((place) => {
@@ -153,26 +152,26 @@ export function calculateBudget(
       ticketsVerifiedCount++
     }
   })
-  const ticketsDescription = `Official monument entry fees for ${travellers} ${nationality === 'indian' ? 'Indian national(s)' : 'international guest(s)'} across ${itineraryPlaces.length} curated stops`
+  const ticketsDescription = `Official monument and boat tariffs for ${travellers} ${nationality === 'indian' ? 'Indian national(s)' : 'international guest(s)'} across ${itineraryPlaces.length} scheduled stops`
 
-  // Buffer (10% for water, incidental chai, tips, footwear tokens)
+  // Buffer (8% for water, chai stops, shoes checking, local guide tipping)
   const subtotal = accommodationTotal + foodTotal + transportTotal + ticketsTotal
   const bufferTotal = Math.round(subtotal * 0.08)
-  const bufferDescription = 'Incidental allowance (8%): bottled water, chai stops, temple shoe checks, and small tips'
+  const bufferDescription = 'Incidental allowance (8%): bottled water, kulhad chai, temple shoe tokens, and boat tips'
 
   const grandTotal = subtotal + bufferTotal
   const perPersonTotal = Math.round(grandTotal / travellers)
 
   const assumptions = [
     `Accommodation is based on ${roomCount} double-occupancy room(s) for ${travellers} guest(s).`,
-    `Food estimates cover 3 daily meals plus afternoon tea and street tasting sessions.`,
-    `Ticket prices reflect official Archaeological Survey of India (ASI) and Rajasthan Tourism verified tariffs as of current records.`,
+    `Food estimates cover 3 daily regional meals plus afternoon tea and authentic street food tastings.`,
+    `Ticket prices reflect official Archaeological Survey of India (ASI) and State Tourism tariffs.`,
   ]
 
   const exclusions = [
-    'Interstate travel (flights, long-distance trains, or intercity transfers between Delhi and Jaipur).',
-    'Personal shopping, textile purchases, jewelry, and high-value souvenirs.',
-    'Alcoholic beverages and optional monument camera fees where applicable.',
+    'Interstate travel (flights, intercity trains, or transfers between cities).',
+    'Personal shopping, handicraft purchases, textiles, jewelry, and high-value souvenirs.',
+    'Alcoholic beverages and optional temple puja offerings where applicable.',
   ]
 
   return {
@@ -213,198 +212,139 @@ export function generateItinerary(inputs: PlannerInputs): GeneratedItinerary {
     return found
   }
 
-  // Pre-curated, geographically logical clusters for Delhi
-  const delhiClusters = [
-    {
-      themeTitle: 'The Mughal Epicenter: Old Delhi & Shahjahanabad',
-      geographicArea: 'Old Delhi / Chandni Chowk Corridor',
-      dayNotes:
-        'Start early before the midday rush. Wear slip-on shoes for temple and mosque etiquette.',
-      morning: {
-        slug: 'chandni-chowk-old-delhi',
-        timing: '8:30 AM – 10:30 AM',
-        mealNote: 'Breakfast: Crispy Paranthas at Paranthe Wali Gali or Jalebi at Dariba corner.',
+  // City-specific thematic clusters
+  const cityClusters: Record<string, Array<{
+    themeTitle: string
+    geographicArea: string
+    dayNotes: string
+    morning: { slug: string; timing: string; mealNote: string }
+    afternoon: { slug: string; timing: string; mealNote: string }
+    evening: { slug: string; timing: string; mealNote: string }
+  }>> = {
+    jaipur: [
+      {
+        themeTitle: 'The Heart of the Pink City',
+        geographicArea: 'Walled City (Badi Chaupar & Forts)',
+        dayNotes: 'Arrive early at Hawa Mahal to catch soft sunrise light reflecting on the jharokhas.',
+        morning: {
+          slug: 'hawa-mahal',
+          timing: '8:00 AM – 9:30 AM',
+          mealNote: 'Breakfast: Steaming Pyaaz Kachori and sweet lassi at Rawat Mishthan Bhandar.',
+        },
+        afternoon: {
+          slug: 'amer-fort',
+          timing: '10:30 AM – 1:30 PM',
+          mealNote: 'Lunch: Traditional Mewari Thali with pure desi ghee.',
+        },
+        evening: {
+          slug: 'nahargarh-fort',
+          timing: '4:00 PM – 6:30 PM (Sunset over the Pink City)',
+          mealNote: 'Dinner: Sunset tea and snacks at Padao terrace overlooking the city lights.',
+        },
       },
-      afternoon: {
-        slug: 'jama-masjid',
-        timing: '11:00 AM – 1:00 PM',
-        mealNote: 'Lunch: Authentic slow-cooked Biryani or Shahi Tukda at Matia Mahal lane.',
-      },
-      evening: {
-        slug: 'red-fort-lal-qila',
-        timing: '3:00 PM – 5:30 PM',
-        mealNote: 'Evening Chai: Traditional cardamom chai near Lal Qila metro.',
-      },
-    },
-    {
-      themeTitle: 'Mughal Splendor & Heritage Gardens',
-      geographicArea: 'Nizamuddin & Lodhi Heritage Belt',
-      dayNotes:
-        'Walk through the world-class restoration corridor from Humayun’s Tomb into Sunder Nursery.',
-      morning: {
-        slug: 'humayuns-tomb',
-        timing: '7:30 AM – 9:30 AM (Soft morning light)',
-        mealNote: 'Morning refreshment: Cold-pressed fresh cane juice near entrance gate.',
-      },
-      afternoon: {
-        slug: 'sunder-nursery',
-        timing: '10:00 AM – 1:00 PM',
-        mealNote: 'Lunch: Wholesome farm bowls & kokum cooler at FAB Cafe by the lake.',
-      },
-      evening: {
-        slug: 'lodhi-art-district-gardens',
-        timing: '3:30 PM – 6:30 PM',
-        mealNote: 'Dinner: Contemporary regional Indian small plates at Cafe Lota or Khanna Market.',
-      },
-    },
-    {
-      themeTitle: 'Sultanate Heights & Hidden Stepwells',
-      geographicArea: 'Mehrauli & Central Delhi',
-      dayNotes:
-        'Witness architectural transitions from 14th-century stepwells to towering Sultanate minarets.',
-      morning: {
-        slug: 'agrasen-ki-baoli',
-        timing: '9:00 AM – 10:30 AM',
-        mealNote: 'Coffee: Filter coffee at Indian Coffee House, Mohan Singh Place.',
-      },
-      afternoon: {
-        slug: 'national-crafts-museum',
-        timing: '11:30 AM – 2:30 PM',
-        mealNote: 'Lunch: Palak patta chaat and apple jalebi at Cafe Lota inside museum.',
-      },
-      evening: {
-        slug: 'qutub-minar',
-        timing: '4:00 PM – 7:30 PM (Stay for night illuminations)',
-        mealNote: 'Dinner: Mehrauli village rooftop cafe overlooking Qutub Minar.',
-      },
-    },
-    {
-      themeTitle: 'Tibetan Sanctuary & Riverside Calm',
-      geographicArea: 'North Delhi / Yamuna Banks',
-      dayNotes:
-        'Escape modern traffic into pedestrian Buddhist alleyways with prayer wheels and Himalayan cuisine.',
-      morning: {
-        slug: 'majnu-ka-tilla-little-tibet',
-        timing: '10:30 AM – 2:30 PM',
-        mealNote: 'Lunch: Spicy Laphing, Thukpa, and blueberry cheesecake at AMA Cafe.',
-      },
-      afternoon: {
-        slug: 'agrasen-ki-baoli',
-        timing: '3:30 PM – 5:00 PM',
-        mealNote: 'Snack: Wenger’s bakery patties in Connaught Place.',
-      },
-      evening: {
-        slug: 'humayuns-tomb',
-        timing: '5:30 PM – 7:00 PM',
-        mealNote: 'Dinner: Pandara Road Butter Chicken & Daal Makhani.',
-      },
-    },
-  ]
+    ],
 
-  // Pre-curated, geographically logical clusters for Jaipur
-  const jaipurClusters = [
-    {
-      themeTitle: 'The Heart of the Pink City',
-      geographicArea: 'Walled City (Badi Chaupar & City Palace)',
-      dayNotes:
-        'The morning sun illuminates the Hawa Mahal facade directly from the east. Arrive early for photos.',
-      morning: {
-        slug: 'hawa-mahal',
-        timing: '8:00 AM – 9:45 AM (Golden sunrise angle)',
-        mealNote: 'Morning Chai: Masala chai on Wind View Cafe rooftop opposite Hawa Mahal.',
+    udaipur: [
+      {
+        themeTitle: 'Palaces, Lake Pichola & Evening Folk Lights',
+        geographicArea: 'Old City & Lakefront Ghats',
+        dayNotes: 'Lake Pichola sunset boat ride is best booked for the 5:00 PM golden hour departure.',
+        morning: {
+          slug: 'city-palace-udaipur',
+          timing: '9:00 AM – 11:30 AM',
+          mealNote: 'Breakfast: Fresh Mirchi Vada and hot jalebis at Jagdish Chowk.',
+        },
+        afternoon: {
+          slug: 'bagore-ki-haveli-gangaur-ghat',
+          timing: '12:30 PM – 3:30 PM',
+          mealNote: 'Lunch: Authentic Dal Baati Churma at Krishna Dal Bati Restro.',
+        },
+        evening: {
+          slug: 'lake-pichola-and-jag-mandir',
+          timing: '4:45 PM – 7:30 PM',
+          mealNote: 'Dinner: Romantic lakeside dinner at Ambrai with views of illuminated City Palace.',
+        },
       },
-      afternoon: {
-        slug: 'city-palace-jaipur',
-        timing: '10:30 AM – 1:30 PM',
-        mealNote: 'Lunch: Authentic Rajasthani Dal Baati Churma at Laxmi Mishthan Bhandar (LMB).',
-      },
-      evening: {
-        slug: 'johari-and-bapu-bazaars',
-        timing: '3:30 PM – 7:00 PM',
-        mealNote: 'Snacks: Pandit Kulfi and crisp pyaaz kachoris.',
-      },
-    },
-    {
-      themeTitle: 'Royal Rajput Fortresses & Sunset Heights',
-      geographicArea: 'Amer Village & Aravalli Ridges',
-      dayNotes:
-        'Combine Amer Fort and the Panna Meena Stepwell before heading up to Nahargarh for sunset.',
-      morning: {
-        slug: 'amer-fort',
-        timing: '8:00 AM – 11:30 AM',
-        mealNote: 'Snack: Fresh buttermilk & kachoris in historic Amer town.',
-      },
-      afternoon: {
-        slug: 'panna-meena-ka-kund',
-        timing: '12:00 PM – 1:30 PM',
-        mealNote: 'Lunch: Organic haveli salads and herbal tea at Anokhi Cafe.',
-      },
-      evening: {
-        slug: 'nahargarh-fort',
-        timing: '3:30 PM – 6:45 PM (Sunset over the Pink City)',
-        mealNote: 'Dinner: Sunset refreshments at Padao terrace overlooking Jaipur valley.',
-      },
-    },
-    {
-      themeTitle: 'Craft Heritage, Museums & Artisan Gates',
-      geographicArea: 'Amer Crafts & Southern Cultural Belt',
-      dayNotes:
-        'Witness master block printers at work and marvel at Indo-Saracenic royal museum treasures.',
-      morning: {
-        slug: 'patrika-gate-jawahar-circle',
-        timing: '7:30 AM – 9:00 AM (Quiet photography light)',
-        mealNote: 'Breakfast: Steaming Pyaaz Kachori and Mawa Kachori at Rawat Mishthan Bhandar.',
-      },
-      afternoon: {
-        slug: 'anokhi-museum-hand-printing',
-        timing: '10:30 AM – 1:00 PM',
-        mealNote: 'Lunch: Traditional Gatte ki Sabzi and Bajra Roti at Masala Chowk.',
-      },
-      evening: {
-        slug: 'albert-hall-museum',
-        timing: '3:30 PM – 6:30 PM (Stunning illuminated night view)',
-        mealNote: 'Dinner: Handi Restaurant for signature Laal Maas or rich Dal Tadka.',
-      },
-    },
-  ]
+    ],
 
-  // Decide how to distribute days based on destination
-  interface ScheduledCluster {
-    cityId: 'delhi' | 'jaipur'
-    cluster: (typeof delhiClusters)[0]
+    manali: [
+      {
+        themeTitle: 'Sacred Deodars, Bohemian Trails & Waterfalls',
+        geographicArea: 'Old Manali & Vashisht Ridges',
+        dayNotes: 'Wear walking shoes for the pine needle trails of Dhungri forest and Old Manali.',
+        morning: {
+          slug: 'hadimba-devi-temple',
+          timing: '8:30 AM – 10:30 AM',
+          mealNote: 'Breakfast: Hot Himachali Siddu with pure ghee and walnut chutney.',
+        },
+        afternoon: {
+          slug: 'old-manali-village-and-cafes',
+          timing: '11:30 AM – 2:30 PM',
+          mealNote: 'Lunch: Pan-seared Himalayan trout fish & apple cider at Cafe 1947 by the river.',
+        },
+        evening: {
+          slug: 'jogini-waterfalls-vashisht-trek',
+          timing: '3:30 PM – 6:30 PM',
+          mealNote: 'Evening Chai: Fresh mountain cookies and hot seabuckthorn tea at Dylan’s.',
+        },
+      },
+    ],
+
+    varanasi: [
+      {
+        themeTitle: 'The Sacred Crescent: Dawn to Grand Evening Aarti',
+        geographicArea: 'Ancient Ghats & Kashi Vishwanath Corridor',
+        dayNotes: 'Wake early for the 5:30 AM dawn boat ride from Assi Ghat to witness morning prayers.',
+        morning: {
+          slug: 'subah-e-banaras-boat-ride',
+          timing: '5:30 AM – 8:00 AM',
+          mealNote: 'Breakfast: Winter Malaiyo foam cloud and hot chana kachori at Thatheri Bazaar.',
+        },
+        afternoon: {
+          slug: 'kashi-vishwanath-temple-corridor',
+          timing: '11:00 AM – 1:30 PM',
+          mealNote: 'Lunch: Kashi Tamatar Chaat in an earthen kulhad followed by sweet Banarasi Paan.',
+        },
+        evening: {
+          slug: 'dashashwamedh-ghat-ganga-aarti',
+          timing: '5:30 PM – 7:30 PM',
+          mealNote: 'Dinner: Piping hot ginger kulhad chai and Rabdi at Dashashwamedh Ghat.',
+        },
+      },
+    ],
+
+    mussoorie: [
+      {
+        themeTitle: 'Misty Landour Pines & Himalayan Sunsets',
+        geographicArea: 'Landour Cantt & George Everest Ridge',
+        dayNotes: 'Landour is best explored on foot under giant deodar trees away from Mall Road traffic.',
+        morning: {
+          slug: 'landour-lal-tibba-and-char-dukan',
+          timing: '8:30 AM – 11:30 AM',
+          mealNote: 'Breakfast: Char Dukan butter bun omelette and warm Landour apple pie.',
+        },
+        afternoon: {
+          slug: 'happy-valley-tibetan-monastery',
+          timing: '12:30 PM – 2:30 PM',
+          mealNote: 'Lunch: Steamed Tibetan Tingmo with garlicky mountain greens at Kalsang.',
+        },
+        evening: {
+          slug: 'george-everest-house-and-peak',
+          timing: '3:45 PM – 6:30 PM',
+          mealNote: 'Dinner: Sunset tea on the mountain ridge and sticky toffee pudding at Rokeby Manor.',
+        },
+      },
+    ],
   }
 
-  const plannedSequence: ScheduledCluster[] = []
+  // Fallback to jaipur if destination not found
+  const targetCityId = (cityClusters[destination] ? destination : 'jaipur') as CityId
+  const clusters = cityClusters[targetCityId] || cityClusters.jaipur
 
-  if (destination === 'delhi') {
-    for (let i = 0; i < days; i++) {
-      const cluster = delhiClusters[i % delhiClusters.length]
-      plannedSequence.push({ cityId: 'delhi', cluster })
-    }
-  } else if (destination === 'jaipur') {
-    for (let i = 0; i < days; i++) {
-      const cluster = jaipurClusters[i % jaipurClusters.length]
-      plannedSequence.push({ cityId: 'jaipur', cluster })
-    }
-  } else {
-    // Both cities
-    // e.g. 2 days -> 1 Delhi, 1 Jaipur; 3 days -> 2 Delhi, 1 Jaipur; 4 days -> 2 Delhi, 2 Jaipur; 5 days -> 3 Delhi, 2 Jaipur
-    const delhiDays = Math.ceil(days / 2)
-    const jaipurDays = days - delhiDays
-
-    for (let i = 0; i < delhiDays; i++) {
-      plannedSequence.push({ cityId: 'delhi', cluster: delhiClusters[i % delhiClusters.length] })
-    }
-    for (let i = 0; i < jaipurDays; i++) {
-      plannedSequence.push({ cityId: 'jaipur', cluster: jaipurClusters[i % jaipurClusters.length] })
-    }
-  }
-
-  // Build the day plans
-  plannedSequence.forEach((item, index) => {
-    const dayNumber = index + 1
-    const cityName = item.cityId === 'delhi' ? 'Delhi' : 'Jaipur'
-    const cluster = item.cluster
+  for (let i = 0; i < days; i++) {
+    const dayNumber = i + 1
+    const cluster = clusters[i % clusters.length]
+    const cityName = targetCityId.charAt(0).toUpperCase() + targetCityId.slice(1)
 
     const morningPlace = getPlace(cluster.morning.slug)
     const afternoonPlace = getPlace(cluster.afternoon.slug)
@@ -446,14 +386,14 @@ export function generateItinerary(inputs: PlannerInputs): GeneratedItinerary {
 
     dayPlans.push({
       dayNumber,
-      cityId: item.cityId,
+      cityId: targetCityId,
       cityName,
       themeTitle: cluster.themeTitle,
       geographicArea: cluster.geographicArea,
       stops,
       dayNotes: cluster.dayNotes,
     })
-  })
+  }
 
   const budget = calculateBudget(inputs, allScheduledPlaces)
 

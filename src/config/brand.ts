@@ -33,9 +33,13 @@ export const BRAND: BrandConfig = {
   curatorNote:
     'All monument timings, entry tariffs, and public transport connections are verified against official tourism authorities (ASI, DMRC, RTDC) and local ground checks.',
   pilotCities: [
-    { id: 'delhi', name: 'Delhi', state: 'National Capital Territory' },
     { id: 'jaipur', name: 'Jaipur', state: 'Rajasthan' },
+    { id: 'udaipur', name: 'Udaipur', state: 'Rajasthan' },
+    { id: 'manali', name: 'Manali', state: 'Himachal Pradesh' },
+    { id: 'varanasi', name: 'Varanasi', state: 'Uttar Pradesh' },
+    { id: 'mussoorie', name: 'Mussoorie', state: 'Uttarakhand' },
   ],
+
   footerLinks: {
     about: '/#about',
     curators: '/#curators',

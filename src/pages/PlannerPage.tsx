@@ -25,13 +25,14 @@ export const PlannerPage: React.FC<{ onSaveToast: (msg: string) => void }> = ({ 
 
   // Default state or restore from saved draft
   const defaultInputs: PlannerInputs = {
-    destination: 'delhi',
+    destination: 'jaipur',
     days: 3,
     travellers: 2,
     budgetTier: 'moderate',
     interests: ['heritage', 'food'],
     nationality: 'indian',
   }
+
 
   const [inputs, setInputs] = useState<PlannerInputs>(() => {
     const draft = getPlannerDraft<PlannerInputs>()
@@ -99,27 +100,31 @@ export const PlannerPage: React.FC<{ onSaveToast: (msg: string) => void }> = ({ 
                 <label className="text-xs font-bold uppercase tracking-wider text-[#7D736A] block">
                   1. Destination City
                 </label>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {[
-                    { id: 'delhi', label: 'Delhi' },
-                    { id: 'jaipur', label: 'Jaipur' },
-                    { id: 'both', label: 'Delhi + Jaipur' },
+                    { id: 'jaipur', label: 'Jaipur', sub: 'Pink City' },
+                    { id: 'udaipur', label: 'Udaipur', sub: 'Lakes' },
+                    { id: 'manali', label: 'Manali', sub: 'Pines' },
+                    { id: 'varanasi', label: 'Varanasi', sub: 'Ghats' },
+                    { id: 'mussoorie', label: 'Mussoorie', sub: 'Hills' },
                   ].map((dest) => (
                     <button
                       key={dest.id}
                       type="button"
                       onClick={() => handleInputChange('destination', dest.id as DestinationChoice)}
-                      className={`py-2 px-3 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
+                      className={`p-2 rounded-xl text-left transition-all ${
                         inputs.destination === dest.id
                           ? 'bg-[#201C1A] text-white shadow-xs'
                           : 'bg-[#F9F7F3] border border-[#E5DACB] text-[#554D45] hover:bg-[#F2ECE1]'
                       }`}
                     >
-                      {dest.label}
+                      <span className="text-xs font-bold block">{dest.label}</span>
+                      <span className={`text-[10px] block ${inputs.destination === dest.id ? 'text-white/70' : 'text-[#8C8276]'}`}>{dest.sub}</span>
                     </button>
                   ))}
                 </div>
               </div>
+
 
               {/* 2. Number of Days & Travellers */}
               <div className="grid grid-cols-2 gap-4">

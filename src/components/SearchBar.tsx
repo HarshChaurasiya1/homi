@@ -6,7 +6,7 @@ import { useRouter } from '../lib/routerContext'
 import { Search, MapPin, Utensils, X, ArrowRight } from 'lucide-react'
 
 export const SearchBar: React.FC<{ placeholder?: string; autoFocus?: boolean }> = ({
-  placeholder = 'Search Delhi, Jaipur, Humayun’s Tomb, Amer Fort, Chole Bhature, Kachori...',
+  placeholder = 'Search Jaipur, Udaipur, Manali, Varanasi, Mussoorie, Amer Fort, Pichola, Siddu...',
   autoFocus = false,
 }) => {
   const [query, setQuery] = useState('')
@@ -29,13 +29,17 @@ export const SearchBar: React.FC<{ placeholder?: string; autoFocus?: boolean }> 
 
   // Matching Cities
   const matchingCities = [
-    { id: 'delhi', name: 'Delhi', state: 'National Capital Territory', href: '/delhi' },
     { id: 'jaipur', name: 'Jaipur', state: 'Rajasthan', href: '/jaipur' },
+    { id: 'udaipur', name: 'Udaipur', state: 'Rajasthan', href: '/udaipur' },
+    { id: 'manali', name: 'Manali', state: 'Himachal Pradesh', href: '/manali' },
+    { id: 'varanasi', name: 'Varanasi', state: 'Uttar Pradesh', href: '/varanasi' },
+    { id: 'mussoorie', name: 'Mussoorie', state: 'Uttarakhand', href: '/mussoorie' },
   ].filter(
     (c) =>
       trimmed.length > 0 &&
       (c.name.toLowerCase().includes(trimmed) || c.state.toLowerCase().includes(trimmed))
   )
+
 
   // Matching Places
   const matchingPlaces =

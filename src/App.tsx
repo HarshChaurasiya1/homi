@@ -21,12 +21,25 @@ const MainContent: React.FC = () => {
     if (path === '/') {
       return <HomePage onSaveToast={setToastMessage} />
     }
-    if (path === '/delhi') {
-      return <CityPage cityId="delhi" onSaveToast={setToastMessage} />
-    }
     if (path === '/jaipur') {
       return <CityPage cityId="jaipur" onSaveToast={setToastMessage} />
     }
+    if (path === '/udaipur') {
+      return <CityPage cityId="udaipur" onSaveToast={setToastMessage} />
+    }
+    if (path === '/manali') {
+      return <CityPage cityId="manali" onSaveToast={setToastMessage} />
+    }
+    if (path === '/varanasi') {
+      return <CityPage cityId="varanasi" onSaveToast={setToastMessage} />
+    }
+    if (path === '/mussoorie') {
+      return <CityPage cityId="mussoorie" onSaveToast={setToastMessage} />
+    }
+    if (path === '/delhi') {
+      return <CityPage cityId="delhi" onSaveToast={setToastMessage} />
+    }
+
     if (path === '/places/:slug' && params.slug) {
       return <PlaceDetailPage slug={params.slug} onSaveToast={setToastMessage} />
     }

@@ -62,36 +62,32 @@ export const Footer: React.FC = () => {
           {/* Pilot Cities */}
           <div>
             <h3 className="font-editorial text-sm font-semibold text-[#201C1A] uppercase tracking-wider mb-3">
-              Pilot Cities
+              5 Pilot Destinations
             </h3>
             <ul className="space-y-2 text-sm">
-              <li>
-                <Link
-                  to="/delhi"
-                  className="hover:text-[#8C2D19] transition-colors flex items-center justify-between"
-                >
-                  <span>Delhi</span>
-                  <span className="text-xs text-[#8C2D19] font-medium bg-[#F5EBE6] px-2 py-0.5 rounded">
-                    10 places
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/jaipur"
-                  className="hover:text-[#C85A32] transition-colors flex items-center justify-between"
-                >
-                  <span>Jaipur</span>
-                  <span className="text-xs text-[#C85A32] font-medium bg-[#FBECE6] px-2 py-0.5 rounded">
-                    10 places
-                  </span>
-                </Link>
-              </li>
-              <li className="pt-2 text-xs text-[#887F76]">
-                Next: Udaipur, Varanasi, Goa (Coming soon)
-              </li>
+              {[
+                { id: 'jaipur', name: 'Jaipur', color: '#C85A32', tag: 'Pink City' },
+                { id: 'udaipur', name: 'Udaipur', color: '#1B4965', tag: 'Lakes' },
+                { id: 'manali', name: 'Manali', color: '#1E4620', tag: 'Pines' },
+                { id: 'varanasi', name: 'Varanasi', color: '#9B2226', tag: 'Ghats' },
+                { id: 'mussoorie', name: 'Mussoorie', color: '#2E4057', tag: 'Hills' },
+              ].map((c) => (
+                <li key={c.id}>
+                  <Link
+                    to={`/${c.id}`}
+                    className="hover:underline transition-colors flex items-center justify-between"
+                    style={{ color: c.color }}
+                  >
+                    <span className="font-medium">{c.name}</span>
+                    <span className="text-[11px] px-2 py-0.5 rounded bg-white border border-[#E5DACB]">
+                      {c.tag}
+                    </span>
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
+
 
           {/* Platform & Trust */}
           <div>

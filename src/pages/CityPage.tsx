@@ -4,9 +4,11 @@ import { CITIES } from '../data/cities'
 import { PLACES } from '../data/places'
 import { LOCAL_DISHES } from '../data/dishes'
 import { PlaceCard } from '../components/PlaceCard'
-import { ThemeMotif } from '../components/ThemeMotif'
 import { Link } from '../lib/router'
-import { Calendar, Info, ArrowRight } from 'lucide-react'
+import { ThemeMotif, type MotifVariant } from '../components/ThemeMotif'
+import { Calendar, Info, ArrowRight, Utensils } from 'lucide-react'
+
+
 
 
 interface CityPageProps {
@@ -22,7 +24,7 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 text-center">
         <h1 className="font-editorial text-2xl font-bold">City Not Found</h1>
-        <p className="text-sm text-stone-600 mt-2">The requested city is not yet in our pilot catalog.</p>
+        <p className="text-sm text-stone-600 mt-2">The requested city is not in our 5 pilot destinations.</p>
         <Link to="/" className="inline-block mt-4 px-4 py-2 bg-stone-900 text-white rounded-lg text-sm">
           Return Home
         </Link>
@@ -30,11 +32,55 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
     )
   }
 
-  const isDelhi = cityId === 'delhi'
-  const primaryColor = isDelhi ? '#8C2D19' : '#C85A32'
-  const secondaryColor = isDelhi ? '#D97706' : '#E67E22'
-  const cityBgClass = isDelhi ? 'theme-delhi bg-[#F9F6F0]' : 'theme-jaipur bg-[#FCF7F4]'
-  const motifType = isDelhi ? 'mughal-arch' : 'jharokha-scallop'
+  const cityStyles: Record<string, {
+    primary: string
+    secondary: string
+    bgClass: string
+    motif: MotifVariant
+  }> = {
+    jaipur: {
+      primary: '#C85A32',
+      secondary: '#E67E22',
+      bgClass: 'theme-jaipur bg-[#FCF7F4]',
+      motif: 'jharokha-scallop',
+    },
+    udaipur: {
+      primary: '#1B4965',
+      secondary: '#C99700',
+      bgClass: 'theme-udaipur bg-[#F4F8FA]',
+      motif: 'mewar-arch-lake',
+    },
+    manali: {
+      primary: '#1E4620',
+      secondary: '#D4821E',
+      bgClass: 'theme-manali bg-[#F4F7F4]',
+      motif: 'himalayan-pine',
+    },
+    varanasi: {
+      primary: '#9B2226',
+      secondary: '#D97706',
+      bgClass: 'theme-varanasi bg-[#FBF6EE]',
+      motif: 'ganga-diya-ghat',
+    },
+    mussoorie: {
+      primary: '#2E4057',
+      secondary: '#D08C51',
+      bgClass: 'theme-mussoorie bg-[#F6F7F9]',
+      motif: 'misty-pine-ridge',
+    },
+    delhi: {
+      primary: '#8C2D19',
+      secondary: '#D97706',
+      bgClass: 'theme-delhi bg-[#F9F6F0]',
+      motif: 'mughal-arch',
+    },
+  }
+
+  const currentStyle = cityStyles[cityId] || cityStyles.jaipur
+  const primaryColor = currentStyle.primary
+  const secondaryColor = currentStyle.secondary
+  const cityBgClass = currentStyle.bgClass
+  const motifType = currentStyle.motif
 
   // Filter places for this city
   const cityPlaces = PLACES.filter((p) => p.cityId === cityId)
@@ -49,21 +95,60 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
   const categories: Array<{ id: PlaceCategory | 'all'; label: string }> = [
     { id: 'all', label: `All Places (${cityPlaces.length})` },
     { id: 'heritage', label: 'Heritage & Monuments' },
-    { id: 'neighborhood', label: 'Bazaars & Quarters' },
-    { id: 'hidden_gem', label: 'Hidden Gems & Stepwells' },
+    { id: 'neighborhood', label: 'Bazaars & Trails' },
+    { id: 'hidden_gem', label: 'Hidden Gems' },
     { id: 'sunset', label: 'Scenic & Sunset' },
-    { id: 'shopping', label: 'Artisans & Crafts' },
   ]
+
+  // Signature Day Trail data per city
+  const signatureDayTrails: Record<string, {
+    morning: { time: string; title: string; desc: string }
+    afternoon: { time: string; title: string; desc: string }
+    evening: { time: string; title: string; desc: string }
+  }> = {
+    jaipur: {
+      morning: { time: '8:00 AM', title: 'Hawa Mahal Rooftop Chai', desc: 'Watch golden sunrise light illuminate 953 jharokhas from Wind View Cafe. Entry: ₹50.' },
+      afternoon: { time: '11:00 AM', title: 'Amer Fort & Sheesh Mahal', desc: 'Explore the Rajput mirror palace and wander down to ancient Panna Meena Stepwell.' },
+      evening: { time: '4:30 PM', title: 'Nahargarh Fort Ridge', desc: 'Watch sunset dip behind the Aravalli hills with panoramic views of the entire Pink City.' },
+    },
+    udaipur: {
+      morning: { time: '9:00 AM', title: 'City Palace Granite Halls', desc: 'Witness the Mor Chowk glass peacocks and Zenana Mahal overlooking Lake Pichola. Entry: ₹300.' },
+      afternoon: { time: '12:30 PM', title: 'Gangaur Ghat & Folk Arts', desc: 'Wander lakeside havelis, browse miniature paintings, and enjoy authentic Dal Baati lunch.' },
+      evening: { time: '4:45 PM', title: 'Lake Pichola Sunset Cruise', desc: 'Take a serene wooden boat toward Jag Mandir Island as the white palaces turn golden.' },
+    },
+    manali: {
+      morning: { time: '8:30 AM', title: 'Hadimba Pagoda Temple', desc: 'Breathe crisp pine mist among giant centuries-old deodars. Free public entrance.' },
+      afternoon: { time: '11:30 AM', title: 'Old Manali Bohemian Trail', desc: 'Cross the river bridge for woodfired river cafes, Himachali Siddu, and apple orchards.' },
+      evening: { time: '3:30 PM', title: 'Jogini Falls & Vashisht Spring', desc: 'Hike through pine forests to cascading mountain waterfalls and natural hot baths.' },
+    },
+    varanasi: {
+      morning: { time: '5:30 AM', title: 'Subah-e-Banaras Dawn Boat', desc: 'Glide quietly on a hand-rowed boat from Assi Ghat past 84 stone palaces in morning mist.' },
+      afternoon: { time: '11:30 AM', title: 'Kashi Vishwanath Corridor', desc: 'Walk the restored riverfront corridor to the historic Jyotirlinga and taste Tamatar Chaat.' },
+      evening: { time: '5:30 PM', title: 'Grand Evening Ganga Aarti', desc: 'Witness seven priests adoration of the sacred river with brass lamps, bells, and conches.' },
+    },
+    mussoorie: {
+      morning: { time: '8:30 AM', title: 'Landour Lal Tibba Loop', desc: 'Walk under towering deodars from Char Dukan to Lal Tibba; breakfast at Landour Bakehouse.' },
+      afternoon: { time: '12:30 PM', title: 'Happy Valley Tibetan Trail', desc: 'Spin prayer wheels at the Buddhist temple where the Dalai Lama first resided in 1959.' },
+      evening: { time: '3:45 PM', title: 'George Everest Sunset Peak', desc: 'Climb the scenic prayer-flag ridge for 360-degree views of the Doon Valley and snow peaks.' },
+    },
+    delhi: {
+      morning: { time: '7:30 AM', title: 'Humayun’s Tomb & Gardens', desc: 'Catch morning sun over red sandstone before tour buses arrive. Entry: ₹40.' },
+      afternoon: { time: '11:30 AM', title: 'Sunder Nursery & Lunch', desc: 'Walk through Mughal canals into FAB Cafe for lake-view salads and fresh kokum coolers.' },
+      evening: { time: '4:00 PM', title: 'Lodhi Art Murals & Dinner', desc: 'Open-air street art walk followed by regional Indian dinner at Cafe Lota or Khanna Market.' },
+    },
+  }
+
+  const trail = signatureDayTrails[cityId] || signatureDayTrails.jaipur
 
   return (
     <div className={`min-h-screen ${cityBgClass} transition-colors pb-16`}>
       {/* City Hero Banner with Bespoke Architectural Art Direction */}
       <section className="relative border-b border-[#E5DACB] overflow-hidden">
-        {/* Subtle Background Watermark Motifs */}
-        <div className="absolute right-4 top-8 hidden lg:block opacity-15 pointer-events-none">
+        {/* Subtle Background Watermark Motifs with CSS Animation */}
+        <div className="absolute right-6 top-8 hidden lg:block opacity-20 pointer-events-none animate-float">
           <ThemeMotif type={motifType} width={160} height={160} />
         </div>
-        <div className="absolute left-6 bottom-4 hidden lg:block opacity-10 pointer-events-none">
+        <div className="absolute left-6 bottom-4 hidden lg:block opacity-15 pointer-events-none animate-float" style={{ animationDelay: '2s' }}>
           <ThemeMotif type={motifType} width={100} height={100} />
         </div>
 
@@ -77,7 +162,7 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-7 space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white shadow-xs" style={{ backgroundColor: primaryColor }}>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white shadow-xs" style={{ backgroundColor: primaryColor }}>
                 <span>{city.state}</span>
               </div>
 
@@ -98,12 +183,24 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
                 {city.heroDescription}
               </p>
 
+              {/* Dedicated "Taste of this City" Box */}
+              <div className="p-4 rounded-2xl bg-white/90 border border-[#E8DFD3] shadow-xs text-xs sm:text-sm text-[#48423E] flex items-start gap-3">
+                <Utensils className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: primaryColor }} />
+                <div>
+                  <span className="font-bold text-[#201C1A] block">Taste of {city.name}:</span>
+                  <span className="font-semibold block text-[#201C1A]">{city.tasteOfCity.signatureDish}</span>
+                  <span className="text-[#7A7167] text-xs leading-relaxed block mt-0.5">
+                    Institution: <strong>{city.tasteOfCity.famousEatery}</strong> • Notes: {city.tasteOfCity.headline}
+                  </span>
+                </div>
+              </div>
+
               {/* Curator Local Friend Note */}
-              <div className="p-4 rounded-2xl bg-white/80 border border-[#E8DFD3] shadow-xs text-xs sm:text-sm text-[#48423E] flex items-start gap-3">
+              <div className="p-4 rounded-2xl bg-white/70 border border-[#E8DFD3] shadow-2xs text-xs sm:text-sm text-[#48423E] flex items-start gap-3">
                 <Info className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: primaryColor }} />
                 <div>
                   <span className="font-bold text-[#201C1A] block">Curator Note for {city.name}:</span>
-                  <span className="leading-relaxed">{city.curatorNote}</span>
+                  <span className="leading-relaxed text-[#5D554C]">{city.curatorNote}</span>
                 </div>
               </div>
             </div>
@@ -121,7 +218,7 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
                 </div>
 
                 <div>
-                  <span className="text-[#8C8276] font-medium block">Recommended Duration</span>
+                  <span className="text-[#8C8276] font-medium block">Recommended Stay</span>
                   <span className="font-bold text-[#201C1A]">{city.idealDays} Days</span>
                 </div>
 
@@ -131,14 +228,14 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
                 </div>
 
                 <div>
-                  <span className="text-[#8C8276] font-medium block">Local Etiquette & Respect</span>
+                  <span className="text-[#8C8276] font-medium block">Local Etiquette & Sanctity</span>
                   <span className="text-[#48423E] leading-relaxed block mt-0.5">{city.localEtiquetteTip}</span>
                 </div>
               </div>
 
               <Link
                 to="/planner"
-                className="w-full py-2.5 px-4 rounded-xl text-white text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 transition-opacity hover:opacity-95"
+                className="w-full py-2.5 px-4 rounded-xl text-white text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 transition-opacity hover:opacity-95 shadow-xs"
                 style={{ backgroundColor: primaryColor }}
               >
                 <Calendar className="w-4 h-4" />
@@ -194,7 +291,7 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
         </div>
       </section>
 
-      {/* Suggested Starter Itinerary for this City */}
+      {/* Suggested Signature Day Trail for this City */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 mt-16">
         <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E5DACB] shadow-sm">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#F2ECE1] pb-4 mb-6">
@@ -203,7 +300,7 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
                 Suggested Walk
               </span>
               <h2 className="font-editorial text-2xl font-bold text-[#201C1A]">
-                The Signature {city.name} Day Trail
+                The Signature 1-Day {city.name} Trail
               </h2>
             </div>
             <Link
@@ -217,89 +314,44 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {isDelhi ? (
-              <>
-                <div className="p-4 rounded-2xl bg-[#F9F6F0] border border-[#EFE7DA] space-y-2">
-                  <div className="flex items-center justify-between text-xs font-bold text-[#8C2D19]">
-                    <span>MORNING (7:30 AM)</span>
-                    <span>1.5 Hours</span>
-                  </div>
-                  <h3 className="font-editorial text-base font-bold text-[#201C1A]">
-                    Humayun’s Tomb & Gardens
-                  </h3>
-                  <p className="text-xs text-[#5D554C]">
-                    Catch the soft morning sun over red sandstone before tour buses arrive. Entry: ₹40.
-                  </p>
-                </div>
+            <div className="p-4 rounded-2xl border space-y-2 bg-white/70" style={{ borderColor: primaryColor + '30' }}>
+              <div className="flex items-center justify-between text-xs font-bold" style={{ color: primaryColor }}>
+                <span>MORNING ({trail.morning.time})</span>
+                <span>Stop 1</span>
+              </div>
+              <h3 className="font-editorial text-base font-bold text-[#201C1A]">
+                {trail.morning.title}
+              </h3>
+              <p className="text-xs text-[#5D554C] leading-relaxed">
+                {trail.morning.desc}
+              </p>
+            </div>
 
-                <div className="p-4 rounded-2xl bg-[#F9F6F0] border border-[#EFE7DA] space-y-2">
-                  <div className="flex items-center justify-between text-xs font-bold text-[#8C2D19]">
-                    <span>AFTERNOON (11:30 AM)</span>
-                    <span>2 Hours</span>
-                  </div>
-                  <h3 className="font-editorial text-base font-bold text-[#201C1A]">
-                    Sunder Nursery & Lunch
-                  </h3>
-                  <p className="text-xs text-[#5D554C]">
-                    Walk through Mughal canals into FAB Cafe for lake-view millet salads and fresh kokum coolers.
-                  </p>
-                </div>
+            <div className="p-4 rounded-2xl border space-y-2 bg-white/70" style={{ borderColor: primaryColor + '30' }}>
+              <div className="flex items-center justify-between text-xs font-bold" style={{ color: primaryColor }}>
+                <span>AFTERNOON ({trail.afternoon.time})</span>
+                <span>Stop 2</span>
+              </div>
+              <h3 className="font-editorial text-base font-bold text-[#201C1A]">
+                {trail.afternoon.title}
+              </h3>
+              <p className="text-xs text-[#5D554C] leading-relaxed">
+                {trail.afternoon.desc}
+              </p>
+            </div>
 
-                <div className="p-4 rounded-2xl bg-[#F9F6F0] border border-[#EFE7DA] space-y-2">
-                  <div className="flex items-center justify-between text-xs font-bold text-[#8C2D19]">
-                    <span>EVENING (4:00 PM)</span>
-                    <span>2.5 Hours</span>
-                  </div>
-                  <h3 className="font-editorial text-base font-bold text-[#201C1A]">
-                    Lodhi Art Murals & Dinner
-                  </h3>
-                  <p className="text-xs text-[#5D554C]">
-                    Open-air street art walk followed by regional Indian dinner at Cafe Lota or Khanna Market.
-                  </p>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="p-4 rounded-2xl bg-[#FCF7F4] border border-[#F0DFD8] space-y-2">
-                  <div className="flex items-center justify-between text-xs font-bold text-[#C85A32]">
-                    <span>MORNING (8:00 AM)</span>
-                    <span>1.5 Hours</span>
-                  </div>
-                  <h3 className="font-editorial text-base font-bold text-[#201C1A]">
-                    Hawa Mahal Rooftop Chai
-                  </h3>
-                  <p className="text-xs text-[#5D554C]">
-                    Watch the early sun illuminate 953 jharokhas from Wind View Cafe. Entry: ₹50.
-                  </p>
-                </div>
-
-                <div className="p-4 rounded-2xl bg-[#FCF7F4] border border-[#F0DFD8] space-y-2">
-                  <div className="flex items-center justify-between text-xs font-bold text-[#C85A32]">
-                    <span>AFTERNOON (11:00 AM)</span>
-                    <span>2.5 Hours</span>
-                  </div>
-                  <h3 className="font-editorial text-base font-bold text-[#201C1A]">
-                    Amer Fort & Stepwell
-                  </h3>
-                  <p className="text-xs text-[#5D554C]">
-                    Explore the Sheesh Mahal mirror palace and walk to ancient Panna Meena Stepwell.
-                  </p>
-                </div>
-
-                <div className="p-4 rounded-2xl bg-[#FCF7F4] border border-[#F0DFD8] space-y-2">
-                  <div className="flex items-center justify-between text-xs font-bold text-[#C85A32]">
-                    <span>SUNSET (4:30 PM)</span>
-                    <span>2 Hours</span>
-                  </div>
-                  <h3 className="font-editorial text-base font-bold text-[#201C1A]">
-                    Nahargarh Fort Ridge
-                  </h3>
-                  <p className="text-xs text-[#5D554C]">
-                    Watch the sun dip behind the Aravalli hills with panoramic views of the entire Pink City.
-                  </p>
-                </div>
-              </>
-            )}
+            <div className="p-4 rounded-2xl border space-y-2 bg-white/70" style={{ borderColor: primaryColor + '30' }}>
+              <div className="flex items-center justify-between text-xs font-bold" style={{ color: primaryColor }}>
+                <span>SUNSET / EVENING ({trail.evening.time})</span>
+                <span>Stop 3</span>
+              </div>
+              <h3 className="font-editorial text-base font-bold text-[#201C1A]">
+                {trail.evening.title}
+              </h3>
+              <p className="text-xs text-[#5D554C] leading-relaxed">
+                {trail.evening.desc}
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -318,7 +370,7 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {cityDishes.map((dish) => (
             <div
               key={dish.id}

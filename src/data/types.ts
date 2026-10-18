@@ -3,7 +3,8 @@
  * Strict schema for cities, places, food experiences, and itineraries.
  */
 
-export type CityId = 'delhi' | 'jaipur'
+export type CityId = 'jaipur' | 'udaipur' | 'manali' | 'varanasi' | 'mussoorie' | 'delhi'
+
 
 export type PlaceCategory = 
   | 'heritage'
@@ -93,4 +94,11 @@ export interface CityInfo {
   heroImage: string
   heroImageAlt: string
   themeClass: string
+  tasteOfCity: {
+    headline: string
+    flavors: string[]
+    signatureDish: string
+    famousEatery: string
+  }
 }
+

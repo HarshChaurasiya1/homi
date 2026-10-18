@@ -1,70 +1,7 @@
 import type { LocalDish } from './types'
 
-
 export const LOCAL_DISHES: LocalDish[] = [
-  // Delhi iconic dishes
-  {
-    id: 'delhi-chole-bhature',
-    cityId: 'delhi',
-    name: 'Chole Bhature with Pickled Green Chilli & Amla',
-    hindiName: 'छोले भटूरे',
-    type: 'veg',
-    description:
-      'Pillowy, golden fried bhaturas served with slow-simmered dark pindi chole infused with pomegranate seeds and dried anardana.',
-    originStory:
-      'Refined to perfection by Punjabi migrants after 1947, becoming Delhi’s definitive weekend breakfast obsession.',
-    iconicSpotName: 'Sita Ram Diwan Chand',
-    spotNeighborhood: 'Chuna Mandi, Paharganj (also Nagpal in Lajpat Nagar)',
-    approxPriceInr: 90,
-    image: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    id: 'delhi-old-delhi-nihari',
-    cityId: 'delhi',
-    name: 'Old Delhi Nihari with Tandoori Khameeri Roti',
-    hindiName: 'पुरानी दिल्ली की निहारी',
-    type: 'non-veg',
-    description:
-      'A rich, velvety bone-marrow stew simmered overnight in copper deghs with over 30 aromatic spices, finished with fresh ginger juliennes and lime.',
-    originStory:
-      'Created in royal Mughal kitchens during the reign of Shah Jahan as an invigorating dawn breakfast during frosty Delhi winters.',
-    iconicSpotName: 'Haji Shabrati Nihari Wale',
-    spotNeighborhood: 'Haveli Azam Khan, Chitli Qabar, Old Delhi',
-    approxPriceInr: 180,
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    id: 'delhi-dahi-bhalla',
-    cityId: 'delhi',
-    name: 'Chandni Chowk Dahi Bhalla & Papdi Chaat',
-    hindiName: 'दही भल्ला पापड़ी',
-    type: 'veg',
-    description:
-      'Spongy urad dal fritters soaked in chilled beaten curd, doused with sweet saunth chutney, zesty mint paste, and secret roasted cumin chaat masala.',
-    originStory:
-      'Served since 1940 at the corner of Paranthe Wali Gali; legend has it only two master sauces are used to build the dish.',
-    iconicSpotName: 'Natraj Dahi Bhalla Corner',
-    spotNeighborhood: 'Near Town Hall, Chandni Chowk',
-    approxPriceInr: 70,
-    image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    id: 'delhi-daulat-ki-chaat',
-    cityId: 'delhi',
-    name: 'Daulat ki Chaat (Winter Milk Cloud)',
-    hindiName: 'दौलत की चाट',
-    type: 'sweet',
-    description:
-      'An ethereal, cloud-like foam churned from morning dew-condensed milk, topped with saffron syrup, pistachios, and delicate silver vark.',
-    originStory:
-      'Prepared exclusively in the chill of November to February, where winter night dew aids the delicate frothing process.',
-    iconicSpotName: 'Khemchand Adesh Kumar',
-    spotNeighborhood: 'Dariba Kalan & Kinari Bazaar, Old Delhi',
-    approxPriceInr: 60,
-    image: 'https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?auto=format&fit=crop&w=800&q=80',
-  },
-
-  // Jaipur iconic dishes
+  // ==================== JAIPUR ====================
   {
     id: 'jaipur-pyaaz-kachori',
     cityId: 'jaipur',
@@ -72,7 +9,7 @@ export const LOCAL_DISHES: LocalDish[] = [
     hindiName: 'प्याज़ की कचौरी',
     type: 'snack',
     description:
-      'Golden, flaky multi-layered deep-fried pastry stuffed with a piping-hot filling of spiced caramelized onions, nigella seeds, and garam masala.',
+      'Golden, flaky multi-layered pastry stuffed with a piping-hot filling of spiced caramelized onions, nigella seeds, and aromatic garam masala.',
     originStory:
       'A Rajasthani culinary trademark perfected for morning travelers arriving by train at Jaipur Junction.',
     iconicSpotName: 'Rawat Mishthan Bhandar',
@@ -81,48 +18,191 @@ export const LOCAL_DISHES: LocalDish[] = [
     image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80',
   },
   {
-    id: 'jaipur-dal-baati-churma',
-    cityId: 'jaipur',
-    name: 'Traditional Dal Baati Churma with Pure Desi Ghee',
-    hindiName: 'दाल बाटी चूरमा',
-    type: 'veg',
-    description:
-      'Hard wheat rolls baked over cow dung embers, crushed and drowned in hot desi ghee, accompanied by five-lentil panchmel dal, garlic chutney, and jaggery churma.',
-    originStory:
-      'Originated as wartime ration in the Rajput era, where baatis were buried in desert sand beneath campfires while warriors fought.',
-    iconicSpotName: 'Laxmi Mishthan Bhandar (LMB) & Thali House',
-    spotNeighborhood: 'Johari Bazaar, Pink City',
-    approxPriceInr: 350,
-    image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80',
-  },
-  {
     id: 'jaipur-paneer-ghewar',
     cityId: 'jaipur',
     name: 'Honeycomb Malai & Paneer Ghewar',
     hindiName: 'मलाई घेवर',
     type: 'sweet',
     description:
-      'A disc-shaped honeycomb sweet soaked in cardamom saffron sugar syrup and crowned with a thick layer of set rabdi and toasted almonds.',
+      'A disc-shaped honeycomb sweet soaked in cardamom saffron syrup and crowned with a thick layer of set rabdi and toasted almonds.',
     originStory:
-      'Customarily presented during the monsoon festivals of Teej and Raksha Bandhan across the royal court of Jaipur.',
-    iconicSpotName: 'Sambhar Fini & Ghewar Wale',
-    spotNeighborhood: 'Ghee Walon ka Rasta, Johari Bazaar',
+      'Customarily presented during royal Teej and Raksha Bandhan festivities across the Pink City.',
+    iconicSpotName: 'Laxmi Mishthan Bhandar (LMB)',
+    spotNeighborhood: 'Johari Bazaar, Pink City',
     approxPriceInr: 120,
     image: 'https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?auto=format&fit=crop&w=800&q=80',
   },
+
+  // ==================== UDAIPUR ====================
   {
-    id: 'jaipur-laal-maas',
-    cityId: 'jaipur',
-    name: 'Smoked Junglee Laal Maas',
-    hindiName: 'लाल मांस',
+    id: 'udaipur-dal-baati',
+    cityId: 'udaipur',
+    name: 'Authentic Mewari Dal Baati Churma',
+    hindiName: 'मेवाड़ी दाल बाटी चूरमा',
+    type: 'veg',
+    description:
+      'Crisp wheat baatis baked to perfection, crushed and drenched in pure melted desi ghee, served with five-lentil panchmel dal, garlic chutney, and rose petal churma.',
+    originStory:
+      'The sacred culinary foundation of Mewar warriors, prepared using slow woodfire earthen ovens.',
+    iconicSpotName: 'Krishna Dal Bati Restro',
+    spotNeighborhood: 'Gulab Bagh Road, Udaipur',
+    approxPriceInr: 320,
+    image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    id: 'udaipur-mirchi-vada',
+    cityId: 'udaipur',
+    name: 'Jumbo Mewari Mirchi Vada with Mint Chutney',
+    hindiName: 'मिर्ची वड़ा',
+    type: 'snack',
+    description:
+      'Plump Bhavnagri mild green chillies stuffed with tangy spiced mashed potatoes, dipped in gram flour batter and fried until blistered and golden.',
+    originStory:
+      'The quintessential late-morning companion to a piping hot cup of ginger chai near Jagdish Temple.',
+    iconicSpotName: 'Manak Balaji Mirchi Vada',
+    spotNeighborhood: 'Jagdish Chowk, Old City Udaipur',
+    approxPriceInr: 40,
+    image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    id: 'udaipur-ker-sangri',
+    cityId: 'udaipur',
+    name: 'Traditional Ker Sangri & Bajra Roti',
+    hindiName: 'केर सांगरी',
+    type: 'veg',
+    description:
+      'Wild desert capers and dried beans stir-fried in mustard oil with whole red chillies and dry mango powder, served with hot bajra flatbread.',
+    originStory:
+      'A culinary triumph of desert ingenuity where wild dried shrubs sustained the kingdom through arid winters.',
+    iconicSpotName: 'Ambrai Restaurant',
+    spotNeighborhood: 'Amet Haveli, Naga Nagri, Lake Pichola',
+    approxPriceInr: 450,
+    image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=800&q=80',
+  },
+
+  // ==================== MANALI ====================
+  {
+    id: 'manali-siddu',
+    cityId: 'manali',
+    name: 'Steaming Himachali Siddu with Pure Ghee',
+    hindiName: 'हिमाचली सिड्डू',
+    type: 'veg',
+    description:
+      'Warm fermented wheat dumplings generously filled with crushed roasted walnuts, poppy seeds (khashkhash), and mountain spices, sliced open and dipped in a bowl of warm clarified ghee.',
+    originStory:
+      'The traditional high-altitude winter staple of Kullu valley, designed to provide long-lasting warmth against snowy winds.',
+    iconicSpotName: 'Siddu Corner & Old Manali Village Kitchen',
+    spotNeighborhood: 'Club House Road, Old Manali',
+    approxPriceInr: 90,
+    image: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    id: 'manali-trout-fish',
+    cityId: 'manali',
+    name: 'Pan-Seared Himalayan Rainbow Trout',
+    hindiName: 'हिमालयन ट्राउट फिश',
     type: 'non-veg',
     description:
-      'A fiery Rajasthani meat curry braised in cold-pressed mustard oil with Mathania dried red chillies, garlic, and hot charcoal smoke.',
+      'Freshly caught cold-water trout from the crystal-clear Beas river, pan-seared in butter with wild mountain thyme, lemon zest, and roasted baby potatoes.',
     originStory:
-      'Originally cooked by royal Rajput hunting parties who seasoned wild game using only dried chillies and water fetched from village stepwells.',
-    iconicSpotName: 'Handi Restaurant & 1135 AD',
-    spotNeighborhood: 'MI Road, Jaipur',
-    approxPriceInr: 450,
+      'Introduced to the gushing snowmelt streams of Himachal in the early 20th century, becoming Manali’s premier culinary treat.',
+    iconicSpotName: 'Cafe 1947 & Johnson’s Cafe',
+    spotNeighborhood: 'Near Nehru Kund & Circuit House, Manali',
+    approxPriceInr: 550,
+    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+  },
+
+  // ==================== VARANASI ====================
+  {
+    id: 'varanasi-tamatar-chaat',
+    cityId: 'varanasi',
+    name: 'Fiery Kashi Tamatar Chaat in Earthen Kulhad',
+    hindiName: 'काशी टमाटर चाट',
+    type: 'snack',
+    description:
+      'Spiced, stewed ripe tomatoes blended with roasted cumin, asafoetida, cashews, and mashed potatoes, topped with sugar syrup and crunchy namak para.',
+    originStory:
+      'A preparation completely unique to Varanasi that you will not find anywhere else in northern India.',
+    iconicSpotName: 'Kashi Chaat Bhandar',
+    spotNeighborhood: 'Dashashwamedh Ghat Road, Varanasi',
+    approxPriceInr: 60,
+    image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    id: 'varanasi-malaiyo',
+    cityId: 'varanasi',
+    name: 'Winter Cloud Malaiyo with Saffron & Pistachio',
+    hindiName: 'मलइयो',
+    type: 'sweet',
+    description:
+      'An ethereal, cloud-like foam churned from morning dew-condensed milk, delicately infused with saffron and cardamom, served in clay kulhads.',
+    originStory:
+      'Crafted exclusively during the chilly winter dawn from November to February on the ancient rooftops of the walled city.',
+    iconicSpotName: 'Shreeji Sweets & Markandey Malaiyo',
+    spotNeighborhood: 'Thatheri Bazaar, Chowk, Varanasi',
+    approxPriceInr: 50,
+    image: 'https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    id: 'varanasi-banarasi-paan',
+    cityId: 'varanasi',
+    name: 'Legendary Banarasi Meetha Paan',
+    hindiName: 'बनारसी मीठा पान',
+    type: 'sweet',
+    description:
+      'Tender betel leaf layered with rose petal gulkand, sweet fennel, candied dates, and silver foil that melts effortlessly in your mouth.',
+    originStory:
+      'Celebrated for centuries in classical Sanskrit literature and Indian cinema as the ultimate post-meal digestive ritual.',
+    iconicSpotName: 'Keshav Tambool Bhandar',
+    spotNeighborhood: 'Near Lanka Gate, Banaras Hindu University',
+    approxPriceInr: 35,
+    image: 'https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?auto=format&fit=crop&w=800&q=80',
+  },
+
+  // ==================== MUSSOORIE ====================
+  {
+    id: 'mussoorie-apple-pie',
+    cityId: 'mussoorie',
+    name: 'Freshly Baked Landour Cinnamon Apple Pie',
+    hindiName: 'लैंडौर एप्पल पाई',
+    type: 'sweet',
+    description:
+      'Flaky buttery pastry filled with cinnamon-spiced local Himalayan apples, served warm with a scoop of vanilla bean ice cream.',
+    originStory:
+      'Baked using heirloom recipes from the 19th-century Landour Community Cookbook compiled by American and British residents.',
+    iconicSpotName: 'Landour Bakehouse',
+    spotNeighborhood: 'Sisters Bazaar, Landour, Mussoorie',
+    approxPriceInr: 220,
+    image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    id: 'mussoorie-char-dukan-omelette',
+    cityId: 'mussoorie',
+    name: 'Char Dukan Butter Bun Omelette & Masala Chai',
+    hindiName: 'चार दुकान बन ऑमलेट',
+    type: 'snack',
+    description:
+      'A fluffy two-egg masala omelette wrapped inside a toasted sweet bun with generous layers of melting salted Amul butter and black pepper.',
+    originStory:
+      'The iconic student and writer morning pitstop outside St. Paul’s Church since the 1950s.',
+    iconicSpotName: 'Anil’s Cafe at Char Dukan',
+    spotNeighborhood: 'Char Dukan, Upper Landour, Mussoorie',
+    approxPriceInr: 95,
+    image: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    id: 'mussoorie-tibetan-tingmo',
+    cityId: 'mussoorie',
+    name: 'Steamed Tibetan Tingmo & Spicy Thukpa',
+    hindiName: 'तिब्बती टिंगमो और थुकपा',
+    type: 'veg',
+    description:
+      'Flower-shaped steamed lotus bread served alongside piping hot Tibetan noodle soup simmered with local mountain greens and spicy chilli oil.',
+    originStory:
+      'Celebrated across Mussoorie ever since the 14th Dalai Lama made his first home in Happy Valley in 1959.',
+    iconicSpotName: 'Kalsang Friends Corner',
+    spotNeighborhood: 'The Mall Road, Mussoorie',
+    approxPriceInr: 240,
     image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
   },
 ]

@@ -2,7 +2,8 @@
 
 /* 
  * HOMI Design System
- * Lightweight, high-contrast, editorial typography with bespoke architectural themes.
+ * Lightweight, high-contrast, editorial typography with bespoke architectural themes
+ * and tasteful, high-performance CSS animations.
  */
 
 :root {
@@ -17,20 +18,7 @@
   --accent-homi: #8C2D19;
 }
 
-/* Delhi Theme Specifics */
-.theme-delhi {
-  --city-bg: #F9F6F0;
-  --city-surface: #FFFFFF;
-  --city-subtle: #F2ECE1;
-  --city-border: #E5DACB;
-  --city-primary: #8C2D19;
-  --city-secondary: #D97706;
-  --city-sandstone: #B88E6D;
-  --city-text: #221F1C;
-  --city-muted: #6E665E;
-}
-
-/* Jaipur Theme Specifics */
+/* 1. Jaipur Theme */
 .theme-jaipur {
   --city-bg: #FCF7F4;
   --city-surface: #FFFFFF;
@@ -41,6 +29,71 @@
   --city-sandstone: #D4A373;
   --city-text: #271F1D;
   --city-muted: #716360;
+}
+
+/* 2. Udaipur Theme */
+.theme-udaipur {
+  --city-bg: #F4F8FA;
+  --city-surface: #FFFFFF;
+  --city-subtle: #EBF2F6;
+  --city-border: #D3E2EC;
+  --city-primary: #1B4965;
+  --city-secondary: #C99700;
+  --city-sandstone: #62B6CB;
+  --city-text: #15242E;
+  --city-muted: #4F6370;
+}
+
+/* 3. Manali Theme */
+.theme-manali {
+  --city-bg: #F4F7F4;
+  --city-surface: #FFFFFF;
+  --city-subtle: #EAF0EA;
+  --city-border: #D2DDD2;
+  --city-primary: #1E4620;
+  --city-secondary: #D4821E;
+  --city-sandstone: #4C7C59;
+  --city-text: #172719;
+  --city-muted: #4C5F4E;
+}
+
+/* 4. Varanasi Theme */
+.theme-varanasi {
+  --city-bg: #FBF6EE;
+  --city-surface: #FFFFFF;
+  --city-subtle: #F4EDE0;
+  --city-border: #E7D8C4;
+  --city-primary: #9B2226;
+  --city-secondary: #D97706;
+  --city-sandstone: #BB3E03;
+  --city-text: #2B1A14;
+  --city-muted: #68544C;
+}
+
+/* 5. Mussoorie Theme */
+.theme-mussoorie {
+  --city-bg: #F6F7F9;
+  --city-surface: #FFFFFF;
+  --city-subtle: #EDEFF3;
+  --city-border: #D7DCE4;
+  --city-primary: #2E4057;
+  --city-secondary: #D08C51;
+  --city-sandstone: #597081;
+  --city-text: #1A232E;
+  --city-muted: #526070;
+}
+
+/* Delhi Theme (Preserved) */
+.theme-delhi {
+  --city-bg: #F9F6F0;
+  --city-surface: #FFFFFF;
+  --city-subtle: #F2ECE1;
+  --city-border: #E5DACB;
+  --city-primary: #8C2D19;
+  --city-secondary: #D97706;
+  --city-sandstone: #B88E6D;
+  --city-text: #221F1C;
+  --city-muted: #6E665E;
 }
 
 body {
@@ -66,6 +119,44 @@ body {
   outline-offset: 2px;
 }
 
+/* Tasteful, Lightweight CSS Keyframe Animations */
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.95;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes shimmerSlow {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-float {
+  animation: floatGentle 4s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
 /* Reduced Motion Preference */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
@@ -77,17 +168,41 @@ body {
 }
 
 /* Subtle architectural watermark patterns */
+.pattern-jaipur {
+  background-image: radial-gradient(#C85A32 0.7px, transparent 0.7px);
+  background-size: 20px 20px;
+  opacity: 0.05;
+}
+
+.pattern-udaipur {
+  background-image: radial-gradient(#1B4965 0.7px, transparent 0.7px);
+  background-size: 24px 24px;
+  opacity: 0.05;
+}
+
+.pattern-manali {
+  background-image: radial-gradient(#1E4620 0.8px, transparent 0.8px);
+  background-size: 22px 22px;
+  opacity: 0.05;
+}
+
+.pattern-varanasi {
+  background-image: radial-gradient(#9B2226 0.7px, transparent 0.7px);
+  background-size: 20px 20px;
+  opacity: 0.05;
+}
+
+.pattern-mussoorie {
+  background-image: radial-gradient(#2E4057 0.7px, transparent 0.7px);
+  background-size: 24px 24px;
+  opacity: 0.05;
+}
+
 .pattern-mughal {
   background-image: radial-gradient(#8C2D19 0.6px, transparent 0.6px), radial-gradient(#8C2D19 0.6px, #F9F6F0 0.6px);
   background-size: 24px 24px;
   background-position: 0 0, 12px 12px;
   opacity: 0.04;
-}
-
-.pattern-jaipur {
-  background-image: radial-gradient(#C85A32 0.7px, transparent 0.7px);
-  background-size: 20px 20px;
-  opacity: 0.05;
 }
 
 /* Hide scrollbar for category pills on mobile while preserving swipe */
