@@ -22,6 +22,7 @@ import {
   ChevronUp,
 } from 'lucide-react'
 import { RealWorldTravelIntelligence } from '../components/RealWorldTravelIntelligence'
+import { StreetViewVisualGuide } from '../components/StreetViewVisualGuide'
 
 interface CityPageProps {
   cityId: CityId
@@ -526,8 +527,9 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
             REAL-WORLD TRAVEL INTELLIGENCE ENGINE (EXECUTION-LEVEL TIMING & LOGISTICS)
            ========================================================================= */}
         {cityId.toLowerCase() === 'varanasi' && (
-          <section className="space-y-6">
+          <section className="space-y-8">
             <RealWorldTravelIntelligence />
+            <StreetViewVisualGuide />
           </section>
         )}
 

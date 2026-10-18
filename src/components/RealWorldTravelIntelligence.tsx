@@ -12,6 +12,7 @@ import {
   Info,
   ExternalLink,
   ChevronRight,
+  Eye,
 } from 'lucide-react'
 import {
   generateRealWorldVaranasiPlan,
@@ -435,7 +436,7 @@ export const RealWorldTravelIntelligence: React.FC<RealWorldTravelIntelligencePr
 
                     {/* Google Maps Route Action Link */}
                     {step.routeDetails && (
-                      <div className="pt-1">
+                      <div className="pt-1 flex flex-wrap items-center gap-3">
                         <a
                           href={step.routeDetails.directDirectionsUrl}
                           target="_blank"
@@ -443,9 +444,21 @@ export const RealWorldTravelIntelligence: React.FC<RealWorldTravelIntelligencePr
                           className="inline-flex items-center gap-1.5 text-xs font-bold text-[#9A3412] hover:text-[#EA580C] transition-colors"
                         >
                           <Navigation className="w-3.5 h-3.5" />
-                          <span>Open Turn-by-Turn Route in Google Maps</span>
+                          <span>Turn-by-Turn Route in Google Maps</span>
                           <ExternalLink className="w-3 h-3 text-stone-400" />
                         </a>
+
+                        {step.routeDetails.pedestrianApproach && (
+                          <a
+                            href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=25.307583,83.00975&heading=120&pitch=5&fov=90"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-xs font-bold text-[#1D4ED8] hover:underline"
+                          >
+                            <Eye className="w-3.5 h-3.5" />
+                            <span>View 360° Street View & Visual Landmarks</span>
+                          </a>
+                        )}
                       </div>
                     )}
                   </div>

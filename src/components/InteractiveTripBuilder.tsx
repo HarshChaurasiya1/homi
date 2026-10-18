@@ -10,6 +10,8 @@ import { Link } from '../lib/router'
 import { TravelEmblem } from './TravelEmblem'
 import { ThemeMotif, type MotifVariant } from './ThemeMotif'
 import { HomiBrandLogo } from './HomiBrandLogo'
+import { GeminiTripPersonalizer } from './GeminiTripPersonalizer'
+import { StreetViewVisualGuide } from './StreetViewVisualGuide'
 import {
   Sparkles,
   ArrowRight,
@@ -214,6 +216,19 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
         <div className="bg-white rounded-3xl p-6 sm:p-10 border-2 border-[#E5DACB] shadow-lg max-w-4xl mx-auto space-y-8 relative overflow-hidden transition-all duration-300">
           {/* Subtle background glow */}
           <div className="absolute -top-16 -right-16 w-48 h-48 bg-[#E67E22]/10 rounded-full blur-2xl pointer-events-none"></div>
+
+          {/* Google Gemini Travel Brain: Card Selection Engine */}
+          <GeminiTripPersonalizer
+            cityId={currentCityKey}
+            cityName={currentCity?.name || 'Varanasi'}
+            onApplyRecommendation={({ days, budgetTier, vibe }) => {
+              setSelectedDays(days)
+              setSelectedBudget(budgetTier)
+              setSelectedVibe(vibe)
+              setCurrentStep(3)
+              onSaveToast(`Gemini customized ${days} Days & ${budgetTier} tier for you!`)
+            }}
+          />
 
           {/* Step Progress Tracker */}
           <div className="space-y-3">
@@ -906,6 +921,11 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* Real-World Street View Visual Landmark Navigator */}
+          <div className="space-y-4">
+            <StreetViewVisualGuide initialRouteId="dashashwamedh_ghat" />
           </div>
 
           {/* 4. KID-SIMPLE RUPEE BUDGET CARD */}
