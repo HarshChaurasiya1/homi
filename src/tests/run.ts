@@ -2,6 +2,7 @@ import { runPlannerTests } from './plannerEngine.test.ts'
 import { runProfileStoreTests } from './profileStore.test.ts'
 import { runTravelEngineTests } from './travelEngine.test.ts'
 import { runTravelBrainAndStreetViewTests } from './travelBrainAndStreetView.test.ts'
+import { runFlowchartTests } from './flowchart.test.ts'
 
 async function main() {
   console.log('=== RUNNING HOMI AUTOMATED TESTS ===')
@@ -9,16 +10,28 @@ async function main() {
   const profileResults = await runProfileStoreTests()
   const travelEngineResults = await runTravelEngineTests()
   const travelBrainResults = await runTravelBrainAndStreetViewTests()
+  const flowchartResults = runFlowchartTests()
 
   const totalPassed =
-    plannerResults.passed + profileResults.passed + travelEngineResults.passed + travelBrainResults.passed
+    plannerResults.passed +
+    profileResults.passed +
+    travelEngineResults.passed +
+    travelBrainResults.passed +
+    flowchartResults.passed
+
   const totalFailed =
-    plannerResults.failed + profileResults.failed + travelEngineResults.failed + travelBrainResults.failed
+    plannerResults.failed +
+    profileResults.failed +
+    travelEngineResults.failed +
+    travelBrainResults.failed +
+    flowchartResults.failed
+
   const allErrors = [
     ...plannerResults.errors,
     ...profileResults.errors,
     ...travelEngineResults.errors,
     ...travelBrainResults.errors,
+    ...flowchartResults.errors,
   ]
 
   console.log(`\n=================================`)

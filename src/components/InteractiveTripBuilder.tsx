@@ -12,6 +12,7 @@ import { ThemeMotif, type MotifVariant } from './ThemeMotif'
 import { HomiBrandLogo } from './HomiBrandLogo'
 import { GeminiTripPersonalizer } from './GeminiTripPersonalizer'
 import { StreetViewVisualGuide } from './StreetViewVisualGuide'
+import { CityTripFlowchart } from './CityTripFlowchart'
 import {
   Sparkles,
   ArrowRight,
@@ -72,6 +73,7 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
   // Lightbox photo
   const [activePhotoUrl, setActivePhotoUrl] = useState<string | null>(null)
   const [copiedLink, setCopiedLink] = useState(false)
+  const [itineraryViewMode, setItineraryViewMode] = useState<'cards' | 'flowchart'>('cards')
 
   // Selected city key derived directly
   const currentCityKey = (initialCityId || activeCityId || selectedCityId || 'jaipur').toLowerCase()
@@ -801,7 +803,7 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
 
           {/* 3. DAY-BY-DAY VISUAL ITINERARY SCHEDULE */}
           <div className="space-y-6">
-            <div className="flex items-center justify-between border-b border-[#E5DACB] pb-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#E5DACB] pb-3 gap-3">
               <div>
                 <h2 className="font-editorial text-2xl font-bold text-[#201C1A]">
                   Day-by-Day Schedule Curated by {persona?.name}
@@ -810,12 +812,45 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
                   Organized by geographic proximity so you never backtrack across the city.
                 </p>
               </div>
-              <span className="text-xs font-bold text-[#8C2D19] px-3 py-1 rounded-full bg-[#FAF5ED]">
-                {itinerary.days.length} Days Planned
-              </span>
+
+              {/* View Switcher: Cards vs Connected Flowchart */}
+              <div className="flex items-center gap-2 self-start sm:self-auto">
+                <div className="p-1 bg-[#F1F5F9] rounded-2xl flex items-center gap-1 border border-slate-200">
+                  <button
+                    type="button"
+                    onClick={() => setItineraryViewMode('cards')}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                      itineraryViewMode === 'cards'
+                        ? 'bg-white text-[#0F172A] shadow-xs'
+                        : 'text-[#64748B] hover:text-[#0F172A]'
+                    }`}
+                  >
+                    Cards View
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setItineraryViewMode('flowchart')}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                      itineraryViewMode === 'flowchart'
+                        ? 'bg-[#3B82F6] text-white shadow-xs'
+                        : 'text-[#64748B] hover:text-[#0F172A]'
+                    }`}
+                  >
+                    <span>Flowchart View</span>
+                  </button>
+                </div>
+
+                <span className="text-xs font-bold text-[#8C2D19] px-3 py-1 rounded-full bg-[#FAF5ED]">
+                  {itinerary.days.length} Days Planned
+                </span>
+              </div>
             </div>
 
-            <div className="space-y-6">
+            {itineraryViewMode === 'flowchart' ? (
+              <CityTripFlowchart cityId={currentCityKey} />
+            ) : (
+              <div className="space-y-6">
               {itinerary.days.map((day) => (
                 <div
                   key={day.dayNumber}
@@ -922,6 +957,7 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
                 </div>
               ))}
             </div>
+          )}
           </div>
 
           {/* Real-World Street View Visual Landmark Navigator */}

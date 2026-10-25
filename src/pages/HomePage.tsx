@@ -6,6 +6,8 @@ import { SearchBar } from '../components/SearchBar'
 import { PlaceCard } from '../components/PlaceCard'
 import { ThemeMotif, type MotifVariant } from '../components/ThemeMotif'
 import { InteractiveTripBuilder } from '../components/InteractiveTripBuilder'
+import { CityEditionHero } from '../components/CityEditionHero'
+import { CityTripFlowchart } from '../components/CityTripFlowchart'
 import { Link } from '../lib/router'
 import {
   ArrowRight,
@@ -20,6 +22,16 @@ export const HomePage: React.FC<{ onSaveToast: (msg: string) => void }> = ({ onS
   const { cities, places, dishes } = useAppData()
   const [activeCityId, setActiveCityId] = useActiveCity()
   const [selectedFoodCity, setSelectedFoodCity] = useState<string>('all')
+  const [selectedEditionId, setSelectedEditionId] = useState<string>('jaipur')
+
+  const currentEdition = activeCityId ? activeCityId.toLowerCase() : selectedEditionId
+
+  const handleScrollToFlowchart = () => {
+    const el = document.getElementById('city-flowchart-section')
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
 
   const cityCards = Object.values(cities)
   const activeCity = activeCityId ? cities[activeCityId.toLowerCase()] : null
@@ -62,6 +74,28 @@ export const HomePage: React.FC<{ onSaveToast: (msg: string) => void }> = ({ onS
 
   return (
     <div className="space-y-16 sm:space-y-20 pb-16">
+      {/* =========================================================================
+          FEATURED CITY EDITION SHOWCASE (Clean Theme inspired by Reference Image)
+         ========================================================================= */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-4 sm:pt-6">
+        <CityEditionHero
+          currentCityId={currentEdition}
+          onSelectCity={
+            activeCityId
+              ? undefined
+              : (cityId) => setSelectedEditionId(cityId)
+          }
+          onExploreFlowchart={handleScrollToFlowchart}
+        />
+      </section>
+
+      {/* =========================================================================
+          INTERACTIVE CITY TRIP FLOWCHART (Step-by-Step Flow for User)
+         ========================================================================= */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6">
+        <CityTripFlowchart cityId={currentEdition} />
+      </section>
+
       {/* =========================================================================
           HERO SECTION: DYNAMICALLY SWITCHES BETWEEN GLOBAL & SINGLE-CITY ISOLATION
          ========================================================================= */}

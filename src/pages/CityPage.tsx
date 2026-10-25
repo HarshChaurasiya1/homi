@@ -5,7 +5,7 @@ import { getRedditPicksForCity } from '../data/redditPicks'
 import { PlaceCard } from '../components/PlaceCard'
 import { Link } from '../lib/router'
 import { useActiveCity } from '../lib/storage'
-import { ThemeMotif, type MotifVariant } from '../components/ThemeMotif'
+import type { MotifVariant } from '../components/ThemeMotif'
 import {
   Calendar,
   ArrowRight,
@@ -23,6 +23,8 @@ import {
 } from 'lucide-react'
 import { RealWorldTravelIntelligence } from '../components/RealWorldTravelIntelligence'
 import { StreetViewVisualGuide } from '../components/StreetViewVisualGuide'
+import { CityEditionHero } from '../components/CityEditionHero'
+import { CityTripFlowchart } from '../components/CityTripFlowchart'
 
 interface CityPageProps {
   cityId: CityId
@@ -106,9 +108,7 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
   }
 
   const primaryColor = currentStyle.primary
-  const secondaryColor = currentStyle.secondary
   const cityBgClass = currentStyle.bgClass
-  const motifType = currentStyle.motif
 
   // Filter places for this city
   const cityPlaces = places.filter((p) => p.cityId.toLowerCase() === cityId.toLowerCase())
@@ -171,62 +171,22 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
 
   return (
     <div className={`min-h-screen ${cityBgClass} pb-20 transition-colors`}>
-      {/* City Hero Banner */}
-      <section className="relative h-[420px] sm:h-[500px] w-full overflow-hidden bg-stone-900">
-        <img
-          src={city.heroImage}
-          alt={city.heroImageAlt}
-          className="w-full h-full object-cover opacity-85"
-          fetchPriority="high"
+      {/* Clean Magazine-Style City Edition Hero */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-6 sm:pt-8">
+        <CityEditionHero
+          currentCityId={cityId}
+          onExploreFlowchart={() => {
+            const el = document.getElementById('city-flowchart-section')
+            if (el) el.scrollIntoView({ behavior: 'smooth' })
+          }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
-
-        {/* Floating Cultural Motif Badge */}
-        <div className="absolute top-6 right-6 hidden sm:block p-3 rounded-2xl bg-white/15 backdrop-blur-md text-white animate-float">
-          <ThemeMotif type={motifType} width={40} height={40} className="text-white" />
-        </div>
-
-        <div className="absolute bottom-8 left-0 right-0 max-w-6xl mx-auto px-4 sm:px-6 text-white space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-wider text-white">
-            <span
-              className="w-2 h-2 rounded-full"
-              style={{ backgroundColor: secondaryColor }}
-            ></span>
-            <span>{city.state}</span>
-          </div>
-
-          <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-4">
-            <h1 className="font-editorial text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
-              {city.name}
-            </h1>
-            {city.hindiName && (
-              <span className="text-xl sm:text-2xl font-light text-stone-200">
-                ({city.hindiName})
-              </span>
-            )}
-          </div>
-
-          <p className="text-sm sm:text-base text-stone-200 max-w-2xl font-medium leading-relaxed italic">
-            “{city.tagline}”
-          </p>
-
-          {/* Quick Metrics Strip */}
-          <div className="flex flex-wrap items-center gap-4 pt-2 text-xs text-stone-200">
-            <span className="bg-black/40 px-3 py-1 rounded-lg backdrop-blur-xs">
-              Ideal stay: <strong>{city.idealDays} Days</strong>
-            </span>
-            <span className="bg-black/40 px-3 py-1 rounded-lg backdrop-blur-xs">
-              Best season: <strong>{city.bestSeason.split('(')[0].trim()}</strong>
-            </span>
-            <span className="bg-black/40 px-3 py-1 rounded-lg backdrop-blur-xs">
-              Curator: <strong>{persona?.name || 'Local Guide'}</strong>
-            </span>
-          </div>
-        </div>
       </section>
 
       {/* Main Content Area */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-10 space-y-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-8 space-y-12">
+        {/* Interactive User Flowchart */}
+        <CityTripFlowchart cityId={cityId} />
+
         {/* =========================================================================
             AUTHENTIC LOCAL COMPANION WELCOME & DIALECT TONE
            ========================================================================= */}
