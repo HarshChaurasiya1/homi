@@ -3,9 +3,9 @@
 > A lightweight, mobile-first, editorial travel discovery and real-world intelligence engine for Indian cities.
 
 [![CI & Quality Gate](https://github.com/HarshChaurasiya1/homi/actions/workflows/ci.yml/badge.svg)](https://github.com/HarshChaurasiya1/homi/actions/workflows/ci.yml)
-[![Live Production](https://img.shields.io/badge/Vercel-Live%20Production-black?logo=vercel)](https://homi-puce-one.vercel.app)
+[![Live Production](https://img.shields.io/badge/Vercel-Live%20Production-black?logo=vercel)](https://homitravel.vercel.app)
 [![Tests Passed](https://img.shields.io/badge/Unit%20Tests-278%20Passed-emerald)](https://github.com/HarshChaurasiya1/homi)
-[![Bundle Size](https://img.shields.io/badge/Bundle%20Size-102.7%20kB%20gzipped-blue)](https://homi-puce-one.vercel.app)
+[![Bundle Size](https://img.shields.io/badge/Bundle%20Size-102.7%20kB%20gzipped-blue)](https://homitravel.vercel.app)
 
 HOMI helps travelers explore Indian cities with the depth, warmth, and honesty of a knowledgeable local friend. No paid algorithmic rankings, no generic tourist traps, and no bloated client-side code.
 
@@ -13,7 +13,11 @@ HOMI helps travelers explore Indian cities with the depth, warmth, and honesty o
 
 ## 🌐 Live Production URL & Remote Repository
 
-- **Public Production Web App**: [https://homi-puce-one.vercel.app](https://homi-puce-one.vercel.app)
+- **Primary Production Web App**: [https://homitravel.vercel.app](https://homitravel.vercel.app)
+- **Alternate Direct Domains**:
+  - [https://homi-travel.vercel.app](https://homi-travel.vercel.app)
+  - [https://homi-india.vercel.app](https://homi-india.vercel.app)
+  - [https://homibhai.vercel.app](https://homibhai.vercel.app)
 - **Official GitHub Repository**: [https://github.com/HarshChaurasiya1/homi](https://github.com/HarshChaurasiya1/homi)
 - **Automated CI/CD**: Every push to `main` executes unit tests, linting, and production builds via GitHub Actions and synchronizes to Vercel.
 
