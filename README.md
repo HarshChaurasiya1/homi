@@ -1,37 +1,81 @@
 # HOMI — Every city feels like home
 
-> A lightweight, mobile-first, editorial travel discovery and planning platform for Indian cities.
+> A lightweight, mobile-first, editorial travel discovery and real-world intelligence engine for Indian cities.
+
+[![CI & Quality Gate](https://github.com/HarshChaurasiya1/homi/actions/workflows/ci.yml/badge.svg)](https://github.com/HarshChaurasiya1/homi/actions/workflows/ci.yml)
+[![Live Production](https://img.shields.io/badge/Vercel-Live%20Production-black?logo=vercel)](https://homi-puce-one.vercel.app)
+[![Tests Passed](https://img.shields.io/badge/Unit%20Tests-278%20Passed-emerald)](https://github.com/HarshChaurasiya1/homi)
+[![Bundle Size](https://img.shields.io/badge/Bundle%20Size-102.7%20kB%20gzipped-blue)](https://homi-puce-one.vercel.app)
 
 HOMI helps travelers explore Indian cities with the depth, warmth, and honesty of a knowledgeable local friend. No paid algorithmic rankings, no generic tourist traps, and no bloated client-side code.
 
 ---
 
-## 🚀 Live Local Host & Quickstart
+## 🌐 Live Production URL & Remote Repository
 
-The application is hosted locally from `D:\homi` on this machine.
+- **Public Production Web App**: [https://homi-puce-one.vercel.app](https://homi-puce-one.vercel.app)
+- **Official GitHub Repository**: [https://github.com/HarshChaurasiya1/homi](https://github.com/HarshChaurasiya1/homi)
+- **Automated CI/CD**: Every push to `main` executes unit tests, linting, and production builds via GitHub Actions and synchronizes to Vercel.
+
+---
+
+## 💻 Multi-Laptop Team Collaboration Guide
+
+Collaborating across multiple laptops with real-time Git and Vercel synchronization:
+
+### 1. Initial Setup on Laptop 2 (Partner/Collaborator):
+```bash
+# Clone the repository
+git clone https://github.com/HarshChaurasiya1/homi.git
+
+# Enter project directory
+cd homi
+
+# Install exact verified dependencies
+npm install
+
+# Start local development server
+npm run dev
+```
+
+### 2. Daily Sync Workflow (Keep in Sync):
+```bash
+# Before starting work, pull the latest changes
+git pull origin main
+
+# Make code edits, test locally
+npm test
+npm run lint
+
+# Commit and push changes
+git add .
+git commit -m "feat: your new feature"
+git push origin main
+```
+Every push to `main` will automatically trigger GitHub Actions CI and deploy to Vercel Production.
+
+---
+
+## 🚀 Local Host & Development Commands
 
 ### Run in Development Mode:
 ```bash
-cd D:\homi
 npm run dev
 ```
 
 ### Run in Production Preview Mode:
 ```bash
-cd D:\homi
 npm run preview -- --port 3000
 ```
 Open **[http://localhost:3000](http://localhost:3000)** in your browser or phone on the same Wi-Fi.
 
 ### Run Automated Test Suite:
 ```bash
-cd D:\homi
 npm test
 ```
 
 ### Run Type Checking & Production Build:
 ```bash
-cd D:\homi
 npm run build
 ```
 
@@ -39,10 +83,10 @@ npm run build
 
 ## ⚡ Performance Audit & Budgets
 
-- **Initial Compressed JavaScript**: **110.49 kB gzipped** *(Budget: < 150 kB)*
-- **Initial Compressed CSS**: **8.60 kB gzipped**
-- **Production Build Time**: **1.10 seconds**
-- **Unit Tests Passed**: **112 / 112 passed, 0 failures**
+- **Initial Compressed JavaScript**: **102.74 kB gzipped** *(Budget: < 150 kB)*
+- **Initial Compressed CSS**: **9.42 kB gzipped**
+- **Production Build Time**: **1.14 seconds**
+- **Unit Tests Passed**: **278 / 278 passed, 0 failures**
 - **Code Linter**: **0 errors, 0 warnings (oxlint)**
 - **Cumulative Layout Shift (CLS)**: Zero shift with reserved aspect ratio image containers (`aspect-[16/10]`)
 - **First Contentful Paint (FCP)**: Instant render with zero blocking external web fonts (system-first editorial typography)
