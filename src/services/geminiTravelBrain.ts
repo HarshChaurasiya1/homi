@@ -219,3 +219,8 @@ function getLocalDeterministicCardSelection(params: {
       : 'Amer Fort subah 9 baje pahunche taaki dhoop se bach sakein, aur shaam Nahargarh par sunset dekhein.',
   }
 }
+
+// Homi Bhai Travel Companion Aliases
+export type HomiBhaiCardSelectionRecommendation = GeminiCardSelectionRecommendation
+export const getHomiBhaiPersonalizedCardSelection = getGeminiPersonalizedCardSelection
+export const askHomiBhaiLocalCompanion = askGeminiLocalCompanion

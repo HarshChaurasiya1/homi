@@ -108,10 +108,10 @@ export const GeminiTripPersonalizer: React.FC<GeminiTripPersonalizerProps> = ({
           <div>
             <div className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-[#9A3412]">
               <Sparkles className="w-3 h-3 text-[#D97706]" />
-              <span>Google Gemini Travel Brain</span>
+              <span>Homi Bhai Travel Brain</span>
             </div>
             <h3 className="font-editorial text-xl font-bold text-[#201C1A]">
-              Personalize Cards with Gemini AI
+              Personalize Cards with Homi Bhai
             </h3>
           </div>
         </div>
@@ -121,14 +121,14 @@ export const GeminiTripPersonalizer: React.FC<GeminiTripPersonalizerProps> = ({
           onClick={() => setIsOpen(!isOpen)}
           className="px-4 py-1.5 rounded-full bg-white text-[#9A3412] text-xs font-bold border border-[#FDE68A] hover:bg-[#FFFBEB] transition-colors self-start sm:self-auto shadow-2xs"
         >
-          {isOpen ? 'Close AI Assistant' : '✨ Tap to Auto-Tailor Cards'}
+          {isOpen ? 'Close Assistant' : '✨ Ask Homi Bhai to Pick Cards'}
         </button>
       </div>
 
       {isOpen && (
         <div className="space-y-5 animate-in fade-in duration-300">
           <p className="text-xs text-[#78350F] leading-relaxed">
-            Tell Gemini who is traveling. Our AI brain will evaluate crowd density, walking fatigue, and timing to pick the ideal duration and budget cards for you.
+            Tell Homi Bhai who is traveling. Your local travel companion will evaluate crowd density, walking fatigue, and timing to pick the ideal duration and budget cards for you.
           </p>
 
           {/* Preset Buttons */}
@@ -171,7 +171,7 @@ export const GeminiTripPersonalizer: React.FC<GeminiTripPersonalizerProps> = ({
               className="px-5 py-2.5 rounded-2xl bg-[#EA580C] text-white text-xs font-bold hover:bg-[#C2410C] transition-all disabled:opacity-50 flex items-center gap-1.5 shadow-sm"
             >
               {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
-              <span>Ask Gemini</span>
+              <span>Ask Homi Bhai</span>
             </button>
           </div>
 
@@ -182,7 +182,7 @@ export const GeminiTripPersonalizer: React.FC<GeminiTripPersonalizerProps> = ({
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
                   <span className="font-editorial text-base font-bold text-[#201C1A]">
-                    Gemini AI Tailored Recommendation
+                    Homi Bhai's Tailored Recommendation
                   </span>
                 </div>
                 <span className="px-2.5 py-0.5 rounded-full bg-[#FFFBEB] text-[#9A3412] text-[11px] font-bold">
@@ -246,7 +246,7 @@ export const GeminiTripPersonalizer: React.FC<GeminiTripPersonalizerProps> = ({
                   className="px-6 py-2.5 rounded-xl bg-[#8C2D19] text-white text-xs font-bold hover:bg-[#6E1F0F] transition-all flex items-center gap-2 shadow-xs cursor-pointer hover:scale-102"
                 >
                   <CheckCircle2 className="w-4 h-4 text-emerald-300" />
-                  <span>Apply Gemini Recommendation to Wizard</span>
+                  <span>Apply Homi Bhai's Recommendation to Wizard</span>
                 </button>
               </div>
             </div>
@@ -256,3 +256,5 @@ export const GeminiTripPersonalizer: React.FC<GeminiTripPersonalizerProps> = ({
     </div>
   )
 }
+
+export const HomiBhaiTripPersonalizer = GeminiTripPersonalizer

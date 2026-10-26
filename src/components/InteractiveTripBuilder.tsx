@@ -219,7 +219,7 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
           {/* Subtle background glow */}
           <div className="absolute -top-16 -right-16 w-48 h-48 bg-[#E67E22]/10 rounded-full blur-2xl pointer-events-none"></div>
 
-          {/* Google Gemini Travel Brain: Card Selection Engine */}
+          {/* Homi Bhai Travel Brain: Card Selection Engine */}
           <GeminiTripPersonalizer
             cityId={currentCityKey}
             cityName={currentCity?.name || 'Varanasi'}
@@ -228,7 +228,7 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
               setSelectedBudget(budgetTier)
               setSelectedVibe(vibe)
               setCurrentStep(3)
-              onSaveToast(`Gemini customized ${days} Days & ${budgetTier} tier for you!`)
+              onSaveToast(`Homi Bhai customized ${days} Days & ${budgetTier} tier for you!`)
             }}
           />
 

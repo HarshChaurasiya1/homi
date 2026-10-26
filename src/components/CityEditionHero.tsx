@@ -188,7 +188,7 @@ export const CityEditionHero: React.FC<CityEditionHeroProps> = ({
             href={`/planner`}
             className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-white hover:bg-slate-50 text-[#334155] border border-[#CBD5E1] text-sm font-semibold transition-all flex items-center justify-center gap-2"
           >
-            <span>Customize with AI Brain</span>
+            <span>Customize with Homi Bhai</span>
             <ArrowRight className="w-3.5 h-3.5 text-[#64748B]" />
           </a>
         </div>

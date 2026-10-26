@@ -3,7 +3,7 @@ import { STREET_VIEW_ROUTES } from '../data/streetViewRoutes.ts'
 import { buildOsmMapUrl, buildOsmDirectionsUrl, buildOsm3DUrl, computeDoorToDoorRoute } from '../services/travel-engine/routingService.ts'
 
 export async function runTravelBrainAndStreetViewTests(): Promise<{ passed: number; failed: number; errors: string[] }> {
-  console.log('--- Running Gemini Travel Brain & OpenStreetMap (OSM) 3D Tests ---')
+  console.log('--- Running Homi Bhai Travel Brain & OpenStreetMap (OSM) 3D Tests ---')
   let passed = 0
   let failed = 0
   const errors: string[] = []
@@ -18,7 +18,7 @@ export async function runTravelBrainAndStreetViewTests(): Promise<{ passed: numb
     }
   }
 
-  // Test 1: Gemini Card Selection Deterministic & Prompt Analysis
+  // Test 1: Homi Bhai Card Selection Deterministic & Prompt Analysis
   try {
     const recommendation = await getGeminiPersonalizedCardSelection({
       cityId: 'varanasi',
@@ -40,7 +40,7 @@ export async function runTravelBrainAndStreetViewTests(): Promise<{ passed: numb
     assert(recommendation.localAdviceText.length > 0, 'Includes local advice')
   } catch (err: unknown) {
     failed++
-    errors.push(`Gemini recommendation threw: ${err instanceof Error ? err.message : String(err)}`)
+    errors.push(`Homi Bhai recommendation threw: ${err instanceof Error ? err.message : String(err)}`)
   }
 
   // Test 2: OpenStreetMap (OSM) Route Data Structure & 3D Links
