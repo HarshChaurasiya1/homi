@@ -244,7 +244,7 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
       badge: 'Pink Forts & Royal Palaces',
       vibeTag: 'Heritage & Havelis',
       companion: 'Aapke Bhaisaab',
-      photo: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=80',
+      photo: '/assets/cities/jaipur/youtube-screens/IR3DX9hfOQs.jpg',
     },
     {
       id: 'udaipur',
@@ -254,7 +254,7 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
       badge: 'Lakes, Boats & Palaces',
       vibeTag: 'Mewari Serenity',
       companion: 'Aapke Banna Sa',
-      photo: 'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=600&q=80',
+      photo: '/assets/cities/udaipur/youtube-screens/uPk-z81qQ8M.jpg',
     },
     {
       id: 'manali',
@@ -264,7 +264,7 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
       badge: 'Snow Peaks & River Cafes',
       vibeTag: 'Himalayan Ridge',
       companion: 'Aapka Pahadi Dost',
-      photo: 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=600&q=80',
+      photo: '/assets/cities/manali/youtube-screens/Oyon9siF6Pc.jpg',
     },
     {
       id: 'delhi',
@@ -274,7 +274,7 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
       badge: 'Capital Heritage & Midnight Chaat',
       vibeTag: 'Dilli Ka Dil',
       companion: 'Dilliwala Dost',
-      photo: 'https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=600&q=80',
+      photo: '/assets/cities/delhi/youtube-screens/8PDvd4jUp3I.jpg',
     },
     {
       id: 'mussoorie',
@@ -284,7 +284,7 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
       badge: 'Misty Pines & Mountain Ridge',
       vibeTag: 'Colonial Hilltop',
       companion: 'Hillside Storyteller',
-      photo: 'https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?auto=format&fit=crop&w=600&q=80',
+      photo: '/assets/cities/mussoorie/youtube-screens/rLQTRYon34Q.jpg',
     },
   ]
 

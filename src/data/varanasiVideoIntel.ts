@@ -10,6 +10,7 @@ export interface VaranasiVideoIntel {
     | 'Ancient Crafts & Bazaars'
     | 'River Boats & Navigation'
     | 'Havelis & Excursions'
+    | (string & {})
   location: string
   bestTime: string
   approxCost: string

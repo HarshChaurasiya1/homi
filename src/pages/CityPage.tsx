@@ -494,11 +494,9 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
         </section>
 
         {/* =========================================================================
-            20 REAL LOCAL BANARASI VIDEO WALKS & FIELD INTELLIGENCE WITH PHOTOS
+            REAL LOCAL VIDEO WALKS & FIELD INTELLIGENCE WITH VERIFIED CREATOR SCREENSHOTS
            ========================================================================= */}
-        {cityId.toLowerCase() === 'varanasi' && (
-          <VaranasiLocalVideoIntel />
-        )}
+        <VaranasiLocalVideoIntel cityId={cityId} />
 
         {/* =========================================================================
             REAL-WORLD TRAVEL INTELLIGENCE ENGINE (EXECUTION-LEVEL TIMING & LOGISTICS)

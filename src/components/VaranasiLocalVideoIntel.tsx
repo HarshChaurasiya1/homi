@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import {
-  VARANASI_LOCAL_VIDEO_INTEL,
-  type VaranasiVideoIntel,
-} from '../data/varanasiVideoIntel'
+  CITY_LOCAL_VIDEO_INTEL,
+  type CityVideoIntelItem,
+} from '../data/cityVideoIntel'
 import {
   Video,
   Clock,
@@ -26,23 +26,82 @@ const YouTubeIcon = ({ className = 'w-3 h-3' }: { className?: string }) => (
   </svg>
 )
 
-export const VaranasiLocalVideoIntel: React.FC = () => {
+const CITY_METADATA: Record<string, { title: string; subtitle: string; searchPlaceholder: string }> = {
+  varanasi: {
+    title: 'Varanasi Through Local Eyes',
+    subtitle:
+      'Curated from 20 on-ground Banarasi video creators, food historians, master weavers, and riverboat elders. Every scene features genuine video frame screenshots, verified boat tariffs, real timings, and direct YouTube source links.',
+    searchPlaceholder: 'Search Ram Bhandar, Manikarnika, Lockers...',
+  },
+  jaipur: {
+    title: 'Jaipur Through Local Eyes',
+    subtitle:
+      'Curated from authentic Rajasthan travel creators and food historians: Amer Fort, Nahargarh sunset cliff terraces, Lassiwala Shop 312, and pastel havelis.',
+    searchPlaceholder: 'Search Amer, Rawat Kachori, Nahargarh, Cafes...',
+  },
+  udaipur: {
+    title: 'Udaipur Through Local Eyes',
+    subtitle:
+      'Curated from on-ground Lake Pichola travelers, Mewar palace guides, and Bagore Ki Haveli folk performers. Real boat timings and sunset views.',
+    searchPlaceholder: 'Search Lake Pichola, City Palace, Bagore Ki Haveli...',
+  },
+  manali: {
+    title: 'Manali Through Local Eyes',
+    subtitle:
+      'Curated from Himalayan mountain creators: Solang snowy peaks, Sissu Atal Tunnel runs, Old Manali riverside cafes, and deodar cedar trails.',
+    searchPlaceholder: 'Search Solang, Cafe 1947, Jogini, Siddu...',
+  },
+  mussoorie: {
+    title: 'Mussoorie & Landour Through Local Eyes',
+    subtitle:
+      'Curated from Garhwal hill travelers: Landour Char Dukan waffles, Lal Tibba ridge walking loop, and Sir George Everest peak.',
+    searchPlaceholder: 'Search Char Dukan, Lal Tibba, George Everest...',
+  },
+  delhi: {
+    title: 'Delhi Through Local Eyes',
+    subtitle:
+      'Curated from Old Delhi food walks and heritage explorers: Chandni Chowk, Paranthe Wali Gali, Sunder Nursery, and Jama Masjid food street.',
+    searchPlaceholder: 'Search Paranthe Wali Gali, Bedmi Poori, Sunder Nursery...',
+  },
+}
+
+const EMPTY_VIDEOS: CityVideoIntelItem[] = []
+
+interface VaranasiLocalVideoIntelProps {
+  cityId?: string
+}
+
+export const VaranasiLocalVideoIntel: React.FC<VaranasiLocalVideoIntelProps> = ({ cityId = 'varanasi' }) => {
+  const normKey = cityId.toLowerCase().trim()
+  const videos = CITY_LOCAL_VIDEO_INTEL[normKey] || EMPTY_VIDEOS
+  const meta = CITY_METADATA[normKey] || {
+    title: `${cityId.charAt(0).toUpperCase() + cityId.slice(1)} Through Local Eyes`,
+    subtitle: 'Curated from authentic video creators and on-ground travelers.',
+    searchPlaceholder: 'Search sights, food, secrets...',
+  }
+
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [expandedCardId, setExpandedCardId] = useState<string | null>(null)
-  const [activeLightbox, setActiveLightbox] = useState<VaranasiVideoIntel | null>(null)
+  const [activeLightbox, setActiveLightbox] = useState<CityVideoIntelItem | null>(null)
 
-  const categories = [
-    { id: 'all', label: 'All 20 Videos' },
-    { id: 'Ghats & Dawn Rituals', label: '🌅 Ghats & Dawn' },
-    { id: 'Legendary Food & Sweets', label: '🍲 Food & Sweets' },
-    { id: 'Temples & Sacred Etiquette', label: '🛕 Temples & Etiquette' },
-    { id: 'Ancient Crafts & Bazaars', label: '🧵 Crafts & Bazaars' },
-    { id: 'River Boats & Navigation', label: '🚤 River Boats' },
-    { id: 'Havelis & Excursions', label: '🏰 Havelis & Excursions' },
-  ]
+  // Dynamically extract categories from available videos
+  const categories = useMemo(() => {
+    const set = new Set<string>()
+    videos.forEach((v) => {
+      if (v.category) set.add(v.category)
+    })
+    return [
+      { id: 'all', label: `All ${videos.length} Videos` },
+      ...Array.from(set).map((cat) => ({ id: cat, label: cat })),
+    ]
+  }, [videos])
 
-  const filteredVideos = VARANASI_LOCAL_VIDEO_INTEL.filter((item) => {
+  if (videos.length === 0) {
+    return null
+  }
+
+  const filteredVideos = videos.filter((item) => {
     const matchesCategory =
       selectedCategory === 'all' || item.category === selectedCategory
     const query = searchQuery.toLowerCase().trim()
@@ -68,21 +127,20 @@ export const VaranasiLocalVideoIntel: React.FC = () => {
         <div>
           <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#D97706] mb-1">
             <Video className="w-3.5 h-3.5 text-[#EA580C]" />
-            <span>Field Intelligence • 20 Real YouTube Video Walkthroughs</span>
+            <span>Field Intelligence • {videos.length} Real YouTube Video Walkthroughs</span>
           </div>
           <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-[#201C1A]">
-            Varanasi Through Local Eyes
+            {meta.title}
           </h2>
           <p className="text-xs sm:text-sm text-[#7A7167] mt-1 max-w-2xl leading-relaxed">
-            Curated from 20 on-ground Banarasi video creators, food historians, master weavers, and riverboat elders.
-            Every scene features genuine video frame screenshots, verified boat tariffs, real timings, and direct YouTube source links.
+            {meta.subtitle}
           </p>
         </div>
 
         <div className="flex items-center gap-2 self-start md:self-auto">
           <span className="px-3 py-1 rounded-full bg-red-50 border border-red-200 text-[11px] font-bold text-red-700 flex items-center gap-1.5 shadow-xs">
             <YouTubeIcon className="w-3.5 h-3.5 text-red-600" />
-            <span>20 Real YouTube Screenshots</span>
+            <span>{videos.length} Real YouTube Screenshots</span>
           </span>
           <span className="px-3 py-1 rounded-full bg-[#FFFBEB] border border-[#FDE68A] text-[11px] font-bold text-[#9A3412] hidden sm:flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5 text-[#D97706]" />
@@ -117,7 +175,7 @@ export const VaranasiLocalVideoIntel: React.FC = () => {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search Ram Bhandar, Manikarnika, Lockers..."
+            placeholder={meta.searchPlaceholder}
             className="w-full pl-9 pr-4 py-2 rounded-xl border border-[#E5DACB] bg-[#FAF7F2] text-xs focus:outline-none focus:ring-2 focus:ring-[#9A3412] focus:bg-white transition-all text-[#201C1A]"
           />
           {searchQuery && (
@@ -131,7 +189,7 @@ export const VaranasiLocalVideoIntel: React.FC = () => {
         </div>
       </div>
 
-      {/* Grid of 20 Video Intelligence Cards */}
+      {/* Grid of Video Intelligence Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredVideos.map((item) => {
           const isExpanded = expandedCardId === item.id
@@ -376,3 +434,5 @@ export const VaranasiLocalVideoIntel: React.FC = () => {
     </section>
   )
 }
+
+export const CityLocalVideoIntel = VaranasiLocalVideoIntel

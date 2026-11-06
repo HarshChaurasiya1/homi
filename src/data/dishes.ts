@@ -15,7 +15,7 @@ export const LOCAL_DISHES: LocalDish[] = [
     iconicSpotName: 'Rawat Mishthan Bhandar',
     spotNeighborhood: 'Station Road, Sindhi Camp, Jaipur',
     approxPriceInr: 50,
-    image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80',
+    image: '/assets/cities/jaipur/youtube-screens/w1koUBhI8GI.jpg',
   },
   {
     id: 'jaipur-paneer-ghewar',
@@ -62,7 +62,7 @@ export const LOCAL_DISHES: LocalDish[] = [
     iconicSpotName: 'Manak Balaji Mirchi Vada',
     spotNeighborhood: 'Jagdish Chowk, Old City Udaipur',
     approxPriceInr: 40,
-    image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80',
+    image: '/assets/cities/udaipur/youtube-screens/OCkeMvZVqPc.jpg',
   },
   {
     id: 'udaipur-ker-sangri',
@@ -94,7 +94,7 @@ export const LOCAL_DISHES: LocalDish[] = [
     iconicSpotName: 'Siddu Corner & Old Manali Village Kitchen',
     spotNeighborhood: 'Club House Road, Old Manali',
     approxPriceInr: 90,
-    image: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=800&q=80',
+    image: '/assets/cities/manali/youtube-screens/vzPk4u09rCQ.jpg',
   },
   {
     id: 'manali-trout-fish',
@@ -203,7 +203,7 @@ export const LOCAL_DISHES: LocalDish[] = [
     iconicSpotName: 'Landour Bakehouse',
     spotNeighborhood: 'Sisters Bazaar, Landour, Mussoorie',
     approxPriceInr: 220,
-    image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80',
   },
   {
     id: 'mussoorie-char-dukan-omelette',
@@ -218,7 +218,7 @@ export const LOCAL_DISHES: LocalDish[] = [
     iconicSpotName: 'Anil’s Cafe at Char Dukan',
     spotNeighborhood: 'Char Dukan, Upper Landour, Mussoorie',
     approxPriceInr: 95,
-    image: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=800&q=80',
+    image: '/assets/cities/mussoorie/youtube-screens/SY0EDwxvB78.jpg',
   },
   {
     id: 'mussoorie-tibetan-tingmo',

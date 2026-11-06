@@ -103,7 +103,7 @@ export const CITY_FLOWCHARTS: Record<string, CityFlowchart> = {
         },
         localProTip:
           'Bhaisaab Tip: Stand across the street on the Wind View Cafe balcony for the iconic straight-angle photo without traffic.',
-        imageUrl: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80',
+        imageUrl: 'https://images.unsplash.com/photo-1603288940300-3444274c6552?auto=format&fit=crop&w=800&q=80',
         osmCoordinates: [26.9239, 75.8267],
       },
       {
@@ -128,7 +128,7 @@ export const CITY_FLOWCHARTS: Record<string, CityFlowchart> = {
         },
         localProTip:
           'Order the fresh Pyaaz Kachori and a plate of warm Paneer Ghewar. Never leave Jaipur without this breakfast!',
-        imageUrl: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80',
+        imageUrl: '/assets/cities/jaipur/youtube-screens/w1koUBhI8GI.jpg',
         osmCoordinates: [26.9208, 75.7979],
       },
       {
@@ -153,7 +153,7 @@ export const CITY_FLOWCHARTS: Record<string, CityFlowchart> = {
         },
         localProTip:
           'Buy the Composite Monument Ticket at Amer gate to skip queues at Hawa Mahal and Jantar Mantar.',
-        imageUrl: 'https://images.unsplash.com/photo-1603288967389-9e8c465a39dc?auto=format&fit=crop&w=800&q=80',
+        imageUrl: '/assets/cities/jaipur/youtube-screens/IR3DX9hfOQs.jpg',
         osmCoordinates: [26.9855, 75.8513],
       },
       {
@@ -178,7 +178,7 @@ export const CITY_FLOWCHARTS: Record<string, CityFlowchart> = {
         },
         localProTip:
           'Reach Nahargarh by 5:00 PM sharp to claim a prime ledge before the photography crowd arrives.',
-        imageUrl: 'https://images.unsplash.com/photo-1598977123418-454555ac14c2?auto=format&fit=crop&w=800&q=80',
+        imageUrl: '/assets/cities/jaipur/youtube-screens/43SMsEvnwiY.jpg',
         osmCoordinates: [26.9378, 75.8156],
       },
       {
@@ -556,7 +556,7 @@ export const CITY_FLOWCHARTS: Record<string, CityFlowchart> = {
           laneNote: 'Cross the scenic pedestrian bridge connecting Chandpole to Lal Ghat.',
         },
         localProTip: 'Arrive by 5:15 PM with a camera. Remove shoes before stepping onto the sacred water steps.',
-        imageUrl: 'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=800&q=80',
+        imageUrl: '/assets/cities/udaipur/youtube-screens/uPk-z81qQ8M.jpg',
         osmCoordinates: [24.5786, 73.6796],
       },
       {
@@ -573,7 +573,7 @@ export const CITY_FLOWCHARTS: Record<string, CityFlowchart> = {
         costEstimateInr: 300,
         travelerSuitability: ['solo', 'couple', 'friends', 'family'],
         localProTip: 'It’s unlimited authentic thali. Ask the server for extra hot churma laddu with ghee.',
-        imageUrl: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80',
+        imageUrl: '/assets/cities/udaipur/youtube-screens/OCkeMvZVqPc.jpg',
         osmCoordinates: [24.5742, 73.6938],
       },
     ],
@@ -613,7 +613,7 @@ export const CITY_FLOWCHARTS: Record<string, CityFlowchart> = {
           laneNote: 'Follow the scenic pedestrian trail through apple orchards.',
         },
         localProTip: 'Walk into the deeper Dhungri woods behind the temple for pure morning mountain silence.',
-        imageUrl: 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=800&q=80',
+        imageUrl: 'https://images.unsplash.com/photo-1571115177098-24ec42ed204d?auto=format&fit=crop&w=800&q=80',
         osmCoordinates: [32.2483, 77.1697],
       },
       {
@@ -637,7 +637,7 @@ export const CITY_FLOWCHARTS: Record<string, CityFlowchart> = {
           laneNote: 'Cross the Beas bridge towards the hot springs.',
         },
         localProTip: 'Try Cafe 1947 or Dylan’s Toasted & Roasted for the best cinnamon cookies and river views.',
-        imageUrl: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80',
+        imageUrl: '/assets/cities/manali/youtube-screens/vzPk4u09rCQ.jpg',
         osmCoordinates: [32.2562, 77.1752],
       },
       {
@@ -701,7 +701,7 @@ export const CITY_FLOWCHARTS: Record<string, CityFlowchart> = {
           laneNote: 'Gentle winding trail towards the highest peak of Mussoorie.',
         },
         localProTip: 'Try the fresh apple cinnamon crepe at Landour Bakehouse alongside fresh ginger-honey tea.',
-        imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
+        imageUrl: '/assets/cities/mussoorie/youtube-screens/SY0EDwxvB78.jpg',
         osmCoordinates: [30.4578, 78.0934],
       },
       {
@@ -725,7 +725,7 @@ export const CITY_FLOWCHARTS: Record<string, CityFlowchart> = {
           laneNote: 'Scenic drive across Hathipaon ridge.',
         },
         localProTip: 'Morning light before 1:00 PM gives the crispest views before afternoon clouds gather.',
-        imageUrl: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80',
+        imageUrl: '/assets/cities/mussoorie/youtube-screens/rLQTRYon34Q.jpg',
         osmCoordinates: [30.4632, 78.0978],
       },
       {
@@ -742,7 +742,7 @@ export const CITY_FLOWCHARTS: Record<string, CityFlowchart> = {
         costEstimateInr: 'Free',
         travelerSuitability: ['solo', 'couple', 'friends'],
         localProTip: 'Stay until 6:30 PM to watch the lights of Dehradun valley sparkle like scattered diamonds below.',
-        imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
+        imageUrl: '/assets/cities/mussoorie/youtube-screens/Rl1jGcg87LU.jpg',
         osmCoordinates: [30.4489, 78.0267],
       },
     ],

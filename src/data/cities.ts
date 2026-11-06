@@ -18,17 +18,18 @@ export const CITIES: Record<string, CityInfo> = {
       'Polite bargaining is customary in Bapu and Johari Bazaars, but always maintain a warm, respectful demeanor with master craftsmen.',
     transportTip:
       'The Jaipur Metro connects the railway station to Badi Chaupar (right at Hawa Mahal). For hilltop forts like Amer and Nahargarh, book a verified app-cab or day auto.',
-    heroImage: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=80',
+    heroImage: 'https://images.unsplash.com/photo-1603288940300-3444274c6552?auto=format&fit=crop&w=1200&q=80',
     heroImageAlt: 'Hawa Mahal Palace of Winds in Jaipur Pink City with intricate jharokha windows',
     themeClass: 'theme-jaipur',
     backgroundImage: '/assets/cities/jaipur/jaipur-palace-pattern-bg.jpg',
     galleryPhotos: [
-      'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80', // Hawa Mahal
-      'https://images.unsplash.com/photo-1603288967389-9e8c465a39dc?auto=format&fit=crop&w=800&q=80', // Amer Fort
-      'https://images.unsplash.com/photo-1617854818583-09e7f077a156?auto=format&fit=crop&w=800&q=80', // City Palace courtyard
-      'https://images.unsplash.com/photo-1598977123418-454555ac14c2?auto=format&fit=crop&w=800&q=80', // Nahargarh sunset
-      'https://images.unsplash.com/photo-1509233725247-49e657c54213?auto=format&fit=crop&w=800&q=80', // Stepwell Panna Meena
-      'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80', // Royal Kachori & Chai
+      'https://images.unsplash.com/photo-1603288940300-3444274c6552?auto=format&fit=crop&w=800&q=80', // Hawa Mahal sunrise honeycomb
+      '/assets/cities/jaipur/youtube-screens/IR3DX9hfOQs.jpg', // Visa2explore: Amer Fort & Jantar Mantar
+      'https://images.unsplash.com/photo-1617854818583-09e7f077a156?auto=format&fit=crop&w=800&q=80', // Patrika Gate hand-painted arches
+      '/assets/cities/jaipur/youtube-screens/43SMsEvnwiY.jpg', // Visa2explore: Nahargarh Fort sunset Padao terrace
+      'https://images.unsplash.com/photo-1509233725247-49e657c54213?auto=format&fit=crop&w=800&q=80', // Stepwell Panna Meena geometric symmetry
+      '/assets/cities/jaipur/youtube-screens/w1koUBhI8GI.jpg', // Visa2explore: Rawat Pyaaz Kachori & Lassiwala
+      '/assets/cities/jaipur/youtube-screens/ooJUCHRH0OM.jpg', // Kritika Goel: Exploring Jaipur cafes & heritage
     ],
     persona: {
       name: 'Aapke Bhaisaab',
@@ -68,12 +69,12 @@ export const CITIES: Record<string, CityInfo> = {
     heroImageAlt: 'Lake Pichola Udaipur with City Palace reflecting in the water at sunset',
     themeClass: 'theme-udaipur',
     galleryPhotos: [
-      'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=800&q=80', // Lake Pichola
+      '/assets/cities/udaipur/youtube-screens/uPk-z81qQ8M.jpg', // Tanya Khanijow: Lake Pichola havelis & sunset cruise
       'https://images.unsplash.com/photo-1615836245337-f5b9b2303f10?auto=format&fit=crop&w=800&q=80', // City Palace Udaipur
       'https://images.unsplash.com/photo-1566552881560-0be862a7c445?auto=format&fit=crop&w=800&q=80', // Jag Mandir island
-      'https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=800&q=80', // Gangaur Ghat steps
+      '/assets/cities/udaipur/youtube-screens/OCkeMvZVqPc.jpg', // City Palace, Gangaur Ghat & Lake Pichola boat tour
       'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=800&q=80', // Bagore Ki Haveli
-      'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80', // Dal Baati Thal
+      'https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=800&q=80', // Gangaur Ghat steps
     ],
     persona: {
       name: 'Aapke Banna Sa',
@@ -109,16 +110,16 @@ export const CITIES: Record<string, CityInfo> = {
       'Do not litter on mountain trails or in the Beas riverbed. Always walk clockwise around sacred wooden deodar temple sanctums.',
     transportTip:
       'Local auto-rickshaws have fixed rate union stands. For Solang Valley, Rohtang Pass, or Sethan, hire authorized 4x4 mountain taxis.',
-    heroImage: 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1200&q=80',
+    heroImage: '/assets/cities/manali/youtube-screens/Oyon9siF6Pc.jpg',
     heroImageAlt: 'Snow capped Himalayan mountains in Manali with pine deodar trees',
     themeClass: 'theme-manali',
     galleryPhotos: [
-      'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=800&q=80', // Manali valley
-      'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80', // Snowy peak
-      'https://images.unsplash.com/photo-1571115177098-24ec42ed204d?auto=format&fit=crop&w=800&q=80', // Hadimba wood pagoda
-      'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80', // Pine forest trail
-      'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=800&q=80', // Old Manali river
-      'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80', // Warm mountain siddu
+      '/assets/cities/manali/youtube-screens/Oyon9siF6Pc.jpg', // Solang Valley snowy Himalayan peaks
+      'https://images.unsplash.com/photo-1571115177098-24ec42ed204d?auto=format&fit=crop&w=800&q=80', // Hadimba 16th-century wooden pagoda temple
+      '/assets/cities/manali/youtube-screens/vzPk4u09rCQ.jpg', // Old Manali village wooden chalets & riverside trail
+      'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80', // Jogini waterfall pine woods trail
+      '/assets/cities/manali/youtube-screens/P1N1oat--ts.jpg', // Manali local mountain sights & deodar forest
+      'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=800&q=80', // Old Manali Beas river rapids
     ],
     persona: {
       name: 'Aapka Pahadi Dost (Bro)',
@@ -201,16 +202,16 @@ export const CITIES: Record<string, CityInfo> = {
       'Landour is a quiet, historic cantonment town. Keep vehicle honking to an absolute minimum and respect the quiet mountain sanctity.',
     transportTip:
       'Fly into Dehradun Jolly Grant Airport or take the Vande Bharat to Dehradun Station. Hire an authorized hill cab for the 34 km scenic climb.',
-    heroImage: 'https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?auto=format&fit=crop&w=1200&q=80',
+    heroImage: '/assets/cities/mussoorie/youtube-screens/rLQTRYon34Q.jpg',
     heroImageAlt: 'Misty green pine hills and valley view of Mussoorie and Landour',
     themeClass: 'theme-mussoorie',
     galleryPhotos: [
-      'https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?auto=format&fit=crop&w=800&q=80', // Landour ridge
-      'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80', // Misty pine trees
-      'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80', // Garhwal peaks
-      'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=800&q=80', // George Everest ridge
-      'https://images.unsplash.com/photo-1571115177098-24ec42ed204d?auto=format&fit=crop&w=800&q=80', // Char Dukan church
-      'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80', // Fresh apple pie & coffee
+      '/assets/cities/mussoorie/youtube-screens/rLQTRYon34Q.jpg', // Landour Lal Tibba & Char Dukan peaceful ridge walk
+      '/assets/cities/mussoorie/youtube-screens/SY0EDwxvB78.jpg', // Veggie Paaji: Char Dukan Waffles & St. Paul's Church
+      'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80', // Sir George Everest ridge & Himalayan snow peaks
+      '/assets/cities/mussoorie/youtube-screens/Rl1jGcg87LU.jpg', // Tanya Khanijow: Mussoorie mountain stay & mist
+      '/assets/cities/mussoorie/youtube-screens/RvSd6QQ07Nk.jpg', // Historic Landour Char Dukan food cluster
+      'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80', // Landour Bakehouse fresh apple cinnamon pie & coffee
     ],
     persona: {
       name: 'Aapka Hillside Storyteller',
@@ -250,12 +251,12 @@ export const CITIES: Record<string, CityInfo> = {
     heroImageAlt: 'Humayuns Tomb Delhi with lush Mughal gardens and sandstone dome',
     themeClass: 'theme-delhi',
     galleryPhotos: [
-      'https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=800&q=80', // Humayuns tomb
-      'https://images.unsplash.com/photo-1585136917228-569b910b85ea?auto=format&fit=crop&w=800&q=80', // Qutub Minar
-      'https://images.unsplash.com/photo-1592635196078-9fe3d54f2377?auto=format&fit=crop&w=800&q=80', // Jama Masjid
-      'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80', // Chole Bhature
-      'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=800&q=80', // Old Delhi lane
-      'https://images.unsplash.com/photo-1509233725247-49e657c54213?auto=format&fit=crop&w=800&q=80', // Agrasen ki Baoli
+      'https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=800&q=80', // Humayun's tomb Mughal architecture
+      'https://images.unsplash.com/photo-1585136917228-569b910b85ea?auto=format&fit=crop&w=800&q=80', // Qutub Minar fluted sandstone minaret
+      '/assets/cities/delhi/youtube-screens/8PDvd4jUp3I.jpg', // Visa2explore: Old Delhi, Chandni Chowk & Jama Masjid food
+      '/assets/cities/delhi/youtube-screens/Gsa7TDZDPYY.jpg', // Curly Tales: Chandni Chowk breakfast trail
+      'https://images.unsplash.com/photo-1509233725247-49e657c54213?auto=format&fit=crop&w=800&q=80', // Agrasen ki Baoli historic stepwell
+      '/assets/cities/delhi/youtube-screens/-SZMEJASeRc.jpg', // Curly Tales: Heritage walk in Old Delhi havelis
     ],
     persona: {
       name: 'Aapka Dilli Dilwala',
