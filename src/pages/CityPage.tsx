@@ -25,6 +25,7 @@ import { RealWorldTravelIntelligence } from '../components/RealWorldTravelIntell
 import { StreetViewVisualGuide } from '../components/StreetViewVisualGuide'
 import { CityEditionHero } from '../components/CityEditionHero'
 import { CityTripFlowchart } from '../components/CityTripFlowchart'
+import { VaranasiLocalVideoIntel } from '../components/VaranasiLocalVideoIntel'
 
 interface CityPageProps {
   cityId: CityId
@@ -482,6 +483,13 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
             </div>
           </div>
         </section>
+
+        {/* =========================================================================
+            20 REAL LOCAL BANARASI VIDEO WALKS & FIELD INTELLIGENCE WITH PHOTOS
+           ========================================================================= */}
+        {cityId.toLowerCase() === 'varanasi' && (
+          <VaranasiLocalVideoIntel />
+        )}
 
         {/* =========================================================================
             REAL-WORLD TRAVEL INTELLIGENCE ENGINE (EXECUTION-LEVEL TIMING & LOGISTICS)
