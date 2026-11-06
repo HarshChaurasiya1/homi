@@ -41,6 +41,12 @@ import {
   PhoneCall,
   MessageCircle,
   ShieldAlert,
+  TrendingDown,
+  PiggyBank,
+  CheckCircle2,
+  Hotel,
+  UtensilsCrossed,
+  Ticket,
 } from 'lucide-react'
 
 interface InteractiveTripBuilderProps {
@@ -90,6 +96,8 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
   const currentCityKey = selectedCityId.toLowerCase()
   const currentCity = cities[currentCityKey] || cities.varanasi || cities.jaipur || cityList[0]
   const persona = currentCity?.persona
+  const safetyDir = useMemo(() => getSafetyDirectoryForCity(currentCityKey), [currentCityKey])
+  const guide = safetyDir.assignedGuide
 
   // Itinerary state
   const [itinerary, setItinerary] = useState<GeneratedItinerary>(() => {
@@ -149,6 +157,62 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
     setTripSavedSuccess(true)
     setTimeout(() => setTripSavedSuccess(false), 2500)
     onSaveToast(`Saved ${currentCity.name} trip board to your local profile!`)
+  }
+
+  // Switch budget tier directly from board or cost-cutter card
+  const handleSwitchBudgetTier = (tier: BudgetTier) => {
+    setSelectedBudget(tier)
+    const transitToUse = selectedTransit || transitComparison.recommendedOption
+    const updatedInputs: PlannerInputs = {
+      destination: selectedCityId,
+      origin: customOriginInput.trim() || selectedOrigin,
+      chosenTransit: transitToUse,
+      days: selectedDays,
+      travellers: selectedVibe === 'solo' ? 1 : selectedVibe === 'couple' ? 2 : 3,
+      budgetTier: tier,
+      interests: ['heritage', 'food', 'photography'],
+      nationality: 'indian',
+    }
+    const updatedPlan = generateItinerary(updatedInputs)
+    setItinerary(updatedPlan)
+    savePlannerDraft(updatedInputs)
+
+    if (tier === 'budget') {
+      const savedAmount = itinerary.budget.grandTotal - updatedPlan.budget.grandTotal
+      if (savedAmount > 0) {
+        onSaveToast(`🎉 Switched to Pocket-Friendly! Saved ${formatInr(savedAmount)}`)
+      } else {
+        onSaveToast('Switched to Pocket-Friendly plan (~₹1,400/room)')
+      }
+    } else {
+      onSaveToast(`Updated budget style to ${tier === 'moderate' ? 'Cozy & Comfortable' : 'Royal Luxury'}`)
+    }
+  }
+
+  // Switch intercity transit (e.g. from cab to sleeper train)
+  const handleSwitchTransit = (transit: TransitOption) => {
+    setSelectedTransit(transit)
+    const updatedInputs: PlannerInputs = {
+      destination: selectedCityId,
+      origin: customOriginInput.trim() || selectedOrigin,
+      chosenTransit: transit,
+      days: selectedDays,
+      travellers: selectedVibe === 'solo' ? 1 : selectedVibe === 'couple' ? 2 : 3,
+      budgetTier: selectedBudget,
+      interests: ['heritage', 'food', 'photography'],
+      nationality: 'indian',
+    }
+    const updatedPlan = generateItinerary(updatedInputs)
+    setItinerary(updatedPlan)
+    savePlannerDraft(updatedInputs)
+    onSaveToast(`Selected ${transit.title} (${transit.durationFormatted})`)
+  }
+
+  const scrollToWhereToReduce = () => {
+    const el = document.getElementById('where-to-reduce-section')
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
   }
 
   // City options with authentic architectural motifs and verified local companions
@@ -929,8 +993,6 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
 
           {/* 1. ASSIGNED LOCAL COMPANION & EMERGENCY SAFETY HUB */}
           {persona && (() => {
-            const safetyDir = getSafetyDirectoryForCity(currentCityKey)
-            const guide = safetyDir.assignedGuide
             const guideWhatsapp = `https://wa.me/${guide.whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
               `Namaste ${guide.name}! I am currently following my ${currentCity?.name} itinerary on the HOMI app and need quick guidance.`
             )}`
@@ -961,14 +1023,126 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
                     </div>
                   </div>
 
-                  <div className="text-right self-start md:self-auto">
-                    <span className="text-xs text-slate-500 block">Total Estimated Cost:</span>
-                    <span className="font-editorial text-2xl font-bold text-indigo-600">
-                      {formatInr(itinerary.budget.grandTotal)}
+                  <div className="text-right self-start md:self-auto space-y-1">
+                    <span className="text-xs text-slate-500 block font-medium">Total Estimated Cost:</span>
+                    <div className="flex items-baseline justify-end gap-1.5">
+                      <span className="font-editorial text-2xl sm:text-3xl font-extrabold text-indigo-600">
+                        {formatInr(itinerary.budget.grandTotal)}
+                      </span>
+                      <span className="text-[11px] text-slate-500 font-medium">
+                        ({formatInr(itinerary.budget.perPersonTotal)} / person)
+                      </span>
+                    </div>
+
+                    {/* Quick Budget Tier Switcher on Board */}
+                    <div className="flex items-center justify-end gap-1 pt-1">
+                      {(['budget', 'moderate', 'premium'] as BudgetTier[]).map((tier) => (
+                        <button
+                          key={tier}
+                          type="button"
+                          onClick={() => handleSwitchBudgetTier(tier)}
+                          className={`px-2 py-0.5 rounded-lg text-[10px] font-bold transition-all cursor-pointer ${
+                            selectedBudget === tier
+                              ? 'bg-indigo-600 text-white shadow-xs'
+                              : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                          }`}
+                        >
+                          {tier === 'budget' ? '₹ Pocket' : tier === 'moderate' ? '✦ Balanced' : '★ Luxury'}
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Cost Reduction CTA */}
+                    {itinerary.budget.potentialSavingsTotal > 0 ? (
+                      <button
+                        type="button"
+                        onClick={scrollToWhereToReduce}
+                        className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 hover:text-emerald-700 hover:underline pt-0.5 cursor-pointer"
+                      >
+                        <TrendingDown className="w-3 h-3" />
+                        <span>Save up to {formatInr(itinerary.budget.potentialSavingsTotal)} (Cost Cutters ↓)</span>
+                      </button>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-600 pt-0.5">
+                        <Check className="w-3 h-3" />
+                        <span>Most Economical Plan Active</span>
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Immediate Visual Budget Proportion Bar & Quick Line Items */}
+                <div className="p-3.5 rounded-2xl bg-slate-50/90 border border-slate-100 space-y-2">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-bold text-slate-700 flex items-center gap-1.5">
+                      <Wallet className="w-3.5 h-3.5 text-indigo-600" />
+                      <span>Live Budget Breakdown ({itinerary.budget.dayCount} Days, {itinerary.budget.travellerCount} Guests)</span>
                     </span>
-                    <span className="text-[11px] text-slate-500 block">
-                      ({formatInr(itinerary.budget.perPersonTotal)} / person)
-                    </span>
+                    <button
+                      type="button"
+                      onClick={scrollToWhereToReduce}
+                      className="text-indigo-600 hover:text-indigo-700 font-bold text-[11px] hover:underline cursor-pointer flex items-center gap-0.5"
+                    >
+                      <span>Where to Reduce</span>
+                      <TrendingDown className="w-3 h-3 text-emerald-600" />
+                    </button>
+                  </div>
+
+                  {/* Multi-Segment Proportion Bar */}
+                  <div className="w-full h-2.5 rounded-full overflow-hidden flex bg-slate-200 shadow-inner">
+                    <div
+                      style={{ width: `${itinerary.budget.accommodationPercentage}%` }}
+                      className="bg-indigo-600 h-full transition-all duration-300"
+                      title={`Stay: ${formatInr(itinerary.budget.accommodationTotal)} (${itinerary.budget.accommodationPercentage}%)`}
+                    />
+                    <div
+                      style={{ width: `${itinerary.budget.foodPercentage}%` }}
+                      className="bg-amber-500 h-full transition-all duration-300"
+                      title={`Food: ${formatInr(itinerary.budget.foodTotal)} (${itinerary.budget.foodPercentage}%)`}
+                    />
+                    <div
+                      style={{ width: `${itinerary.budget.transportPercentage}%` }}
+                      className="bg-emerald-500 h-full transition-all duration-300"
+                      title={`Transit: ${formatInr(itinerary.budget.transportTotal)} (${itinerary.budget.transportPercentage}%)`}
+                    />
+                    <div
+                      style={{ width: `${itinerary.budget.ticketsPercentage}%` }}
+                      className="bg-purple-500 h-full transition-all duration-300"
+                      title={`Tickets: ${formatInr(itinerary.budget.ticketsTotal)} (${itinerary.budget.ticketsPercentage}%)`}
+                    />
+                    <div
+                      style={{ width: `${itinerary.budget.bufferPercentage}%` }}
+                      className="bg-slate-400 h-full transition-all duration-300"
+                      title={`Buffer: ${formatInr(itinerary.budget.bufferTotal)} (${itinerary.budget.bufferPercentage}%)`}
+                    />
+                  </div>
+
+                  {/* Quick Line Item Badges */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-0.5 text-[11px]">
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2.5 h-2.5 rounded-full bg-indigo-600 flex-shrink-0" />
+                      <span className="text-slate-500">Stay:</span>
+                      <strong className="text-slate-800">{formatInr(itinerary.budget.accommodationTotal)}</strong>
+                      <span className="text-[10px] text-slate-600">({itinerary.budget.accommodationPercentage}%)</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2.5 h-2.5 rounded-full bg-amber-500 flex-shrink-0" />
+                      <span className="text-slate-500">Food:</span>
+                      <strong className="text-slate-800">{formatInr(itinerary.budget.foodTotal)}</strong>
+                      <span className="text-[10px] text-slate-600">({itinerary.budget.foodPercentage}%)</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 flex-shrink-0" />
+                      <span className="text-slate-500">Transit:</span>
+                      <strong className="text-slate-800">{formatInr(itinerary.budget.transportTotal)}</strong>
+                      <span className="text-[10px] text-slate-600">({itinerary.budget.transportPercentage}%)</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2.5 h-2.5 rounded-full bg-purple-500 flex-shrink-0" />
+                      <span className="text-slate-500">Tickets:</span>
+                      <strong className="text-slate-800">{formatInr(itinerary.budget.ticketsTotal)}</strong>
+                      <span className="text-[10px] text-slate-600">({itinerary.budget.ticketsPercentage}%)</span>
+                    </div>
                   </div>
                 </div>
 
@@ -1122,34 +1296,335 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
             </div>
           )}
 
-          {/* 4. HONEST BUDGET BREAKDOWN */}
-          <div className="bg-white rounded-3xl p-5 sm:p-7 border border-slate-100 shadow-xs space-y-4">
-            <h3 className="font-editorial text-lg sm:text-xl font-bold text-slate-900">
-              Honest Itemized Budget Breakdown
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-4 gap-3.5 text-xs">
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                <span className="text-[10px] text-slate-500 uppercase font-bold block">Accommodation</span>
-                <strong className="text-base text-slate-900">{formatInr(itinerary.budget.accommodationTotal)}</strong>
-                <p className="text-[10px] text-slate-500 mt-0.5">{itinerary.budget.accommodationDescription}</p>
+          {/* 4. HONEST ITEMIZED BUDGET BREAKDOWN & WHERE YOU CAN REDUCE */}
+          <div className="space-y-6">
+            {/* 4A: Detailed Itemized Breakdown */}
+            <div className="bg-white rounded-3xl p-5 sm:p-7 border border-slate-100 shadow-xs space-y-5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <Wallet className="w-5 h-5 text-indigo-600" />
+                    <h3 className="font-editorial text-lg sm:text-xl font-bold text-slate-900">
+                      Honest Itemized Budget Breakdown
+                    </h3>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    100% transparent pricing with zero surprise charges or hidden booking commissions.
+                  </p>
+                </div>
+
+                <div className="text-left sm:text-right">
+                  <span className="text-xs text-slate-500 block font-medium">Trip Total:</span>
+                  <strong className="text-xl sm:text-2xl font-bold text-indigo-600">
+                    {formatInr(itinerary.budget.grandTotal)}
+                  </strong>
+                  <span className="text-[11px] text-slate-500 block">
+                    ({formatInr(itinerary.budget.perPersonTotal)} / person)
+                  </span>
+                </div>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                <span className="text-[10px] text-slate-500 uppercase font-bold block">Meals & Street Food</span>
-                <strong className="text-base text-slate-900">{formatInr(itinerary.budget.foodTotal)}</strong>
-                <p className="text-[10px] text-slate-500 mt-0.5">{itinerary.budget.foodDescription}</p>
+              {/* Visual Proportion Bar with Percentage Labels */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-xs text-slate-600">
+                  <span className="font-semibold">Cost Distribution</span>
+                  <span className="text-[11px] text-slate-500">Includes 8% cushion for incidental expenses</span>
+                </div>
+                <div className="w-full h-3 rounded-full overflow-hidden flex bg-slate-100 shadow-inner">
+                  <div
+                    style={{ width: `${itinerary.budget.accommodationPercentage}%` }}
+                    className="bg-indigo-600 h-full"
+                    title={`Accommodation: ${itinerary.budget.accommodationPercentage}%`}
+                  />
+                  <div
+                    style={{ width: `${itinerary.budget.foodPercentage}%` }}
+                    className="bg-amber-500 h-full"
+                    title={`Food: ${itinerary.budget.foodPercentage}%`}
+                  />
+                  <div
+                    style={{ width: `${itinerary.budget.transportPercentage}%` }}
+                    className="bg-emerald-500 h-full"
+                    title={`Transport: ${itinerary.budget.transportPercentage}%`}
+                  />
+                  <div
+                    style={{ width: `${itinerary.budget.ticketsPercentage}%` }}
+                    className="bg-purple-500 h-full"
+                    title={`Tickets: ${itinerary.budget.ticketsPercentage}%`}
+                  />
+                  <div
+                    style={{ width: `${itinerary.budget.bufferPercentage}%` }}
+                    className="bg-slate-400 h-full"
+                    title={`Buffer: ${itinerary.budget.bufferPercentage}%`}
+                  />
+                </div>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                <span className="text-[10px] text-slate-500 uppercase font-bold block">Local Transit</span>
-                <strong className="text-base text-slate-900">{formatInr(itinerary.budget.transportTotal)}</strong>
-                <p className="text-[10px] text-slate-500 mt-0.5">{itinerary.budget.transportDescription}</p>
+              {/* Itemized Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 text-xs">
+                {/* Stay */}
+                <div className="p-4 rounded-2xl bg-indigo-50/40 border border-indigo-100 flex flex-col justify-between space-y-2">
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] text-indigo-700 uppercase font-extrabold flex items-center gap-1">
+                        <Hotel className="w-3.5 h-3.5 text-indigo-600" />
+                        <span>Accommodation</span>
+                      </span>
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800">
+                        {itinerary.budget.accommodationPercentage}%
+                      </span>
+                    </div>
+                    <strong className="text-lg font-bold text-slate-900 block mt-1">
+                      {formatInr(itinerary.budget.accommodationTotal)}
+                    </strong>
+                    <p className="text-[11px] text-slate-600 mt-1 leading-relaxed">
+                      {itinerary.budget.accommodationDescription}
+                    </p>
+                  </div>
+                  {selectedBudget !== 'budget' && (
+                    <button
+                      type="button"
+                      onClick={() => handleSwitchBudgetTier('budget')}
+                      className="mt-2 text-[10px] font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1 cursor-pointer"
+                    >
+                      <span>💡 Switch to Hostel (~₹1.4k/room)</span>
+                    </button>
+                  )}
+                </div>
+
+                {/* Food */}
+                <div className="p-4 rounded-2xl bg-amber-50/40 border border-amber-100 flex flex-col justify-between space-y-2">
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] text-amber-700 uppercase font-extrabold flex items-center gap-1">
+                        <UtensilsCrossed className="w-3.5 h-3.5 text-amber-600" />
+                        <span>Meals & Street Food</span>
+                      </span>
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-800">
+                        {itinerary.budget.foodPercentage}%
+                      </span>
+                    </div>
+                    <strong className="text-lg font-bold text-slate-900 block mt-1">
+                      {formatInr(itinerary.budget.foodTotal)}
+                    </strong>
+                    <p className="text-[11px] text-slate-600 mt-1 leading-relaxed">
+                      {itinerary.budget.foodDescription}
+                    </p>
+                  </div>
+                  {selectedBudget !== 'budget' && (
+                    <button
+                      type="button"
+                      onClick={() => handleSwitchBudgetTier('budget')}
+                      className="mt-2 text-[10px] font-bold text-amber-700 hover:text-amber-900 flex items-center gap-1 cursor-pointer"
+                    >
+                      <span>💡 Street Icons Only (~₹450/day)</span>
+                    </button>
+                  )}
+                </div>
+
+                {/* Local Transit */}
+                <div className="p-4 rounded-2xl bg-emerald-50/40 border border-emerald-100 flex flex-col justify-between space-y-2">
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] text-emerald-700 uppercase font-extrabold flex items-center gap-1">
+                        <Car className="w-3.5 h-3.5 text-emerald-600" />
+                        <span>Local Transit</span>
+                      </span>
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                        {itinerary.budget.transportPercentage}%
+                      </span>
+                    </div>
+                    <strong className="text-lg font-bold text-slate-900 block mt-1">
+                      {formatInr(itinerary.budget.transportTotal)}
+                    </strong>
+                    <p className="text-[11px] text-slate-600 mt-1 leading-relaxed">
+                      {itinerary.budget.transportDescription}
+                    </p>
+                  </div>
+                  {selectedBudget !== 'budget' && (
+                    <button
+                      type="button"
+                      onClick={() => handleSwitchBudgetTier('budget')}
+                      className="mt-2 text-[10px] font-bold text-emerald-700 hover:text-emerald-900 flex items-center gap-1 cursor-pointer"
+                    >
+                      <span>💡 Shared E-Rickshaw (~₹300/day)</span>
+                    </button>
+                  )}
+                </div>
+
+                {/* Monuments & Tickets */}
+                <div className="p-4 rounded-2xl bg-purple-50/40 border border-purple-100 flex flex-col justify-between space-y-2">
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] text-purple-700 uppercase font-extrabold flex items-center gap-1">
+                        <Ticket className="w-3.5 h-3.5 text-purple-600" />
+                        <span>Monuments & Tickets</span>
+                      </span>
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-purple-100 text-purple-800">
+                        {itinerary.budget.ticketsPercentage}%
+                      </span>
+                    </div>
+                    <strong className="text-lg font-bold text-slate-900 block mt-1">
+                      {formatInr(itinerary.budget.ticketsTotal)}
+                    </strong>
+                    <p className="text-[11px] text-slate-600 mt-1 leading-relaxed">
+                      {itinerary.budget.ticketsDescription}
+                    </p>
+                  </div>
+                  <span className="text-[10px] text-purple-700 font-semibold mt-2">
+                    Official ASI & Temple tariffs
+                  </span>
+                </div>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                <span className="text-[10px] text-slate-500 uppercase font-bold block">Monuments & Tickets</span>
-                <strong className="text-base text-slate-900">{formatInr(itinerary.budget.ticketsTotal)}</strong>
-                <p className="text-[10px] text-slate-500 mt-0.5">{itinerary.budget.ticketsDescription}</p>
+              {/* Incidental Allowance / Buffer Card */}
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-slate-400 flex-shrink-0" />
+                  <span className="font-semibold text-slate-700">Incidental Cushion (8%):</span>
+                  <span className="text-slate-500">{itinerary.budget.bufferDescription}</span>
+                </div>
+                <strong className="text-slate-900 font-bold self-start sm:self-auto">
+                  {formatInr(itinerary.budget.bufferTotal)}
+                </strong>
+              </div>
+            </div>
+
+            {/* 4B: Dedicated "Where You Can Reduce" Cost-Cutters Module */}
+            <div
+              id="where-to-reduce-section"
+              className="bg-gradient-to-br from-emerald-50/80 via-white to-indigo-50/50 rounded-3xl p-5 sm:p-7 border-2 border-emerald-200 shadow-sm space-y-5"
+            >
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs">
+                      <PiggyBank className="w-4 h-4" />
+                    </div>
+                    <h3 className="font-editorial text-lg sm:text-xl font-bold text-slate-900">
+                      Where You Can Reduce This Cost
+                    </h3>
+                  </div>
+                  <p className="text-xs text-slate-600 max-w-xl">
+                    Authentic local cost-cutters curated by {guide.name} to slash your trip budget without sacrificing safety, hygiene, or must-see memories.
+                  </p>
+                </div>
+
+                {itinerary.budget.potentialSavingsTotal > 0 ? (
+                  <button
+                    type="button"
+                    onClick={() => handleSwitchBudgetTier('budget')}
+                    className="py-2.5 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-2 shadow-md shadow-emerald-200 transition-all cursor-pointer flex-shrink-0"
+                  >
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>Apply Pocket Mode (Save {formatInr(itinerary.budget.potentialSavingsTotal)})</span>
+                  </button>
+                ) : (
+                  <span className="px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold flex items-center gap-1.5 flex-shrink-0">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                    <span>Most Economical Plan Active</span>
+                  </span>
+                )}
+              </div>
+
+              {/* Savings Opportunity Cards Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                {itinerary.budget.savingsHacks.map((hack) => (
+                  <div
+                    key={hack.id}
+                    className={`p-4 rounded-2xl border transition-all flex flex-col justify-between ${
+                      hack.isApplied
+                        ? 'bg-slate-50/90 border-slate-200'
+                        : 'bg-white border-emerald-200 shadow-2xs hover:border-emerald-300'
+                    }`}
+                  >
+                    <div>
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex items-center gap-2.5">
+                          <div
+                            className={`w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                              hack.category === 'stay'
+                                ? 'bg-indigo-100 text-indigo-700'
+                                : hack.category === 'food'
+                                ? 'bg-amber-100 text-amber-700'
+                                : hack.category === 'transit'
+                                ? 'bg-emerald-100 text-emerald-700'
+                                : hack.category === 'intercity'
+                                ? 'bg-blue-100 text-blue-700'
+                                : 'bg-purple-100 text-purple-700'
+                            }`}
+                          >
+                            {hack.category === 'stay' && <Hotel className="w-4 h-4" />}
+                            {hack.category === 'food' && <UtensilsCrossed className="w-4 h-4" />}
+                            {hack.category === 'transit' && <Car className="w-4 h-4" />}
+                            {hack.category === 'intercity' && <Train className="w-4 h-4" />}
+                            {hack.category === 'tickets' && <Ticket className="w-4 h-4" />}
+                          </div>
+                          <div>
+                            <h4 className="text-xs font-bold text-slate-900">{hack.title}</h4>
+                            <span className="text-[10px] text-slate-500 capitalize">{hack.category} hack</span>
+                          </div>
+                        </div>
+
+                        <span
+                          className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full flex-shrink-0 ${
+                            hack.isApplied
+                              ? 'bg-slate-200 text-slate-700'
+                              : 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                          }`}
+                        >
+                          {hack.badge}
+                        </span>
+                      </div>
+
+                      <p className="text-[11px] text-slate-600 mt-2.5 leading-relaxed">
+                        {hack.description}
+                      </p>
+                    </div>
+
+                    <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between">
+                      {hack.isApplied ? (
+                        <span className="text-[11px] font-bold text-slate-500 flex items-center gap-1">
+                          <Check className="w-3.5 h-3.5 text-emerald-600" />
+                          <span>Applied to Current Itinerary</span>
+                        </span>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (hack.id === 'intercity_train') {
+                              const trainOpt = transitComparison.options.find((o) => o.mode === 'train')
+                              if (trainOpt) {
+                                handleSwitchTransit(trainOpt)
+                              }
+                            } else {
+                              handleSwitchBudgetTier('budget')
+                            }
+                          }}
+                          className="text-[11px] font-bold text-emerald-700 hover:text-emerald-900 flex items-center gap-1 cursor-pointer hover:underline"
+                        >
+                          <TrendingDown className="w-3.5 h-3.5" />
+                          <span>{hack.actionLabel}</span>
+                        </button>
+                      )}
+
+                      <span className="text-[10px] text-slate-400 font-medium">Verified Local Advice</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Transparent Assumptions & Exclusions Guarantee */}
+              <div className="p-3.5 rounded-2xl bg-white/80 border border-emerald-100/80 text-[11px] text-slate-600 space-y-1.5">
+                <span className="font-bold text-slate-800 block flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>The HOMI Transparent Budget Guarantee</span>
+                </span>
+                <p>
+                  • Estimates cover double-occupancy verified stays, 3 wholesome meals/day, all listed monument fees, and internal transit.
+                </p>
+                <p>
+                  • Excludes personal shopping, high-end souvenirs, alcoholic beverages, and interstate airfare.
+                </p>
               </div>
             </div>
           </div>

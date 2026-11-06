@@ -51,6 +51,18 @@ export interface DayPlan {
   dayNotes: string
 }
 
+export interface BudgetSavingHack {
+  id: string
+  category: 'stay' | 'transit' | 'food' | 'tickets' | 'intercity'
+  title: string
+  badge: string
+  savingAmount: number
+  description: string
+  actionLabel: string
+  actionTier?: BudgetTier
+  isApplied: boolean
+}
+
 export interface BudgetBreakdown {
   currency: 'INR'
   travellerCount: number
@@ -86,6 +98,18 @@ export interface BudgetBreakdown {
   perPersonTotal: number
   assumptions: string[]
   exclusions: string[]
+
+  // Visual distribution percentages
+  accommodationPercentage: number
+  foodPercentage: number
+  transportPercentage: number
+  ticketsPercentage: number
+  bufferPercentage: number
+
+  // Savings & cost reduction engine
+  currentTier: BudgetTier
+  potentialSavingsTotal: number
+  savingsHacks: BudgetSavingHack[]
 }
 
 export interface GeneratedItinerary {
@@ -176,6 +200,138 @@ export function calculateBudget(
   const grandTotal = subtotal + bufferTotal
   const perPersonTotal = Math.round(grandTotal / travellers)
 
+  // Percentages for visual distribution
+  const accommodationPercentage = Math.round((accommodationTotal / grandTotal) * 100) || 0
+  const foodPercentage = Math.round((foodTotal / grandTotal) * 100) || 0
+  const transportPercentage = Math.round((transportTotal / grandTotal) * 100) || 0
+  const ticketsPercentage = Math.round((ticketsTotal / grandTotal) * 100) || 0
+  const bufferPercentage = Math.max(0, 100 - (accommodationPercentage + foodPercentage + transportPercentage + ticketsPercentage))
+
+  // Potential savings if switching to pocket/budget tier
+  const budgetTierRoomRate = BUDGET_RATES.accommodationPerRoomPerNight.budget
+  const budgetTierFoodRate = BUDGET_RATES.foodPerPersonPerDay.budget
+  const budgetTierTransportPerDay = BUDGET_RATES.transportPerGroupPerDay.budget
+
+  const budgetAccommodationTotal = roomCount * nights * budgetTierRoomRate
+  const budgetFoodTotal = travellers * days * budgetTierFoodRate
+  const budgetTransportTotal = travellers * days * budgetTierTransportPerDay
+  const budgetSubtotal = budgetAccommodationTotal + budgetFoodTotal + budgetTransportTotal + ticketsTotal
+  const budgetBufferTotal = Math.round(budgetSubtotal * 0.08)
+  const budgetGrandTotal = budgetSubtotal + budgetBufferTotal
+
+  const potentialSavingsTotal = Math.max(0, grandTotal - budgetGrandTotal)
+
+  // Savings hacks & reduction opportunities
+  const savingsHacks: BudgetSavingHack[] = []
+
+  // 1. Accommodation Hack
+  const staySaving = Math.max(0, accommodationTotal - budgetAccommodationTotal)
+  if (budgetTier !== 'budget' && staySaving > 0) {
+    savingsHacks.push({
+      id: 'stay_hostel',
+      category: 'stay',
+      title: 'Switch to Verified Backpacker Hostel or Guesthouse',
+      badge: `Save ${formatInr(staySaving)}`,
+      savingAmount: staySaving,
+      description: `Switch from ₹${roomRate.toLocaleString('en-IN')}/night hotel to verified clean guesthouses/hostels near central hubs @ ₹1,400/room.`,
+      actionLabel: 'Apply Pocket Stay',
+      actionTier: 'budget',
+      isApplied: false,
+    })
+  } else {
+    savingsHacks.push({
+      id: 'stay_hostel',
+      category: 'stay',
+      title: 'Pocket Stay Active (~₹1,400/room)',
+      badge: 'Optimized',
+      savingAmount: 0,
+      description: 'You are on the most economical verified guesthouse/hostel tier. Tip: Check-in before 11 AM to claim free luggage storage.',
+      actionLabel: 'Best Rate Active',
+      isApplied: true,
+    })
+  }
+
+  // 2. Local Transit Hack
+  const transitSaving = Math.max(0, transportTotal - budgetTransportTotal)
+  if (budgetTier !== 'budget' && transitSaving > 0) {
+    savingsHacks.push({
+      id: 'transit_shared',
+      category: 'transit',
+      title: 'Opt for Shared E-Rickshaws & Walking Routes',
+      badge: `Save ${formatInr(transitSaving)}`,
+      savingAmount: transitSaving,
+      description: 'In old quarters (Varanasi Ghats, Old Jaipur, Udaipur Old City), private cabs cannot navigate narrow alleys anyway. E-rickshaws (₹20-₹40/seat) are faster and save cab surcharges.',
+      actionLabel: 'Use Shared Transit',
+      actionTier: 'budget',
+      isApplied: false,
+    })
+  } else {
+    savingsHacks.push({
+      id: 'transit_shared',
+      category: 'transit',
+      title: 'Shared Local Transit Active (~₹300/person/day)',
+      badge: 'Optimized',
+      savingAmount: 0,
+      description: 'Walking trails and shared electric autos keep local transit nimble and low-cost.',
+      actionLabel: 'Best Rate Active',
+      isApplied: true,
+    })
+  }
+
+  // 3. Food Hack
+  const foodSaving = Math.max(0, foodTotal - budgetFoodTotal)
+  if (budgetTier !== 'budget' && foodSaving > 0) {
+    savingsHacks.push({
+      id: 'food_street_icons',
+      category: 'food',
+      title: 'Feast on Legendary 80-Yr Street Halwais & Local Dhabas',
+      badge: `Save ${formatInr(foodSaving)}`,
+      savingAmount: foodSaving,
+      description: 'Famous heritage eateries (kachori-jalebi, kulhad lassi, unlimited regional thalis) cost ₹60-₹150/person and provide richer local taste than multi-cuisine cafes.',
+      actionLabel: 'Opt for Street Icons',
+      actionTier: 'budget',
+      isApplied: false,
+    })
+  } else {
+    savingsHacks.push({
+      id: 'food_street_icons',
+      category: 'food',
+      title: 'Street Icons & Local Dhabas Active (~₹450/day)',
+      badge: 'Optimized',
+      savingAmount: 0,
+      description: 'You are enjoying the most authentic local food without paying tourist cafe markups.',
+      actionLabel: 'Best Rate Active',
+      isApplied: true,
+    })
+  }
+
+  // 4. Tickets & Entry Pass Hack
+  const ticketSaving = ticketsTotal > 0 ? Math.round(ticketsTotal * 0.35) : 300
+  savingsHacks.push({
+    id: 'tickets_pass',
+    category: 'tickets',
+    title: 'Book Official ASI Composite Passes & Digital Portals',
+    badge: `Save up to ${formatInr(ticketSaving)}`,
+    savingAmount: ticketSaving,
+    description: 'Book tickets directly via official ASI portals (asi.payumoney.com) or state tourism apps. Save on tout commissions and get composite entry discounts.',
+    actionLabel: 'Use Official Portals',
+    isApplied: false,
+  })
+
+  // 5. Intercity Transit Hack (if taxi / highway cab was selected)
+  if (inputs.chosenTransit && inputs.chosenTransit.mode === 'taxi') {
+    savingsHacks.push({
+      id: 'intercity_train',
+      category: 'intercity',
+      title: 'Switch from Highway Cab to Overnight Sleeper Train',
+      badge: 'Save ₹4,500 - ₹7,000',
+      savingAmount: 5500,
+      description: 'Overnight sleeper trains (e.g. Bundelkhand Express at ₹385/seat) save highway private cab fares and eliminate 1 night of hotel accommodation.',
+      actionLabel: 'Switch to Train',
+      isApplied: false,
+    })
+  }
+
   const assumptions = [
     `Accommodation is based on ${roomCount} double-occupancy room(s) for ${travellers} guest(s).`,
     `Food estimates cover 3 daily regional meals plus afternoon tea and authentic street food tastings.`,
@@ -211,6 +367,14 @@ export function calculateBudget(
     perPersonTotal,
     assumptions,
     exclusions,
+    accommodationPercentage,
+    foodPercentage,
+    transportPercentage,
+    ticketsPercentage,
+    bufferPercentage,
+    currentTier: budgetTier,
+    potentialSavingsTotal,
+    savingsHacks,
   }
 }
 

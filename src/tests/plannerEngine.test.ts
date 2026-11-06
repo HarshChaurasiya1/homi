@@ -142,5 +142,74 @@ export function runPlannerTests(): { passed: number; failed: number; errors: str
     errors.push(`Places & Cities audit threw: ${err instanceof Error ? err.message : String(err)}`)
   }
 
+  // Test 6: Itemized Budget Breakdown & Percentage Distribution Verification
+  try {
+    const plan = generateItinerary({
+      destination: 'varanasi',
+      days: 3,
+      travellers: 2,
+      budgetTier: 'moderate',
+      interests: ['heritage', 'food'],
+      nationality: 'indian',
+    })
+    const b = plan.budget
+    assert(b.accommodationTotal > 0, 'Accommodation total should be positive')
+    assert(b.foodTotal > 0, 'Food total should be positive')
+    assert(b.transportTotal > 0, 'Transport total should be positive')
+    assert(b.bufferTotal > 0, 'Buffer total should be positive')
+
+    const totalPct = b.accommodationPercentage + b.foodPercentage + b.transportPercentage + b.ticketsPercentage + b.bufferPercentage
+    assert(totalPct >= 99 && totalPct <= 101, `Percentages should sum to approximately 100%, got ${totalPct}%`)
+    assert(b.accommodationPercentage > 0, 'Accommodation percentage should be positive')
+    assert(b.foodPercentage > 0, 'Food percentage should be positive')
+  } catch (err: unknown) {
+    failed++
+    errors.push(`Budget Breakdown test threw: ${err instanceof Error ? err.message : String(err)}`)
+  }
+
+  // Test 7: "Where You Can Reduce" Savings Engine Verification
+  try {
+    // A: Moderate tier savings opportunities
+    const modPlan = generateItinerary({
+      destination: 'varanasi',
+      days: 3,
+      travellers: 2,
+      budgetTier: 'moderate',
+      interests: ['heritage', 'food'],
+      nationality: 'indian',
+    })
+    assert(modPlan.budget.potentialSavingsTotal > 0, 'Moderate plan should have positive potential savings')
+    assert(modPlan.budget.savingsHacks.length >= 4, `Should have at least 4 savings hacks, got ${modPlan.budget.savingsHacks.length}`)
+
+    const stayHack = modPlan.budget.savingsHacks.find(h => h.id === 'stay_hostel')
+    assert(stayHack !== undefined, 'Stay hostel hack must exist')
+    assert(stayHack!.savingAmount > 0, 'Stay saving amount should be greater than zero')
+    assert(!stayHack!.isApplied, 'Stay hack should not be applied yet in moderate tier')
+
+    const transitHack = modPlan.budget.savingsHacks.find(h => h.id === 'transit_shared')
+    assert(transitHack !== undefined, 'Transit shared hack must exist')
+    assert(transitHack!.savingAmount > 0, 'Transit saving amount should be greater than zero')
+
+    const foodHack = modPlan.budget.savingsHacks.find(h => h.id === 'food_street_icons')
+    assert(foodHack !== undefined, 'Food street icons hack must exist')
+    assert(foodHack!.savingAmount > 0, 'Food saving amount should be greater than zero')
+
+    // B: Budget tier plan (already optimized)
+    const budgetPlan = generateItinerary({
+      destination: 'varanasi',
+      days: 3,
+      travellers: 2,
+      budgetTier: 'budget',
+      interests: ['heritage', 'food'],
+      nationality: 'indian',
+    })
+    assert(budgetPlan.budget.potentialSavingsTotal === 0, 'Budget tier plan should have 0 further tier savings')
+    assert(budgetPlan.budget.grandTotal < modPlan.budget.grandTotal, 'Budget plan grand total must be strictly less than moderate plan')
+    assert(modPlan.budget.grandTotal - budgetPlan.budget.grandTotal === modPlan.budget.potentialSavingsTotal, 'Difference in grand totals must equal potentialSavingsTotal')
+  } catch (err: unknown) {
+    failed++
+    errors.push(`Savings Engine test threw: ${err instanceof Error ? err.message : String(err)}`)
+  }
+
   return { passed, failed, errors }
 }
