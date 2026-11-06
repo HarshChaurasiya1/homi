@@ -15,6 +15,8 @@ import { TravelEmblem } from './TravelEmblem'
 import { type MotifVariant } from './ThemeMotif'
 import { HomiBrandLogo } from './HomiBrandLogo'
 import { CityTripFlowchart } from './CityTripFlowchart'
+import { LocalGuideAndEmergencyHub } from './LocalGuideAndEmergencyHub'
+import { getSafetyDirectoryForCity } from '../data/emergencyContacts'
 import {
   Sparkles,
   ArrowRight,
@@ -36,6 +38,9 @@ import {
   Users,
   Search,
   Calendar,
+  PhoneCall,
+  MessageCircle,
+  ShieldAlert,
 } from 'lucide-react'
 
 interface InteractiveTripBuilderProps {
@@ -53,6 +58,7 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
   const cityList = Object.values(cities)
 
   const [profileModalOpen, setProfileModalOpen] = useState(false)
+  const [safetyModalOpen, setSafetyModalOpen] = useState(false)
   const [tripSavedSuccess, setTripSavedSuccess] = useState(false)
 
   // Step state: 1 (Origin), 2 (Destination), 3 (Transit Options), 4 (Group/Vibe), 5 (Days), 6 (Budget), 7 (Generating), 8 (Board)
@@ -921,71 +927,110 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
             </div>
           )}
 
-          {/* 1. HOST COMPANION WELCOME HERO */}
-          {persona && (
-            <div className="bg-white rounded-3xl p-5 sm:p-7 border border-slate-100 shadow-md relative overflow-hidden">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-100 pb-5">
-                <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-2xl overflow-hidden border-2 border-indigo-600 shadow-sm flex-shrink-0">
-                    <img
-                      src={persona.avatarImage || currentCity?.heroImage}
-                      alt={persona.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-editorial text-xl sm:text-2xl font-bold text-slate-900">
-                        {persona.name}
-                      </h3>
-                      <ShieldCheck className="w-4 h-4 text-indigo-600" />
+          {/* 1. ASSIGNED LOCAL COMPANION & EMERGENCY SAFETY HUB */}
+          {persona && (() => {
+            const safetyDir = getSafetyDirectoryForCity(currentCityKey)
+            const guide = safetyDir.assignedGuide
+            const guideWhatsapp = `https://wa.me/${guide.whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
+              `Namaste ${guide.name}! I am currently following my ${currentCity?.name} itinerary on the HOMI app and need quick guidance.`
+            )}`
+
+            return (
+              <div className="bg-white rounded-3xl p-5 sm:p-7 border border-slate-100 shadow-md relative overflow-hidden space-y-5">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-100 pb-5">
+                  <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 rounded-2xl overflow-hidden border-2 border-indigo-600 shadow-sm flex-shrink-0 relative">
+                      <img
+                        src={guide.avatarImage || persona.avatarImage || currentCity?.heroImage}
+                        alt={guide.name}
+                        className="w-full h-full object-cover"
+                      />
+                      <span className="absolute bottom-1 right-1 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full"></span>
                     </div>
-                    <p className="text-xs text-slate-600 font-medium">{persona.title}</p>
-                    <span className="inline-block px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[10px] font-bold border border-indigo-100">
-                      Verified Local Companion • {currentCity?.name}
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-editorial text-xl sm:text-2xl font-bold text-slate-900">
+                          {guide.name}
+                        </h3>
+                        <ShieldCheck className="w-4 h-4 text-indigo-600" />
+                      </div>
+                      <p className="text-xs text-slate-600 font-medium">{guide.title}</p>
+                      <span className="inline-block px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[10px] font-bold border border-indigo-100">
+                        {guide.badge}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="text-right self-start md:self-auto">
+                    <span className="text-xs text-slate-500 block">Total Estimated Cost:</span>
+                    <span className="font-editorial text-2xl font-bold text-indigo-600">
+                      {formatInr(itinerary.budget.grandTotal)}
+                    </span>
+                    <span className="text-[11px] text-slate-500 block">
+                      ({formatInr(itinerary.budget.perPersonTotal)} / person)
                     </span>
                   </div>
                 </div>
 
-                <div className="text-right self-start md:self-auto">
-                  <span className="text-xs text-slate-500 block">Total Estimated Cost:</span>
-                  <span className="font-editorial text-2xl font-bold text-indigo-600">
-                    {formatInr(itinerary.budget.grandTotal)}
-                  </span>
-                  <span className="text-[11px] text-slate-500 block">
-                    ({formatInr(itinerary.budget.perPersonTotal)} / person)
-                  </span>
-                </div>
-              </div>
+                {/* Direct Action Calling & WhatsApp Buttons */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                  <a
+                    href={`tel:${guide.phone}`}
+                    className="py-3 px-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-indigo-200 transition-all cursor-pointer"
+                  >
+                    <PhoneCall className="w-4 h-4" />
+                    <span>Call Guide ({guide.phone})</span>
+                  </a>
 
-              {/* Dialect Voice Note */}
-              <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3.5 text-xs">
-                <div className="p-4 rounded-2xl bg-indigo-50/50 border border-indigo-100 space-y-1.5">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-700 block">
-                    Local Apnapan & Welcome:
-                  </span>
-                  <p className="text-sm font-semibold text-slate-900 italic leading-relaxed">
-                    "{persona.greeting}"
-                  </p>
-                  <p className="text-xs text-slate-600 leading-relaxed">
-                    {persona.dialectQuote}
-                  </p>
+                  <a
+                    href={guideWhatsapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="py-3 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-emerald-200 transition-all cursor-pointer"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    <span>WhatsApp Guidance</span>
+                  </a>
+
+                  <button
+                    type="button"
+                    onClick={() => setSafetyModalOpen(true)}
+                    className="py-3 px-4 rounded-2xl bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-2xs"
+                  >
+                    <ShieldAlert className="w-4 h-4 text-rose-600 animate-pulse" />
+                    <span>Police & SOS Directory (112)</span>
+                  </button>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-amber-50/60 border border-amber-200/80 text-amber-950 space-y-1">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-amber-800 block">
-                    {persona.name}'s Golden Rule:
-                  </span>
-                  <p className="text-xs text-amber-900 font-medium leading-relaxed">
-                    {persona.localTip}
-                  </p>
-                  <div className="pt-1.5 text-[11px] text-slate-600">
-                    Must-eat dish: <strong>{currentCity?.tasteOfCity?.signatureDish}</strong>
+                {/* Dialect Voice Note & Local Tip */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 text-xs">
+                  <div className="p-4 rounded-2xl bg-indigo-50/50 border border-indigo-100 space-y-1.5">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-700 block">
+                      Local Apnapan & Welcome:
+                    </span>
+                    <p className="text-sm font-semibold text-slate-900 italic leading-relaxed">
+                      "{persona.greeting}"
+                    </p>
+                    <p className="text-xs text-slate-600 leading-relaxed">
+                      {persona.dialectQuote}
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-amber-50/60 border border-amber-200/80 text-amber-950 space-y-1">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-amber-800 block">
+                      {persona.name}'s Golden Rule:
+                    </span>
+                    <p className="text-xs text-amber-900 font-medium leading-relaxed">
+                      {persona.localTip}
+                    </p>
+                    <div className="pt-1.5 text-[11px] text-slate-600">
+                      Neighborhood: <strong>{guide.neighborhood}</strong> • Spoken: {guide.languages.join(', ')}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
+            )
+          })()}
 
           {/* VIEW SWITCHER: CARDS vs FLOWCHART */}
           <div className="flex items-center justify-between border-b border-slate-200 pb-3">
@@ -1112,11 +1157,20 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
       )}
 
       {/* Profile Modal */}
-      {/* Profile Modal */}
       {profileModalOpen && (
         <ProfileModal
           isOpen={profileModalOpen}
           onClose={() => setProfileModalOpen(false)}
+          onToast={onSaveToast}
+        />
+      )}
+
+      {/* Local Guide & Emergency Safety Hub Modal */}
+      {safetyModalOpen && (
+        <LocalGuideAndEmergencyHub
+          cityId={currentCityKey}
+          isOpen={safetyModalOpen}
+          onClose={() => setSafetyModalOpen(false)}
           onToast={onSaveToast}
         />
       )}

@@ -3,6 +3,7 @@ import { Link } from '../lib/router'
 import { useRouter } from '../lib/routerContext'
 import { useSavedPlaces, useActiveCity } from '../lib/storage'
 import { useAppData } from '../lib/dataStore'
+import { LocalGuideAndEmergencyHub } from './LocalGuideAndEmergencyHub'
 import {
   Compass,
   Calendar,
@@ -12,6 +13,7 @@ import {
   X,
   ChevronRight,
   Sparkles,
+  ShieldAlert,
 } from 'lucide-react'
 
 export const BottomNav: React.FC = () => {
@@ -20,6 +22,7 @@ export const BottomNav: React.FC = () => {
   const { cities } = useAppData()
   const [activeCityId, setActiveCityId] = useActiveCity()
   const [citiesModalOpen, setCitiesModalOpen] = useState(false)
+  const [safetyHubOpen, setSafetyHubOpen] = useState(false)
 
   const activeCity = activeCityId ? cities[activeCityId.toLowerCase()] : null
   const cityList = Object.values(cities)
@@ -179,8 +182,31 @@ export const BottomNav: React.FC = () => {
                 )
               })}
             </div>
+
+            {/* Quick Emergency Assistance Trigger */}
+            <div className="pt-2 border-t border-slate-100">
+              <button
+                type="button"
+                onClick={() => {
+                  setCitiesModalOpen(false)
+                  setSafetyHubOpen(true)
+                }}
+                className="w-full py-2.5 px-3 rounded-2xl bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-2xs"
+              >
+                <ShieldAlert className="w-4 h-4 text-rose-600 animate-pulse" />
+                <span>Assigned Local Guide & Police SOS (112)</span>
+              </button>
+            </div>
           </div>
         </div>
+      )}
+
+      {safetyHubOpen && (
+        <LocalGuideAndEmergencyHub
+          cityId={activeCityId || 'varanasi'}
+          isOpen={safetyHubOpen}
+          onClose={() => setSafetyHubOpen(false)}
+        />
       )}
     </>
   )

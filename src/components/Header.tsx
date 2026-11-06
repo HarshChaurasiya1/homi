@@ -7,6 +7,7 @@ import { useAppData } from '../lib/dataStore'
 import { useProfile } from '../lib/profileStore'
 import { ProfileModal } from './ProfileModal'
 import { HomiBrandLogo } from './HomiBrandLogo'
+import { LocalGuideAndEmergencyHub } from './LocalGuideAndEmergencyHub'
 import {
   Bookmark,
   Calendar,
@@ -15,6 +16,7 @@ import {
   Lock,
   Flame,
   CheckCircle2,
+  ShieldAlert,
 } from 'lucide-react'
 
 interface HeaderProps {
@@ -28,6 +30,7 @@ export const Header: React.FC<HeaderProps> = ({ onToast }) => {
   const { profile, hasProfile, isUnlocked } = useProfile()
   const [activeCityId, setActiveCityId] = useActiveCity()
   const [profileModalOpen, setProfileModalOpen] = useState(false)
+  const [safetyHubOpen, setSafetyHubOpen] = useState(false)
 
   const isAdmin = path === '/admin'
   const isPlanner = path === '/planner'
@@ -81,6 +84,17 @@ export const Header: React.FC<HeaderProps> = ({ onToast }) => {
 
         {/* Right Navigation & Profile Avatar */}
         <div className="flex items-center gap-2">
+          {/* 24x7 Local Guide & Emergency SOS Hub */}
+          <button
+            type="button"
+            onClick={() => setSafetyHubOpen(true)}
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 text-xs font-bold transition-all shadow-2xs cursor-pointer"
+            title="Assigned Local Guide, Police & Emergency SOS"
+          >
+            <ShieldAlert className="w-3.5 h-3.5 text-rose-600 animate-pulse" />
+            <span className="text-[11px] font-extrabold tracking-tight">SOS</span>
+          </button>
+
           {/* Quick Itinerary Link */}
           <Link
             to="/planner"
@@ -147,6 +161,15 @@ export const Header: React.FC<HeaderProps> = ({ onToast }) => {
           isOpen={profileModalOpen}
           onClose={() => setProfileModalOpen(false)}
           onToast={onToast || (() => {})}
+        />
+      )}
+
+      {safetyHubOpen && (
+        <LocalGuideAndEmergencyHub
+          cityId={currentCityKey || 'varanasi'}
+          isOpen={safetyHubOpen}
+          onClose={() => setSafetyHubOpen(false)}
+          onToast={onToast}
         />
       )}
     </header>

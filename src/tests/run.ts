@@ -3,6 +3,7 @@ import { runProfileStoreTests } from './profileStore.test.ts'
 import { runTravelEngineTests } from './travelEngine.test.ts'
 import { runTravelBrainAndStreetViewTests } from './travelBrainAndStreetView.test.ts'
 import { runFlowchartTests } from './flowchart.test.ts'
+import { runEmergencyDirectoryTests } from './emergencyDirectory.test.ts'
 
 async function main() {
   console.log('=== RUNNING HOMI AUTOMATED TESTS ===')
@@ -11,20 +12,23 @@ async function main() {
   const travelEngineResults = await runTravelEngineTests()
   const travelBrainResults = await runTravelBrainAndStreetViewTests()
   const flowchartResults = runFlowchartTests()
+  const emergencyResults = runEmergencyDirectoryTests()
 
   const totalPassed =
     plannerResults.passed +
     profileResults.passed +
     travelEngineResults.passed +
     travelBrainResults.passed +
-    flowchartResults.passed
+    flowchartResults.passed +
+    emergencyResults.passed
 
   const totalFailed =
     plannerResults.failed +
     profileResults.failed +
     travelEngineResults.failed +
     travelBrainResults.failed +
-    flowchartResults.failed
+    flowchartResults.failed +
+    emergencyResults.failed
 
   const allErrors = [
     ...plannerResults.errors,
@@ -32,6 +36,7 @@ async function main() {
     ...travelEngineResults.errors,
     ...travelBrainResults.errors,
     ...flowchartResults.errors,
+    ...emergencyResults.errors,
   ]
 
   console.log(`\n=================================`)
