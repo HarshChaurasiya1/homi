@@ -5,6 +5,11 @@
 
 import { getPlaces, getCity } from './dataStore'
 import type { Place, CityId, CityPersona } from '../data/types'
+import {
+  calculateIntercityTransit,
+  type TransitOption,
+  type IntercityTransitComparison,
+} from '../services/travel-engine/intercityTransitEngine'
 
 export type DestinationChoice = 'jaipur' | 'udaipur' | 'manali' | 'varanasi' | 'mussoorie' | 'delhi' | string
 export type BudgetTier = 'budget' | 'moderate' | 'premium'
@@ -23,6 +28,8 @@ export interface PlannerInputs {
   budgetTier: BudgetTier
   interests: TravelInterest[]
   nationality: 'indian' | 'foreigner'
+  origin?: string
+  chosenTransit?: TransitOption
 }
 
 export interface ItineraryStop {
@@ -70,6 +77,10 @@ export interface BudgetBreakdown {
   bufferTotal: number
   bufferDescription: string
   
+  // Intercity Transit (Optional selection from Origin)
+  intercityTransitTotal?: number
+  intercityTransitDescription?: string
+
   // Totals
   grandTotal: number
   perPersonTotal: number
@@ -83,6 +94,8 @@ export interface GeneratedItinerary {
   budget: BudgetBreakdown
   persona: CityPersona
   generatedAt: string
+  transitComparison?: IntercityTransitComparison
+  chosenTransit?: TransitOption
 }
 
 export const BUDGET_RATES = {
@@ -481,11 +494,17 @@ export function generateItinerary(inputs: PlannerInputs): GeneratedItinerary {
 
   const budget = calculateBudget(inputs, allScheduledPlaces)
 
+  const origin = inputs.origin || 'Delhi NCR'
+  const transitComparison = calculateIntercityTransit(origin, targetCityId)
+  const chosenTransit = inputs.chosenTransit || transitComparison.recommendedOption
+
   return {
     inputs,
     days: dayPlans,
     budget,
     persona,
+    transitComparison,
+    chosenTransit,
     generatedAt: new Date().toISOString(),
   }
 }
