@@ -1,41 +1,43 @@
 @import "tailwindcss";
 
 /* 
- * HOMI Design System
- * Lightweight, high-contrast, editorial typography with bespoke architectural themes
- * and tasteful, high-performance CSS animations.
+ * HOMI Modern MakeMyTrip & Mobile App Design System
+ * Clean, high-contrast, modern sans-serif typography with pure white cards,
+ * vibrant electric purple/indigo accents (#5D4BF7), and zero beige/brown clutter.
  */
 
 :root {
-  --font-serif: "Georgia", "Cambria", "Times New Roman", Times, serif;
-  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   
-  --bg-app: #FAF7F2;
-  --text-main: #201C1A;
-  --text-muted: #645C55;
-  --border-light: #E8DFD3;
-  --accent-homi: #8C2D19;
+  --bg-app: #F8FAFC;
+  --text-main: #0F172A;
+  --text-muted: #64748B;
+  --border-light: #E2E8F0;
+  --accent-homi: #5D4BF7;
+  --accent-purple: #5D4BF7;
+  --accent-amber: #FF7A00;
+  --accent-emerald: #10B981;
 }
 
 /* 1. Jaipur Theme */
 .theme-jaipur {
-  --city-bg: #FCF7F4;
+  --city-bg: #FFFFFF;
   --city-surface: #FFFFFF;
-  --city-subtle: #F7EDE7;
-  --city-border: #ECD7CE;
-  --city-primary: #C85A32;
-  --city-secondary: #E67E22;
-  --city-sandstone: #D4A373;
-  --city-text: #271F1D;
-  --city-muted: #716360;
+  --city-subtle: #F1F5F9;
+  --city-border: #E2E8F0;
+  --city-primary: #5D4BF7;
+  --city-secondary: #FF7A00;
+  --city-sandstone: #E2E8F0;
+  --city-text: #0F172A;
+  --city-muted: #64748B;
   --city-bg-image: url('/assets/cities/jaipur/jaipur-palace-pattern-bg.jpg');
 }
 
 .theme-jaipur-bg {
-  background-color: #FCF7F4;
+  background-color: #F8FAFC;
   background-image: 
-    linear-gradient(to bottom, rgba(252, 247, 244, 0.90), rgba(252, 247, 244, 0.94)),
+    linear-gradient(to bottom, rgba(248, 250, 252, 0.94), rgba(248, 250, 252, 0.97)),
     url('/assets/cities/jaipur/jaipur-palace-pattern-bg.jpg');
   background-size: 380px auto;
   background-repeat: repeat;
@@ -44,73 +46,73 @@
 
 /* 2. Udaipur Theme */
 .theme-udaipur {
-  --city-bg: #F4F8FA;
+  --city-bg: #F8FAFC;
   --city-surface: #FFFFFF;
-  --city-subtle: #EBF2F6;
-  --city-border: #D3E2EC;
-  --city-primary: #1B4965;
-  --city-secondary: #C99700;
-  --city-sandstone: #62B6CB;
-  --city-text: #15242E;
-  --city-muted: #4F6370;
+  --city-subtle: #F1F5F9;
+  --city-border: #E2E8F0;
+  --city-primary: #5D4BF7;
+  --city-secondary: #0284C7;
+  --city-sandstone: #E2E8F0;
+  --city-text: #0F172A;
+  --city-muted: #64748B;
 }
 
 /* 3. Manali Theme */
 .theme-manali {
-  --city-bg: #F4F7F4;
+  --city-bg: #F8FAFC;
   --city-surface: #FFFFFF;
-  --city-subtle: #EAF0EA;
-  --city-border: #D2DDD2;
-  --city-primary: #1E4620;
-  --city-secondary: #D4821E;
-  --city-sandstone: #4C7C59;
-  --city-text: #172719;
-  --city-muted: #4C5F4E;
+  --city-subtle: #F1F5F9;
+  --city-border: #E2E8F0;
+  --city-primary: #5D4BF7;
+  --city-secondary: #10B981;
+  --city-sandstone: #E2E8F0;
+  --city-text: #0F172A;
+  --city-muted: #64748B;
 }
 
 /* 4. Varanasi Theme */
 .theme-varanasi {
-  --city-bg: #FBF6EE;
+  --city-bg: #F8FAFC;
   --city-surface: #FFFFFF;
-  --city-subtle: #F4EDE0;
-  --city-border: #E7D8C4;
-  --city-primary: #9B2226;
-  --city-secondary: #D97706;
-  --city-sandstone: #BB3E03;
-  --city-text: #2B1A14;
-  --city-muted: #68544C;
+  --city-subtle: #F1F5F9;
+  --city-border: #E2E8F0;
+  --city-primary: #5D4BF7;
+  --city-secondary: #FF7A00;
+  --city-sandstone: #E2E8F0;
+  --city-text: #0F172A;
+  --city-muted: #64748B;
 }
 
 /* 5. Mussoorie Theme */
 .theme-mussoorie {
-  --city-bg: #F6F7F9;
+  --city-bg: #F8FAFC;
   --city-surface: #FFFFFF;
-  --city-subtle: #EDEFF3;
-  --city-border: #D7DCE4;
-  --city-primary: #2E4057;
-  --city-secondary: #D08C51;
-  --city-sandstone: #597081;
-  --city-text: #1A232E;
-  --city-muted: #526070;
+  --city-subtle: #F1F5F9;
+  --city-border: #E2E8F0;
+  --city-primary: #5D4BF7;
+  --city-secondary: #6366F1;
+  --city-sandstone: #E2E8F0;
+  --city-text: #0F172A;
+  --city-muted: #64748B;
 }
 
-/* Delhi Theme (Preserved) */
+/* Delhi Theme */
 .theme-delhi {
-  --city-bg: #F9F6F0;
+  --city-bg: #F8FAFC;
   --city-surface: #FFFFFF;
-  --city-subtle: #F2ECE1;
-  --city-border: #E5DACB;
-  --city-primary: #8C2D19;
-  --city-secondary: #D97706;
-  --city-sandstone: #B88E6D;
-  --city-text: #221F1C;
-  --city-muted: #6E665E;
+  --city-subtle: #F1F5F9;
+  --city-border: #E2E8F0;
+  --city-primary: #5D4BF7;
+  --city-secondary: #EA580C;
+  --city-sandstone: #E2E8F0;
+  --city-text: #0F172A;
+  --city-muted: #64748B;
 }
 
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--bg-app);
+  background-color: #0F172A; /* Deep dark slate desktop stage to give premium phone contrast */
   color: var(--text-main);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -119,15 +121,40 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Crisp, Bold Modern Grotesque Sans Headline (MakeMyTrip & Duolingo style) */
 .font-editorial {
-  font-family: var(--font-serif);
-  letter-spacing: -0.015em;
+  font-family: var(--font-sans);
+  font-weight: 800;
+  letter-spacing: -0.025em;
 }
 
 /* Accessibility Focus Ring */
 :focus-visible {
-  outline: 2px solid #8C2D19;
+  outline: 2px solid #5D4BF7;
   outline-offset: 2px;
+}
+
+/* Mobile App View Shell for Centered Presentation */
+.mobile-app-shell {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: #F8FAFC;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .mobile-app-shell {
+    min-height: calc(100vh - 3rem);
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 40px;
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5), 0 0 0 10px #1E293B, 0 0 0 12px rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+  }
 }
 
 /* Tasteful, Lightweight CSS Keyframe Animations */
@@ -172,15 +199,6 @@ body {
   }
 }
 
-@keyframes shimmerSlow {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
 .animate-float {
   animation: floatGentle 4s ease-in-out infinite;
 }
@@ -198,11 +216,11 @@ body {
 }
 
 .photo-card-zoom {
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
 }
 .photo-card-zoom:hover {
-  transform: translateY(-4px) scale(1.015);
-  box-shadow: 0 12px 24px -10px rgba(32, 28, 26, 0.12);
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 10px 20px -5px rgba(93, 75, 247, 0.15);
 }
 
 /* Reduced Motion Preference */
@@ -220,37 +238,16 @@ body {
   background-image: url('/assets/cities/jaipur/jaipur-palace-pattern-bg.jpg');
   background-size: 340px auto;
   background-repeat: repeat;
-  opacity: 0.12;
+  opacity: 0.08;
 }
 
-.pattern-udaipur {
-  background-image: radial-gradient(#1B4965 0.7px, transparent 0.7px);
-  background-size: 24px 24px;
-  opacity: 0.05;
-}
-
-.pattern-manali {
-  background-image: radial-gradient(#1E4620 0.8px, transparent 0.8px);
-  background-size: 22px 22px;
-  opacity: 0.05;
-}
-
-.pattern-varanasi {
-  background-image: radial-gradient(#9B2226 0.7px, transparent 0.7px);
-  background-size: 20px 20px;
-  opacity: 0.05;
-}
-
-.pattern-mussoorie {
-  background-image: radial-gradient(#2E4057 0.7px, transparent 0.7px);
-  background-size: 24px 24px;
-  opacity: 0.05;
-}
-
+.pattern-udaipur,
+.pattern-manali,
+.pattern-varanasi,
+.pattern-mussoorie,
 .pattern-mughal {
-  background-image: radial-gradient(#8C2D19 0.6px, transparent 0.6px), radial-gradient(#8C2D19 0.6px, #F9F6F0 0.6px);
+  background-image: radial-gradient(#5D4BF7 0.7px, transparent 0.7px);
   background-size: 24px 24px;
-  background-position: 0 0, 12px 12px;
   opacity: 0.04;
 }
 

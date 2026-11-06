@@ -3,7 +3,6 @@ import { RouterProvider } from './lib/router'
 import { useRouter } from './lib/routerContext'
 
 import { Header } from './components/Header'
-import { Footer } from './components/Footer'
 import { BottomNav } from './components/BottomNav'
 import { Toast } from './components/Toast'
 import { OpeningAuthGate } from './components/OpeningAuthGate'
@@ -56,36 +55,44 @@ const MainContent: React.FC = () => {
 
     // 404 Fallback
     return (
-      <div className="max-w-2xl mx-auto px-4 py-24 text-center">
-        <h1 className="font-editorial text-4xl font-bold text-[#201C1A]">404</h1>
-        <p className="font-editorial text-xl font-medium text-[#4A423B] mt-2">
+      <div className="max-w-md mx-auto px-4 py-20 text-center">
+        <h1 className="font-editorial text-4xl font-extrabold text-slate-900">404</h1>
+        <p className="text-base font-semibold text-slate-700 mt-2">
           Page Not Found
         </p>
-        <p className="text-sm text-[#7D736A] mt-2">
+        <p className="text-xs text-slate-500 mt-1">
           The requested page or historical trail could not be found.
         </p>
         <Link
           to="/"
-          className="inline-block mt-6 px-6 py-2.5 rounded-xl bg-[#201C1A] text-white text-sm font-semibold hover:bg-black transition-colors"
+          className="inline-block mt-6 px-6 py-2.5 rounded-xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-700 transition-colors shadow-md shadow-indigo-200"
         >
-          Return to Discover
+          Return to Explore
         </Link>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#201C1A] selection:bg-[#8C2D19] selection:text-white">
-      <Header />
-      <main className="flex-grow">
-        <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center text-xs text-stone-500 font-medium">Loading experience...</div>}>
-          {renderCurrentRoute()}
-        </Suspense>
-      </main>
-      <Footer />
-      <BottomNav />
-      <OpeningAuthGate onDismiss={() => {}} />
-      <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
+    <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-start selection:bg-indigo-600 selection:text-white">
+      <div className="mobile-app-shell bg-[#F8FAFC] text-slate-900 shadow-2xl relative flex flex-col justify-between">
+        <Header onToast={setToastMessage} />
+        <main className="flex-grow pb-8">
+          <Suspense
+            fallback={
+              <div className="min-h-[50vh] flex flex-col items-center justify-center gap-2 text-xs text-slate-400 font-medium">
+                <div className="w-6 h-6 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+                <span>Loading experience...</span>
+              </div>
+            }
+          >
+            {renderCurrentRoute()}
+          </Suspense>
+        </main>
+        <BottomNav />
+        <OpeningAuthGate onDismiss={() => {}} />
+        <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
+      </div>
     </div>
   )
 }
