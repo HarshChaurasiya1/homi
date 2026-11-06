@@ -49,6 +49,7 @@ import {
   Ticket,
 } from 'lucide-react'
 import { CityHotelRecommendations } from './CityHotelRecommendations'
+import { MultiModalTransitHub } from './MultiModalTransitHub'
 
 interface InteractiveTripBuilderProps {
   onSaveToast: (msg: string) => void
@@ -82,6 +83,7 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
   const [selectedDays, setSelectedDays] = useState<number>(2)
   const [selectedBudget, setSelectedBudget] = useState<BudgetTier>('moderate')
   const [selectedVibe, setSelectedVibe] = useState<string>('friends')
+  const [showDetailedTransitInStep, setShowDetailedTransitInStep] = useState(false)
 
   // Board views
   const [copiedLink, setCopiedLink] = useState(false)
@@ -594,6 +596,32 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
                   })}
                 </div>
 
+                {/* Expand Full Rail & Return Timetable Toggle */}
+                <div className="pt-2 text-center">
+                  <button
+                    type="button"
+                    onClick={() => setShowDetailedTransitInStep(!showDetailedTransitInStep)}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-colors cursor-pointer"
+                  >
+                    <Train className="w-4 h-4 text-amber-600" />
+                    <span>
+                      {showDetailedTransitInStep
+                        ? 'Hide Detailed Train Timetable & Return Journey'
+                        : '🔍 View All Direct Trains, Real Fares & Plan Return to Home'}
+                    </span>
+                  </button>
+                </div>
+
+                {showDetailedTransitInStep && (
+                  <div className="pt-2">
+                    <MultiModalTransitHub
+                      originCity={customOriginInput || selectedOrigin || 'Jhansi'}
+                      destinationCityId={selectedCityId}
+                      destinationCityName={currentCity?.name || selectedCityId}
+                    />
+                  </div>
+                )}
+
                 {/* API Status Note */}
                 <div className="text-center pt-1">
                   <p className="text-[10px] text-slate-400">
@@ -991,6 +1019,15 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
               </div>
             </div>
           )}
+
+          {/* =========================================================================
+              COMPLETE OUTBOUND & RETURN TO HOME TRANSIT HUB (ALL TRAINS & MINUTIAE)
+             ========================================================================= */}
+          <MultiModalTransitHub
+            originCity={customOriginInput || selectedOrigin || 'Jhansi'}
+            destinationCityId={selectedCityId}
+            destinationCityName={currentCity?.name || selectedCityId}
+          />
 
           {/* 1. ASSIGNED LOCAL COMPANION & EMERGENCY SAFETY HUB */}
           {persona && (() => {

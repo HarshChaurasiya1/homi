@@ -27,6 +27,7 @@ import { CityEditionHero } from '../components/CityEditionHero'
 import { CityTripFlowchart } from '../components/CityTripFlowchart'
 import { VaranasiLocalVideoIntel } from '../components/VaranasiLocalVideoIntel'
 import { CityHotelRecommendations } from '../components/CityHotelRecommendations'
+import { MultiModalTransitHub } from '../components/MultiModalTransitHub'
 
 interface CityPageProps {
   cityId: CityId
@@ -553,6 +554,15 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
             VETTED STAYS & REAL HOTELS WITH TRUSTABLE BOOKING LINKS
            ========================================================================= */}
         <CityHotelRecommendations cityId={cityId} cityName={city.name} />
+
+        {/* =========================================================================
+            INTERCITY TRANSIT & RETURN TO HOME (ALL TRAINS, GENERAL/SL FARES & HALTS)
+           ========================================================================= */}
+        <MultiModalTransitHub
+          originCity="Jhansi"
+          destinationCityId={cityId}
+          destinationCityName={city.name}
+        />
 
         {/* =========================================================================
             VARANASI VISUAL ASSET SHOWCASE & EDITORIAL ACCREDITATION
