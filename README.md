@@ -3,9 +3,9 @@
 > A lightweight, mobile-first, editorial travel discovery and real-world intelligence engine for Indian cities.
 
 [![CI & Quality Gate](https://github.com/HarshChaurasiya1/homi/actions/workflows/ci.yml/badge.svg)](https://github.com/HarshChaurasiya1/homi/actions/workflows/ci.yml)
-[![Live Production](https://img.shields.io/badge/Vercel-Live%20Production-black?logo=vercel)](https://homitravel.vercel.app)
-[![Tests Passed](https://img.shields.io/badge/Unit%20Tests-278%20Passed-emerald)](https://github.com/HarshChaurasiya1/homi)
-[![Bundle Size](https://img.shields.io/badge/Bundle%20Size-102.7%20kB%20gzipped-blue)](https://homitravel.vercel.app)
+[![Live Production](https://img.shields.io/badge/Vercel-Live%20Production-black?logo=vercel)](https://homibhai.vercel.app)
+[![Tests Passed](https://img.shields.io/badge/Unit%20Tests-1220%20Passed-emerald)](https://github.com/HarshChaurasiya1/homi)
+[![Bundle Size](https://img.shields.io/badge/Bundle%20Size-Vite%208%20Fast-blue)](https://homibhai.vercel.app)
 
 HOMI helps travelers explore Indian cities with the depth, warmth, and honesty of a knowledgeable local friend. No paid algorithmic rankings, no generic tourist traps, and no bloated client-side code.
 
@@ -57,6 +57,33 @@ git commit -m "feat: your new feature"
 git push origin main
 ```
 Every push to `main` will automatically trigger GitHub Actions CI and deploy to Vercel Production.
+
+---
+
+## 🤖 Google Antigravity Onboarding Prompt (For Friends & Collaborators)
+
+When opening this project in **Google Antigravity**, open the folder in your Antigravity IDE and send this exact kick-off prompt to the Antigravity agent:
+
+```markdown
+I have cloned the HOMI project repository. You are pair programming with me on HOMI.
+
+First, please read:
+1. `src/pages/AboutPage.tsx` - Complete system documentation, philosophy, and architectural index.
+2. `README.md` - Engineering guidelines and operational blueprints.
+3. `src/data/trainRoutes.ts` - Indian Railways timetable & fare engine.
+4. `src/data/hotels.ts` - Vetted hotel booking directory.
+5. `src/data/emergencyLoan.ts` - Licensed RBI NBFC emergency travel credit line.
+
+Key Architecture Principles to maintain:
+- Zero generic stock photos: sample ground-truth frames from real YouTube creators.
+- Ground truth minutiae: exact train numbers, platform timings, class-by-class fares (General 2S vs Sleeper SL vs 3AC).
+- Local guide companion with 24x7 SOS and police station directories.
+- Itemized budget with "Where You Can Reduce" active cost-cutters.
+- Emergency Travel Loan partner integration via licensed RBI NBFCs with 0% No-Cost EMI for 3 months.
+- 100% test integrity: All 1,220+ tests must pass (`npm test`) and `npm run lint` must have 0 warnings.
+
+Please run `npm test` and `npm run lint` to confirm system baseline health, summarize what you learned, and ask me what feature or enhancement we should work on today!
+```
 
 ---
 
