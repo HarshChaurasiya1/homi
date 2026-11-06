@@ -24,8 +24,8 @@ export interface BrandConfig {
 
 export const BRAND: BrandConfig = {
   name: 'HOMI',
-  tagline: 'Every city feels like home.',
-  subtagline: 'Explore India with the depth and warmth of a knowledgeable local friend.',
+  tagline: 'Travel with a Local',
+  subtagline: 'Your authentic, real-world Indian travel companion.',
   description:
     'A thoughtfully curated, lightweight Indian travel discovery platform. Authentic neighborhood walks, verified heritage secrets, street food legends, and realistic itineraries.',
   mission:
