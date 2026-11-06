@@ -48,6 +48,7 @@ import {
   UtensilsCrossed,
   Ticket,
 } from 'lucide-react'
+import { CityHotelRecommendations } from './CityHotelRecommendations'
 
 interface InteractiveTripBuilderProps {
   onSaveToast: (msg: string) => void
@@ -1627,6 +1628,12 @@ export const InteractiveTripBuilder: React.FC<InteractiveTripBuilderProps> = ({
                 </p>
               </div>
             </div>
+
+            {/* Vetted Stays & Trustable Hotel Booking Section */}
+            <CityHotelRecommendations
+              cityId={selectedCityId}
+              cityName={currentCity?.name}
+            />
           </div>
         </div>
       )}

@@ -26,6 +26,7 @@ import { StreetViewVisualGuide } from '../components/StreetViewVisualGuide'
 import { CityEditionHero } from '../components/CityEditionHero'
 import { CityTripFlowchart } from '../components/CityTripFlowchart'
 import { VaranasiLocalVideoIntel } from '../components/VaranasiLocalVideoIntel'
+import { CityHotelRecommendations } from '../components/CityHotelRecommendations'
 
 interface CityPageProps {
   cityId: CityId
@@ -547,6 +548,11 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
             ))}
           </div>
         </section>
+
+        {/* =========================================================================
+            VETTED STAYS & REAL HOTELS WITH TRUSTABLE BOOKING LINKS
+           ========================================================================= */}
+        <CityHotelRecommendations cityId={cityId} cityName={city.name} />
 
         {/* =========================================================================
             VARANASI VISUAL ASSET SHOWCASE & EDITORIAL ACCREDITATION

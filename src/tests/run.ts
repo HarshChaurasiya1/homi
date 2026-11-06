@@ -5,6 +5,7 @@ import { runTravelBrainAndStreetViewTests } from './travelBrainAndStreetView.tes
 import { runFlowchartTests } from './flowchart.test.ts'
 import { runEmergencyDirectoryTests } from './emergencyDirectory.test.ts'
 import { runCityVideoIntelTests } from './cityVideoIntel.test.ts'
+import { runHotelsTests } from './hotels.test.ts'
 
 async function main() {
   console.log('=== RUNNING HOMI AUTOMATED TESTS ===')
@@ -15,6 +16,7 @@ async function main() {
   const flowchartResults = runFlowchartTests()
   const emergencyResults = runEmergencyDirectoryTests()
   const videoIntelResults = runCityVideoIntelTests()
+  const hotelsResults = runHotelsTests()
 
   const totalPassed =
     plannerResults.passed +
@@ -23,7 +25,8 @@ async function main() {
     travelBrainResults.passed +
     flowchartResults.passed +
     emergencyResults.passed +
-    videoIntelResults.passed
+    videoIntelResults.passed +
+    hotelsResults.passed
 
   const totalFailed =
     plannerResults.failed +
@@ -32,7 +35,8 @@ async function main() {
     travelBrainResults.failed +
     flowchartResults.failed +
     emergencyResults.failed +
-    videoIntelResults.failed
+    videoIntelResults.failed +
+    hotelsResults.failed
 
   const allErrors = [
     ...plannerResults.errors,
@@ -42,6 +46,7 @@ async function main() {
     ...flowchartResults.errors,
     ...emergencyResults.errors,
     ...videoIntelResults.errors,
+    ...hotelsResults.errors,
   ]
 
   console.log(`\n=================================`)
