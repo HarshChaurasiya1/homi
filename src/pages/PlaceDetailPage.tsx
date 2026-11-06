@@ -60,7 +60,7 @@ export const PlaceDetailPage: React.FC<PlaceDetailPageProps> = ({ slug, onSaveTo
     delhi: '#8C2D19',
   }
   const cityBgClasses: Record<string, string> = {
-    jaipur: 'theme-jaipur bg-[#FCF7F4]',
+    jaipur: 'theme-jaipur theme-jaipur-bg bg-[#FCF7F4]',
     udaipur: 'theme-udaipur bg-[#F4F8FA]',
     manali: 'theme-manali bg-[#F4F7F4]',
     varanasi: 'theme-varanasi bg-[#FBF6EE]',

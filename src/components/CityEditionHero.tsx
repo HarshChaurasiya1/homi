@@ -47,6 +47,17 @@ export const CityEditionHero: React.FC<CityEditionHeroProps> = ({
       <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-[#DCE8F5]/60 to-transparent rounded-full blur-3xl pointer-events-none -mr-20 -mt-20"></div>
       <div className="absolute top-1/2 left-0 w-80 h-80 bg-gradient-to-tr from-[#E6EFF8]/50 to-transparent rounded-full blur-3xl pointer-events-none -ml-20"></div>
 
+      {/* Jaipur Royal Palace Tapestry Background */}
+      {cityFlow.cityId === 'jaipur' && (
+        <div
+          className="absolute inset-0 bg-repeat opacity-[0.08] pointer-events-none mix-blend-multiply"
+          style={{
+            backgroundImage: "url('/assets/cities/jaipur/jaipur-palace-pattern-bg.jpg')",
+            backgroundSize: '320px auto',
+          }}
+        />
+      )}
+
       <div className="relative max-w-5xl mx-auto px-5 sm:px-8 pt-8 sm:pt-10 pb-8 sm:pb-10 flex flex-col items-center text-center space-y-6 sm:space-y-8">
         {/* Top Edition Selector Tabs (clean minimalist pills) */}
         {onSelectCity && (

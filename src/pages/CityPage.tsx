@@ -66,7 +66,7 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
     jaipur: {
       primary: '#C85A32',
       secondary: '#E67E22',
-      bgClass: 'theme-jaipur bg-[#FCF7F4]',
+      bgClass: 'theme-jaipur theme-jaipur-bg bg-[#FCF7F4]',
       motif: 'jharokha-scallop',
     },
     udaipur: {
@@ -193,6 +193,15 @@ export const CityPage: React.FC<CityPageProps> = ({ cityId, onSaveToast }) => {
            ========================================================================= */}
         {persona && (
           <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E5DACB] shadow-xs relative overflow-hidden">
+            {cityId.toLowerCase() === 'jaipur' && (
+              <div
+                className="absolute inset-0 bg-repeat opacity-[0.05] pointer-events-none mix-blend-multiply"
+                style={{
+                  backgroundImage: "url('/assets/cities/jaipur/jaipur-palace-pattern-bg.jpg')",
+                  backgroundSize: '300px auto',
+                }}
+              />
+            )}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-[#F2ECE1] pb-6">
               <div className="flex items-center gap-4">
                 <div className="relative">

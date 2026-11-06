@@ -76,8 +76,17 @@ export const CityTripFlowchart: React.FC<CityTripFlowchartProps> = ({
   return (
     <div
       id="city-flowchart-section"
-      className={`bg-white rounded-3xl border border-[#E2E8F0] shadow-sm overflow-hidden space-y-6 ${className}`}
+      className={`relative bg-white rounded-3xl border border-[#E2E8F0] shadow-sm overflow-hidden space-y-6 ${className}`}
     >
+      {cityFlow.cityId === 'jaipur' && (
+        <div
+          className="absolute inset-0 bg-repeat opacity-[0.04] pointer-events-none mix-blend-multiply z-0"
+          style={{
+            backgroundImage: "url('/assets/cities/jaipur/jaipur-palace-pattern-bg.jpg')",
+            backgroundSize: '360px auto',
+          }}
+        />
+      )}
       {/* Flowchart Header Bar */}
       <div className="p-6 sm:p-8 bg-gradient-to-b from-[#F8FAFC] to-white border-b border-[#F1F5F9] space-y-4">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">

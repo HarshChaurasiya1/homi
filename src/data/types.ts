@@ -116,6 +116,7 @@ export interface CityInfo {
   heroImage: string
   heroImageAlt: string
   themeClass: string
+  backgroundImage?: string
   galleryPhotos: string[]
   persona: CityPersona
   redditPicks?: RedditFavoriteSpot[]

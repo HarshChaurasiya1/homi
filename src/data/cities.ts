@@ -21,6 +21,7 @@ export const CITIES: Record<string, CityInfo> = {
     heroImage: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=80',
     heroImageAlt: 'Hawa Mahal Palace of Winds in Jaipur Pink City with intricate jharokha windows',
     themeClass: 'theme-jaipur',
+    backgroundImage: '/assets/cities/jaipur/jaipur-palace-pattern-bg.jpg',
     galleryPhotos: [
       'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80', // Hawa Mahal
       'https://images.unsplash.com/photo-1603288967389-9e8c465a39dc?auto=format&fit=crop&w=800&q=80', // Amer Fort

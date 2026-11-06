@@ -29,6 +29,17 @@
   --city-sandstone: #D4A373;
   --city-text: #271F1D;
   --city-muted: #716360;
+  --city-bg-image: url('/assets/cities/jaipur/jaipur-palace-pattern-bg.jpg');
+}
+
+.theme-jaipur-bg {
+  background-color: #FCF7F4;
+  background-image: 
+    linear-gradient(to bottom, rgba(252, 247, 244, 0.90), rgba(252, 247, 244, 0.94)),
+    url('/assets/cities/jaipur/jaipur-palace-pattern-bg.jpg');
+  background-size: 380px auto;
+  background-repeat: repeat;
+  background-attachment: fixed;
 }
 
 /* 2. Udaipur Theme */
@@ -206,9 +217,10 @@ body {
 
 /* Subtle architectural watermark patterns */
 .pattern-jaipur {
-  background-image: radial-gradient(#C85A32 0.7px, transparent 0.7px);
-  background-size: 20px 20px;
-  opacity: 0.05;
+  background-image: url('/assets/cities/jaipur/jaipur-palace-pattern-bg.jpg');
+  background-size: 340px auto;
+  background-repeat: repeat;
+  opacity: 0.12;
 }
 
 .pattern-udaipur {

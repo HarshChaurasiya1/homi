@@ -396,7 +396,16 @@ export const HomePage: React.FC<{ onSaveToast: (msg: string) => void }> = ({ onS
                     {/* Body Details */}
                     <div className="p-5 sm:p-6 flex flex-col justify-between flex-grow space-y-4">
                       {/* Authentic Companion Callout Box */}
-                      <div className="p-3 rounded-2xl bg-[#FAF7F2] border border-[#EFE7DC] flex items-center gap-3">
+                      <div className="p-3 rounded-2xl bg-[#FAF7F2] border border-[#EFE7DC] flex items-center gap-3 relative overflow-hidden">
+                        {city.id === 'jaipur' && (
+                          <div
+                            className="absolute inset-0 bg-repeat opacity-[0.06] pointer-events-none mix-blend-multiply"
+                            style={{
+                              backgroundImage: "url('/assets/cities/jaipur/jaipur-palace-pattern-bg.jpg')",
+                              backgroundSize: '240px auto',
+                            }}
+                          />
+                        )}
                         <div className="w-10 h-10 rounded-xl overflow-hidden border border-[#8C2D19] flex-shrink-0 animate-float">
                           <img
                             src={persona?.avatarImage || city.heroImage}
