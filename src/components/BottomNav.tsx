@@ -3,7 +3,7 @@ import { Link } from '../lib/router'
 import { useRouter } from '../lib/routerContext'
 import { useSavedPlaces, useActiveCity } from '../lib/storage'
 import { useAppData } from '../lib/dataStore'
-import { Compass, MapPin, Calendar, Bookmark, X, Shield, RotateCcw } from 'lucide-react'
+import { Compass, MapPin, Calendar, Bookmark, X, RotateCcw, User } from 'lucide-react'
 
 export const BottomNav: React.FC = () => {
   const { path, navigate } = useRouter()
@@ -16,7 +16,6 @@ export const BottomNav: React.FC = () => {
   const routeCityId = path.startsWith('/') && path.length > 1 ? path.slice(1).toLowerCase() : null
   const currentCityKey = (routeCityId && cities[routeCityId] ? routeCityId : activeCityId)?.toLowerCase() || null
   const activeCity = currentCityKey ? cities[currentCityKey] : null
-  const isAdmin = path === '/admin'
 
   const cityColors: Record<string, string> = {
     jaipur: '#C85A32',
@@ -42,68 +41,68 @@ export const BottomNav: React.FC = () => {
   return (
     <>
       <nav
-        className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#FAF7F2]/95 backdrop-blur-md border-t border-[#E8DFD3] pb-safe"
+        className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/80 pb-safe shadow-lg"
         aria-label="Mobile Navigation"
       >
-        <div className="grid grid-cols-5 h-16 max-w-lg mx-auto">
+        <div className="grid grid-cols-5 h-16 max-w-lg mx-auto px-2 items-center">
           <Link
             to="/"
-            className={`flex flex-col items-center justify-center py-1 transition-colors min-h-[48px] ${
-              path === '/' ? 'text-[#8C2D19] font-semibold' : 'text-[#645C55] hover:text-[#201C1A]'
+            className={`flex flex-col items-center justify-center py-1.5 transition-all rounded-2xl min-h-[48px] ${
+              path === '/' ? 'text-indigo-600 font-bold bg-indigo-50/70' : 'text-slate-500 hover:text-slate-900'
             }`}
           >
             <Compass className={`w-5 h-5 ${path === '/' ? 'stroke-[2.5]' : 'stroke-[1.8]'}`} />
-            <span className="text-[10px] mt-1 tracking-tight">Home</span>
+            <span className="text-[10px] mt-0.5 tracking-tight">Explore</span>
           </Link>
 
           {/* City Button: If a city is active, shows that specific city name! */}
           <button
             onClick={() => setCitiesModalOpen(true)}
-            className={`flex flex-col items-center justify-center py-1 transition-colors min-h-[48px] ${
-              activeCity ? 'text-[#8C2D19] font-semibold' : 'text-[#645C55] hover:text-[#201C1A]'
+            className={`flex flex-col items-center justify-center py-1.5 transition-all rounded-2xl min-h-[48px] ${
+              activeCity ? 'text-indigo-600 font-bold bg-indigo-50/70' : 'text-slate-500 hover:text-slate-900'
             }`}
           >
             <MapPin className={`w-5 h-5 ${activeCity ? 'stroke-[2.5]' : 'stroke-[1.8]'}`} />
-            <span className="text-[10px] mt-1 tracking-tight truncate max-w-[60px]">
-              {activeCity ? activeCity.name : 'Explore'}
+            <span className="text-[10px] mt-0.5 tracking-tight truncate max-w-[55px]">
+              {activeCity ? activeCity.name : 'Cities'}
             </span>
           </button>
 
           <Link
             to="/planner"
-            className={`flex flex-col items-center justify-center py-1 transition-colors min-h-[48px] ${
-              path === '/planner' ? 'text-[#8C2D19] font-semibold' : 'text-[#645C55] hover:text-[#201C1A]'
+            className={`flex flex-col items-center justify-center py-1.5 transition-all rounded-2xl min-h-[48px] ${
+              path === '/planner' ? 'text-indigo-600 font-bold bg-indigo-50/70' : 'text-slate-500 hover:text-slate-900'
             }`}
           >
             <Calendar className={`w-5 h-5 ${path === '/planner' ? 'stroke-[2.5]' : 'stroke-[1.8]'}`} />
-            <span className="text-[10px] mt-1 tracking-tight">Plan</span>
+            <span className="text-[10px] mt-0.5 tracking-tight">Plan</span>
           </Link>
 
           <Link
             to="/saved"
-            className={`flex flex-col items-center justify-center py-1 transition-colors min-h-[48px] ${
-              path === '/saved' ? 'text-[#8C2D19] font-semibold' : 'text-[#645C55] hover:text-[#201C1A]'
+            className={`flex flex-col items-center justify-center py-1.5 transition-all rounded-2xl min-h-[48px] ${
+              path === '/saved' ? 'text-indigo-600 font-bold bg-indigo-50/70' : 'text-slate-500 hover:text-slate-900'
             }`}
           >
             <div className="relative">
               <Bookmark className={`w-5 h-5 ${path === '/saved' ? 'stroke-[2.5]' : 'stroke-[1.8]'}`} />
               {count > 0 && (
-                <span className="absolute -top-1 -right-2.5 bg-[#8C2D19] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                <span className="absolute -top-1 -right-2 bg-indigo-600 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                   {count}
                 </span>
               )}
             </div>
-            <span className="text-[10px] mt-1 tracking-tight">Saved</span>
+            <span className="text-[10px] mt-0.5 tracking-tight">Saved</span>
           </Link>
 
           <Link
-            to="/admin"
-            className={`flex flex-col items-center justify-center py-1 transition-colors min-h-[48px] ${
-              isAdmin ? 'text-[#8C2D19] font-semibold' : 'text-[#645C55] hover:text-[#201C1A]'
+            to="/profile"
+            className={`flex flex-col items-center justify-center py-1.5 transition-all rounded-2xl min-h-[48px] ${
+              path === '/profile' ? 'text-indigo-600 font-bold bg-indigo-50/70' : 'text-slate-500 hover:text-slate-900'
             }`}
           >
-            <Shield className={`w-5 h-5 ${isAdmin ? 'stroke-[2.5]' : 'stroke-[1.8]'}`} />
-            <span className="text-[10px] mt-1 tracking-tight">Admin</span>
+            <User className={`w-5 h-5 ${path === '/profile' ? 'stroke-[2.5]' : 'stroke-[1.8]'}`} />
+            <span className="text-[10px] mt-0.5 tracking-tight">Account</span>
           </Link>
         </div>
       </nav>

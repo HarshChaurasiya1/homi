@@ -8,6 +8,7 @@ import { ThemeMotif, type MotifVariant } from '../components/ThemeMotif'
 import { InteractiveTripBuilder } from '../components/InteractiveTripBuilder'
 import { CityEditionHero } from '../components/CityEditionHero'
 import { CityTripFlowchart } from '../components/CityTripFlowchart'
+import { MMTHomeInterface } from '../components/MMTHomeInterface'
 import { Link } from '../lib/router'
 import {
   ArrowRight,
@@ -73,7 +74,14 @@ export const HomePage: React.FC<{ onSaveToast: (msg: string) => void }> = ({ onS
       : dishes.filter((d) => d.cityId.toLowerCase() === selectedFoodCity.toLowerCase())
 
   return (
-    <div className="space-y-16 sm:space-y-20 pb-16">
+    <div className="space-y-12 sm:space-y-16 pb-16">
+      {/* =========================================================================
+          MAKEMYTRIP-STYLE REAL-WORLD SEARCH & COMMUNITY LEADERBOARD (Clean UI)
+         ========================================================================= */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-3 sm:pt-5">
+        <MMTHomeInterface onSaveToast={onSaveToast} />
+      </section>
+
       {/* =========================================================================
           FEATURED CITY EDITION SHOWCASE (Clean Theme inspired by Reference Image)
          ========================================================================= */}

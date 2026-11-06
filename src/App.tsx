@@ -6,6 +6,7 @@ import { Header } from './components/Header'
 import { Footer } from './components/Footer'
 import { BottomNav } from './components/BottomNav'
 import { Toast } from './components/Toast'
+import { OpeningAuthGate } from './components/OpeningAuthGate'
 import { useAppData } from './lib/dataStore'
 import { Link } from './lib/router'
 
@@ -83,6 +84,7 @@ const MainContent: React.FC = () => {
       </main>
       <Footer />
       <BottomNav />
+      <OpeningAuthGate onDismiss={() => {}} />
       <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
     </div>
   )

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useProfile } from '../lib/profileStore'
-import { useSavedPlaces, useActiveCity } from '../lib/storage'
+import { useSavedPlaces } from '../lib/storage'
 import { Link } from '../lib/router'
 import {
   Lock,
@@ -31,7 +31,6 @@ export const ProfilePage: React.FC<{ onSaveToast: (msg: string) => void }> = ({ 
   } = useProfile()
 
   const { count: savedPlacesCount } = useSavedPlaces()
-  const [activeCityId] = useActiveCity()
 
   // New profile state
   const [name, setName] = useState('')
@@ -364,30 +363,44 @@ export const ProfilePage: React.FC<{ onSaveToast: (msg: string) => void }> = ({ 
         {/* VIEW 3: PROFILE UNLOCKED */}
         {hasProfile && isUnlocked && !isEditing && (
           <div className="space-y-6">
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E5DACB] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-2xl bg-[#8C2D19] text-white flex items-center justify-center text-3xl shadow-sm">
+            {/* Account Card (Matching the Account Screen in Reference UI Kit) */}
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm flex flex-col items-center text-center space-y-4">
+              <div className="relative">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 text-white flex items-center justify-center text-4xl shadow-md ring-4 ring-indigo-50">
                   {profile?.avatarEmoji}
                 </div>
+                <span className="absolute bottom-0 right-0 w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center shadow-xs">
+                  ✓
+                </span>
+              </div>
+
+              <div>
+                <h2 className="text-xl sm:text-2xl font-black text-slate-900">
+                  {profile?.name}
+                </h2>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  From {profile?.homeCity} • Joined {new Date(profile?.createdAt || '').toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}
+                </p>
+              </div>
+
+              {/* 3-Column Stats Row (Exact layout from reference image) */}
+              <div className="w-full grid grid-cols-3 divide-x divide-slate-100 py-3 border-y border-slate-100 text-center">
                 <div>
-                  <div className="flex items-center gap-2">
-                    <h2 className="font-editorial text-2xl font-bold text-[#201C1A]">
-                      {profile?.name}
-                    </h2>
-                    <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">
-                      Local Active
-                    </span>
-                  </div>
-                  <p className="text-xs text-[#7A7167] mt-0.5">
-                    From <strong>{profile?.homeCity}</strong> • Travel Vibe: <span className="capitalize">{profile?.vibe}</span>
-                  </p>
-                  <p className="text-[11px] text-[#8C8276] mt-0.5">
-                    Member since: {new Date(profile?.createdAt || '').toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })}
-                  </p>
+                  <div className="text-base sm:text-lg font-black text-slate-900">{savedPlacesCount}</div>
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Saved Places</div>
+                </div>
+                <div>
+                  <div className="text-base sm:text-lg font-black text-slate-900">{savedTrips.length}</div>
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Saved Trips</div>
+                </div>
+                <div>
+                  <div className="text-base sm:text-lg font-black text-indigo-600">₹{(savedPlacesCount * 250) + 1200}</div>
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Est. Saved</div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
+              {/* Profile Actions */}
+              <div className="flex items-center gap-3 w-full sm:w-auto">
                 <button
                   onClick={() => {
                     setName(profile?.name || '')
@@ -397,7 +410,7 @@ export const ProfilePage: React.FC<{ onSaveToast: (msg: string) => void }> = ({ 
                     setAvatarEmoji(profile?.avatarEmoji || '🎒')
                     setIsEditing(true)
                   }}
-                  className="px-4 py-2 rounded-xl bg-[#FAF7F2] border border-[#DDD3C5] text-xs font-semibold text-[#554D45] hover:bg-[#F2ECE1]"
+                  className="flex-1 sm:flex-initial px-5 py-2.5 rounded-2xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-700 shadow-sm transition-all"
                 >
                   Edit Profile
                 </button>
@@ -406,39 +419,59 @@ export const ProfilePage: React.FC<{ onSaveToast: (msg: string) => void }> = ({ 
                     lock()
                     onSaveToast('Locked profile with password.')
                   }}
-                  className="px-4 py-2 rounded-xl bg-[#201C1A] text-white text-xs font-bold hover:bg-black flex items-center gap-1.5"
+                  className="flex-1 sm:flex-initial px-5 py-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all flex items-center justify-center gap-1.5"
                 >
                   <Lock className="w-3.5 h-3.5" />
-                  <span>Lock Profile</span>
+                  <span>Lock Session</span>
                 </button>
               </div>
             </div>
 
-            {/* Metrics */}
-            <div className="grid grid-cols-3 gap-4 text-center">
-              <div className="p-4 rounded-3xl bg-white border border-[#E5DACB]">
-                <span className="text-xs uppercase font-bold text-[#8C2D19] block">
-                  Saved Trips
-                </span>
-                <span className="font-editorial text-3xl font-bold text-[#201C1A] block mt-1">
-                  {savedTrips.length}
-                </span>
-              </div>
-              <div className="p-4 rounded-3xl bg-white border border-[#E5DACB]">
-                <span className="text-xs uppercase font-bold text-[#8C2D19] block">
-                  Bookmarked Places
-                </span>
-                <span className="font-editorial text-3xl font-bold text-[#201C1A] block mt-1">
-                  {savedPlacesCount}
-                </span>
-              </div>
-              <div className="p-4 rounded-3xl bg-white border border-[#E5DACB]">
-                <span className="text-xs uppercase font-bold text-[#8C2D19] block">
-                  Current Destination
-                </span>
-                <span className="font-editorial text-xl font-bold text-[#201C1A] capitalize truncate block mt-2">
-                  {activeCityId || 'None (Global)'}
-                </span>
+            {/* "Your Statistics" Grid (Matching Reference Screenshot) */}
+            <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm space-y-4">
+              <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">
+                Your Statistics
+              </h3>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-base">
+                    💎
+                  </div>
+                  <div>
+                    <div className="text-base font-black text-slate-900">{savedPlacesCount * 40}</div>
+                    <div className="text-[10px] font-bold text-slate-400">Total Diamonds</div>
+                  </div>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-bold text-base">
+                    🔥
+                  </div>
+                  <div>
+                    <div className="text-base font-black text-slate-900">{savedTrips.length + 1} Days</div>
+                    <div className="text-[10px] font-bold text-slate-400">Streak Active</div>
+                  </div>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-base">
+                    🎯
+                  </div>
+                  <div>
+                    <div className="text-base font-black text-slate-900">100%</div>
+                    <div className="text-[10px] font-bold text-slate-400">Verified Reality</div>
+                  </div>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center font-bold text-base">
+                    👑
+                  </div>
+                  <div>
+                    <div className="text-base font-black text-slate-900">Explorer</div>
+                    <div className="text-[10px] font-bold text-slate-400">User Rank</div>
+                  </div>
+                </div>
               </div>
             </div>
 
