@@ -18,7 +18,10 @@ import {
   Globe,
   Radio,
   LifeBuoy,
+  CreditCard,
+  Zap,
 } from 'lucide-react'
+import { EmergencyTravelLoanModal } from './EmergencyTravelLoanModal'
 
 interface LocalGuideAndEmergencyHubProps {
   cityId: string
@@ -34,7 +37,8 @@ export const LocalGuideAndEmergencyHub: React.FC<LocalGuideAndEmergencyHubProps>
   onToast,
 }) => {
   const directory: CitySafetyDirectory = getSafetyDirectoryForCity(cityId)
-  const [activeTab, setActiveTab] = useState<'guide' | 'sos' | 'police' | 'portals' | 'hospitals'>('guide')
+  const [activeTab, setActiveTab] = useState<'guide' | 'sos' | 'police' | 'portals' | 'hospitals' | 'loan'>('guide')
+  const [loanModalOpen, setLoanModalOpen] = useState(false)
 
   if (!isOpen) return null
 
@@ -145,6 +149,19 @@ export const LocalGuideAndEmergencyHub: React.FC<LocalGuideAndEmergencyHubProps>
             <Hospital className="w-3.5 h-3.5" />
             <span>Hospitals</span>
           </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveTab('loan')}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-1.5 ${
+              activeTab === 'loan'
+                ? 'bg-emerald-600 text-white shadow-xs'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+            }`}
+          >
+            <CreditCard className="w-3.5 h-3.5" />
+            <span>Emergency Funds</span>
+          </button>
         </div>
 
         {/* Scrollable Content Body */}
@@ -241,6 +258,26 @@ export const LocalGuideAndEmergencyHub: React.FC<LocalGuideAndEmergencyHubProps>
                   <li>To double-check live temple opening hours or dress codes.</li>
                   <li>In any emergency situation where local translation or police coordination is needed.</li>
                 </ul>
+              </div>
+
+              {/* Quick Emergency Travel Fund Banner */}
+              <div className="p-3.5 rounded-2xl bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 text-xs text-emerald-950 flex items-center justify-between gap-3">
+                <div className="space-y-0.5">
+                  <span className="font-bold text-emerald-900 flex items-center gap-1 text-[11px]">
+                    <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                    <span>Low on Cash in {directory.cityName}?</span>
+                  </span>
+                  <p className="text-[10px] text-emerald-800">
+                    Access ₹5k–₹50k credit line with 0% No-Cost EMI via licensed RBI partners.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setLoanModalOpen(true)}
+                  className="py-1.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] shadow-xs cursor-pointer whitespace-nowrap"
+                >
+                  Apply Now
+                </button>
               </div>
             </div>
           )}
@@ -427,6 +464,75 @@ export const LocalGuideAndEmergencyHub: React.FC<LocalGuideAndEmergencyHubProps>
               </div>
             </div>
           )}
+
+          {/* =========================================================================
+              TAB 6: EMERGENCY TRAVEL CREDIT LINE (LICENSED RBI NBFC PARTNERS)
+             ========================================================================= */}
+          {activeTab === 'loan' && (
+            <div className="space-y-4 animate-in fade-in duration-200">
+              <div className="bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-900 text-white rounded-3xl p-5 border border-emerald-500/30 shadow-md space-y-4">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-[10px] font-extrabold uppercase tracking-wider flex items-center gap-1">
+                    <ShieldCheck className="w-3 h-3 text-emerald-300" />
+                    <span>RBI-Regulated NBFC Line</span>
+                  </span>
+                  <span className="text-[11px] text-emerald-200 font-semibold">
+                    Instant 90-sec UPI payout
+                  </span>
+                </div>
+
+                <div className="space-y-1">
+                  <h4 className="font-editorial text-lg font-bold text-white">
+                    Emergency Travel Cash in {directory.cityName}
+                  </h4>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Never get stranded. Access instant credit from <strong>₹5,000 to ₹50,000</strong> with <strong>0% No-Cost EMI for 3 months</strong> directly to your UPI or Bank account via verified licensed lending partners.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 text-[11px] text-slate-300 bg-white/5 p-3 rounded-2xl border border-white/5">
+                  <div>• 0% No-Cost EMI (3 mos)</div>
+                  <div>• 100% Paperless e-KYC</div>
+                  <div>• Zero Prepayment Fee</div>
+                  <div>• Direct Bank / UPI Push</div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setLoanModalOpen(true)}
+                  className="w-full py-3 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 transition-all cursor-pointer"
+                >
+                  <Zap className="w-4 h-4 text-slate-950 fill-slate-950" />
+                  <span>Configure & Apply for Emergency Credit</span>
+                </button>
+              </div>
+
+              {/* Partner Badges */}
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-xs">
+                <span className="font-bold text-slate-800 block text-[11px]">
+                  Licensed Lending Partners:
+                </span>
+                <div className="grid grid-cols-2 gap-2 text-[11px] text-slate-600">
+                  <div className="bg-white p-2.5 rounded-xl border border-slate-100">
+                    <strong className="text-slate-900 block">Axio (Capfloat)</strong>
+                    <span className="text-[10px] text-slate-500">RBI NBFC B-05.05602</span>
+                  </div>
+                  <div className="bg-white p-2.5 rounded-xl border border-slate-100">
+                    <strong className="text-slate-900 block">IDFC FIRST Bank</strong>
+                    <span className="text-[10px] text-slate-500">Scheduled Commercial</span>
+                  </div>
+                  <div className="bg-white p-2.5 rounded-xl border border-slate-100">
+                    <strong className="text-slate-900 block">CASHe (Bhanix)</strong>
+                    <span className="text-[10px] text-slate-500">RBI NBFC 13.00221</span>
+                  </div>
+                  <div className="bg-white p-2.5 rounded-xl border border-slate-100">
+                    <strong className="text-slate-900 block">KreditBee (KrazyBee)</strong>
+                    <span className="text-[10px] text-slate-500">RBI NBFC N-02.00288</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Footer */}
@@ -441,6 +547,16 @@ export const LocalGuideAndEmergencyHub: React.FC<LocalGuideAndEmergencyHubProps>
           </button>
         </div>
       </div>
+
+      {loanModalOpen && (
+        <EmergencyTravelLoanModal
+          isOpen={loanModalOpen}
+          onClose={() => setLoanModalOpen(false)}
+          cityName={directory.cityName}
+          initialAmount={15000}
+          onToast={onToast}
+        />
+      )}
     </div>
   )
 }

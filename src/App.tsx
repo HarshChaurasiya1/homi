@@ -16,6 +16,7 @@ const PlannerPage = lazy(() => import('./pages/PlannerPage').then((m) => ({ defa
 const SavedPlacesPage = lazy(() => import('./pages/SavedPlacesPage').then((m) => ({ default: m.SavedPlacesPage })))
 const AdminBoardPage = lazy(() => import('./pages/AdminBoardPage').then((m) => ({ default: m.AdminBoardPage })))
 const ProfilePage = lazy(() => import('./pages/ProfilePage').then((m) => ({ default: m.ProfilePage })))
+const AboutPage = lazy(() => import('./pages/AboutPage').then((m) => ({ default: m.AboutPage })))
 
 const MainContent: React.FC = () => {
   const { path, params } = useRouter()
@@ -41,6 +42,10 @@ const MainContent: React.FC = () => {
 
     if (path === '/profile') {
       return <ProfilePage onSaveToast={setToastMessage} />
+    }
+
+    if (path === '/about') {
+      return <AboutPage onSaveToast={setToastMessage} />
     }
 
     if (path === '/places/:slug' && params.slug) {

@@ -14,6 +14,7 @@ import {
   ChevronRight,
   Sparkles,
   ShieldAlert,
+  BookOpen,
 } from 'lucide-react'
 
 export const BottomNav: React.FC = () => {
@@ -183,8 +184,8 @@ export const BottomNav: React.FC = () => {
               })}
             </div>
 
-            {/* Quick Emergency Assistance Trigger */}
-            <div className="pt-2 border-t border-slate-100">
+            {/* Quick Emergency Assistance & About Trigger */}
+            <div className="pt-2 border-t border-slate-100 space-y-2">
               <button
                 type="button"
                 onClick={() => {
@@ -196,6 +197,15 @@ export const BottomNav: React.FC = () => {
                 <ShieldAlert className="w-4 h-4 text-rose-600 animate-pulse" />
                 <span>Assigned Local Guide & Police SOS (112)</span>
               </button>
+
+              <Link
+                to="/about"
+                onClick={() => setCitiesModalOpen(false)}
+                className="w-full py-2 px-3 rounded-2xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                <BookOpen className="w-3.5 h-3.5 text-indigo-600" />
+                <span>About HOMI & System Architecture</span>
+              </Link>
             </div>
           </div>
         </div>

@@ -17,6 +17,7 @@ import {
   Flame,
   CheckCircle2,
   ShieldAlert,
+  BookOpen,
 } from 'lucide-react'
 
 interface HeaderProps {
@@ -144,6 +145,19 @@ export const Header: React.FC<HeaderProps> = ({ onToast }) => {
               <Lock className="w-3 h-3 text-slate-400" />
             ) : null}
           </button>
+
+          {/* About & System Docs */}
+          <Link
+            to="/about"
+            className={`p-1.5 rounded-full transition-colors ${
+              path === '/about'
+                ? 'bg-indigo-600 text-white shadow-xs'
+                : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'
+            }`}
+            title="About HOMI & System Documentation"
+          >
+            <BookOpen className="w-4 h-4" />
+          </Link>
 
           {/* Admin link */}
           <Link
